@@ -5,7 +5,6 @@ import NavItem from '../../atoms/item/NavItem'
 
 const NavList : React.FC<INavList> = ({ dataListMenu }) => {
     const Router = useRouter()
-    console.log(Router.pathname)
 
     return (
         <ul className='flex flex-row flex-nowrap items-center py-3 bg-white border-t border-gray-100'>
@@ -13,7 +12,7 @@ const NavList : React.FC<INavList> = ({ dataListMenu }) => {
                 <NavItem
                     key={i}
                     icon={data.icon}
-                    isActive={Router.pathname === data.toPath}
+                    isActive={Router ? Router.pathname === data.toPath : false}
                     toPath={data.toPath}
                 />
             ))}
