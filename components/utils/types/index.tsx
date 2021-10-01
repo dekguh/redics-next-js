@@ -1,3 +1,11 @@
+import { ReactNode } from 'react'
+import { IconType } from 'react-icons'
+
+export type TDataListMenu = Array<{
+    icon: IconType;
+    toPath: string;
+}>
+
 export interface IButton {
     text: string;
     onClick?: React.MouseEventHandler;
@@ -27,4 +35,23 @@ export interface ITextarea {
     placeholder?: string;
     classes?: string;
     rows?: number;
+}
+
+export interface ILabelForm {
+    text: string;
+    classes?: string;
+}
+
+export interface IAppWrapper {
+    children: JSX.Element | ReactNode
+}
+
+export interface INavList {
+    dataListMenu: TDataListMenu;
+}
+
+export interface INavItem {
+    icon: IconType;
+    toPath: string;
+    isActive?: boolean;
 }
