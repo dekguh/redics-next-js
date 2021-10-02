@@ -8,6 +8,15 @@
         @apply text-gray-600;
     }
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply text-gray-800 font-bold;
+    }
+
     p {
         @apply leading-relaxed;
     }
@@ -29,5 +38,15 @@
         @apply border border-gray-200 hover:border-gray-300 outline-none;
         @apply block w-full;
         @apply bg-white;
+    }
+
+    .text-link {
+        @apply relative pb-1 duration-100;
+        @apply hover:text-blue-500;
+    }
+
+    .text-link.active {
+        @apply text-blue-500;
+        @apply pb-1 border-b border-blue-500;
     }
 }

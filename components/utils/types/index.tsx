@@ -88,3 +88,23 @@ export interface IFormSelect {
         text: string;
     }>;
 }
+
+export interface ITextLink {
+    text: string;
+    isActive?: boolean;
+    toPath: string;
+}
+
+export interface IHeadingAuth {
+    isLogin?: boolean;
+    isRegister?: boolean;
+}
+
+export interface IFormButton extends IButton {
+    classes?: string;
+}
+
+export interface IIconLink {
+    icon: IconType;
+    toPath: string;
+}
