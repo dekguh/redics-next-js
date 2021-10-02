@@ -22,6 +22,10 @@ export default {
             control: { type: 'number' },
             defaultValue: 8
         },
+        required: {
+            control: { type: 'boolean' },
+            defaultValue: false
+        },
     }
 } as Meta
 

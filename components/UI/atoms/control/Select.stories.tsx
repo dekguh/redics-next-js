@@ -12,7 +12,11 @@ export default {
         },
         list: {
             defaultValue: [{ value: 'tes', text: 'tes' }]
-        }
+        },
+        required: {
+            control: { type: 'boolean' },
+            defaultValue: false
+        },
     }
 } as Meta
 

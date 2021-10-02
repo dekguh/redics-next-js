@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react'
-import { dataListMenu } from '../../utils/data'
-import { INavList } from '../../utils/types'
-import { default as NvList } from './navigation/NavList'
+import { dataListMenu } from '../../../utils/data'
+import { INavList } from '../../../utils/types'
+import { default as NvList } from './NavList'
 
 export default {
     component: NvList,

@@ -1,11 +1,15 @@
 import { Meta } from '@storybook/react'
-import { IInput } from '../../../utils/types'
-import { default as Inpt } from './Input'
+import { IFormInput, IFormPassword } from '../../../utils/types'
+import { default as FrmPassword } from './FormPassword'
 
 export default {
-    component: Inpt,
-    title: 'Design System/Atoms/Control/Input',
+    component: FrmPassword,
+    title: 'Design System/Molecules/FormGroup/Form Password',
     argTypes: {
+        label: {
+            control: { type: 'text' },
+            defaultValue: 'label'
+        },
         placeholder: {
             control: { type: 'text' },
             defaultValue: 'placeholder'
@@ -18,11 +22,6 @@ export default {
             control: { type: 'text' },
             defaultValue: 'mb-1 mt-1'
         },
-        type: {
-            options: ['text', 'password', 'email'],
-            control: { type: 'select' },
-            defaultValue: 'mb-1 mt-1'
-        },
         required: {
             control: { type: 'boolean' },
             defaultValue: false
@@ -30,4 +29,4 @@ export default {
     }
 } as Meta
 
-export const Input = (args : IInput) => <Inpt {...args}/>
+export const FormPassword = (args : IFormPassword) => <FrmPassword {...args}/>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IInput } from '../../../utils/types'
 
-const Input : React.FC<IInput> = ({ value, onChange, placeholder = 'placeholder', type = 'text', classes }) => {
+const Input : React.FC<IInput> = ({ value, onChange, placeholder = 'placeholder', type = 'text', classes, required = false }) => {
     return (
         <input
             className={`input-base ${classes}`}
@@ -9,6 +9,7 @@ const Input : React.FC<IInput> = ({ value, onChange, placeholder = 'placeholder'
             onChange={onChange}
             placeholder={placeholder}
             type={type}
+            required={required}
         />
     )
 }

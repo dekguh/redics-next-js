@@ -13,11 +13,12 @@ export interface IButton {
 }
 
 export interface IInput {
-    value: string;
+    value?: string | number | undefined;
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
     type?: React.HTMLInputTypeAttribute;
     classes?: string;
+    required?: boolean;
 }
 
 export interface ISelect {
@@ -27,6 +28,7 @@ export interface ISelect {
     }>;
     onChange?: React.ChangeEventHandler;
     classes?: string;
+    required?: boolean;
 }
 
 export interface ITextarea {
@@ -35,10 +37,11 @@ export interface ITextarea {
     placeholder?: string;
     classes?: string;
     rows?: number;
+    required?: boolean;
 }
 
 export interface ILabelForm {
-    text: string;
+    text?: string;
     classes?: string;
 }
 
@@ -54,4 +57,34 @@ export interface INavItem {
     icon: IconType;
     toPath: string;
     isActive?: boolean;
+}
+
+export interface IFormInput {
+    classes?: string;
+    label?: string;
+    inputType?: React.HTMLInputTypeAttribute;
+    value?: string | number | undefined;
+    onChange?: React.ChangeEventHandler;
+    placeholder?: string;
+    required?: boolean;
+}
+
+export interface IFormPassword {
+    classes?: string;
+    label?: string;
+    value?: string | number | undefined;
+    onChange?: React.ChangeEventHandler;
+    placeholder?: string;
+    required?: boolean;
+}
+
+export interface IFormSelect {
+    classes?: string;
+    label?: string;
+    onChange?: React.ChangeEventHandler;
+    required?: boolean;
+    list: Array<{
+        value: number | string;
+        text: string;
+    }>;
 }

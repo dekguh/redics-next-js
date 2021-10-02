@@ -1,11 +1,15 @@
 import { Meta } from '@storybook/react'
-import { IInput } from '../../../utils/types'
-import { default as Inpt } from './Input'
+import { IFormInput } from '../../../utils/types'
+import { default as FrmInput } from './FormInput'
 
 export default {
-    component: Inpt,
-    title: 'Design System/Atoms/Control/Input',
+    component: FrmInput,
+    title: 'Design System/Molecules/FormGroup/Form Input',
     argTypes: {
+        label: {
+            control: { type: 'text' },
+            defaultValue: 'label'
+        },
         placeholder: {
             control: { type: 'text' },
             defaultValue: 'placeholder'
@@ -30,4 +34,4 @@ export default {
     }
 } as Meta
 
-export const Input = (args : IInput) => <Inpt {...args}/>
+export const FormInput = (args : IFormInput) => <FrmInput {...args}/>
