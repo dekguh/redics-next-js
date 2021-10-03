@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       width: {
         '2.4/12': '20%'
+      },
+      height: {
+        '3px': '3px'
       }
     },
   },

@@ -90,7 +90,7 @@ export interface IFormSelect {
 }
 
 export interface ITextLink {
-    text: string;
+    text?: string;
     isActive?: boolean;
     toPath: string;
 }
@@ -107,4 +107,17 @@ export interface IFormButton extends IButton {
 export interface IIconLink {
     icon: IconType;
     toPath: string;
+}
+
+export interface ITextTitleSection {
+    text: string;
+    size?: 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    classes?: string;
+}
+
+export interface IHeadingWithUrl {
+    title: string;
+    textLink?: string;
+    toPath?: string;
+    classes?: string;
 }

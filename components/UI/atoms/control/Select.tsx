@@ -9,7 +9,7 @@ const Select : React.FC<ISelect> = ({ list, classes, onChange, required = false 
             required={required}
         >
             {list.length >= 1 && list.map((data, i) => (
-                <option value={data.text}>{data.text}</option>
+                <option key={i} value={data.text}>{data.text}</option>
             ))}
         </select>
     )
