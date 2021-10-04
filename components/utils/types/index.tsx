@@ -121,3 +121,12 @@ export interface IHeadingWithUrl {
     toPath?: string;
     classes?: string;
 }
+
+export interface IPrivateWrapper {
+    children?: JSX.Element | React.ReactNode;
+}
+
+export type TUserInitState = {
+    billing?: {};
+    isLogin?: boolean;
+}
