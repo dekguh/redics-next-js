@@ -8,14 +8,14 @@ const Api = axios.create({
 
 export async function apiLogin(email : string, password : string) : Promise<void> {
     try {
-        const response = await Api.post('local/auth', {
+        const response = await Api.post('auth/local', {
             identifier: email,
             password: password
         })
         const result = response.data
         return result
     } catch (err : any) {
-        console.log(err.response)
+        return err.response.data.message[0].messages[0].message
     }
 }
 
@@ -34,7 +34,7 @@ export async function apiRegister(data : TDataRegister) : Promise<void> {
     }
 }
 
-export async function apiGetBillingUser(jwt : string) : Promise<void> {
+export async function apiGetBillingUser(jwt : string | null) : Promise<void> {
     try {
         const response = await Api.get('')
     } catch (err) {

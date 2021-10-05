@@ -126,8 +126,12 @@ export interface IPrivateWrapper {
     children?: JSX.Element | React.ReactNode;
 }
 
+export interface IPublicWrapper {
+    children?: JSX.Element | React.ReactNode;
+}
+
 export type TUserInitState = {
-    billing?: {};
+    billing?: {} | null;
     isLogin?: boolean;
 }
 
@@ -137,6 +141,11 @@ export type TDataRegister = {
     password: string;
     rePassword?: string;
     typeUser?: 'customer' | 'admin';
+}
+
+export type TDataLogin = {
+    email: string;
+    password: string;
 }
 
 export interface IBoxAlert {

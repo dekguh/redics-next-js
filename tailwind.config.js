@@ -8,6 +8,9 @@ module.exports = {
       },
       height: {
         '3px': '3px'
+      },
+      backgroundColor: {
+        'black-transparent-0.7': 'rgba(0, 0, 0, .7)'
       }
     },
   },

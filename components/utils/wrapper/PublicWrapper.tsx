@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import LoadingFullScreen from '../../UI/organisms/Loading/LoadingFullScreen'
 import { RootState } from '../redux/store'
-import { IPrivateWrapper } from '../types'
+import { IPublicWrapper } from '../types'
 import { useRouter } from 'next/router'
 
 const mapState = (state : RootState) => ({
@@ -16,28 +16,25 @@ const mapDispatch = {
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin }) => {
+const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin }) => {
     const Router = useRouter()
-
-    // test localstorage jwt
-    //localStorage.setItem('jwt', 'test')
-    //localStorage.removeItem('jwt')
 
     useEffect(() => {
         actGetIsLogin()
     }, [])
 
     useEffect(() => {
-        isLogin === false && setTimeout(() => Router.push('/login'), 2000)
+        isLogin === true && setTimeout(() => Router.push('/'), 2000)
     }, [isLogin])
 
+    // goal : if isLogin true redirect to last current page
     return (
-        <div>
-            {isLogin
+        <>
+            {!isLogin
             ? children
-            : (<LoadingFullScreen />)}
-        </div>
+            : <LoadingFullScreen />}
+        </>
     )
 }
 
-export default connector(PrivateWrapper)
+export default connector(PublicWrapper)

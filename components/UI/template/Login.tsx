@@ -1,6 +1,7 @@
 import React from 'react'
 import FormLogin from '../organisms/FormLogin'
 import Head from 'next/head'
+import PublicWrapper from '../../utils/wrapper/PublicWrapper'
 
 const Login : React.FC = () => {
     return (
@@ -9,7 +10,9 @@ const Login : React.FC = () => {
             <title>Redics - Login</title>
         </Head>
 
-        <FormLogin />
+        <PublicWrapper>
+            <FormLogin />
+        </PublicWrapper>
     </>
     )
 }
