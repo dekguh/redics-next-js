@@ -130,3 +130,17 @@ export type TUserInitState = {
     billing?: {};
     isLogin?: boolean;
 }
+
+export type TDataRegister = {
+    username: string;
+    email: string;
+    password: string;
+    rePassword?: string;
+    typeUser?: 'customer' | 'admin';
+}
+
+export interface IBoxAlert {
+    type?: 'danger' | 'success' | 'information';
+    text: string;
+    classes?: string;
+}
