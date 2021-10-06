@@ -1,14 +1,26 @@
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import Navigation from '../../UI/organisms/Navigation'
+import PopupBilling from '../../UI/template/PopupBilling'
+import { RootState } from '../redux/store'
 import { IAppWrapper } from '../types'
 
-const AppWrapper : React.FC<IAppWrapper> = ({ children }) => {
+const mapState = (state : RootState) => ({
+    billing: state.users.billing,
+    isLogin: state.users.isLogin
+})
+
+const connector = connect(mapState, {})
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+const AppWrapper : React.FC<IAppWrapper & PropsFromRedux> = ({ children, billing, isLogin }) => {
     return (
         <div>
             {children}
             <Navigation />
+            {(isLogin && !billing) && (<PopupBilling />)}
         </div>
     )
 }
 
-export default AppWrapper
+export default connector(AppWrapper)

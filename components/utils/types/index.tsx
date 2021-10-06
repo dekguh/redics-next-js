@@ -153,3 +153,7 @@ export interface IBoxAlert {
     text: string;
     classes?: string;
 }
+
+export interface IFormProfile {
+    classes?: string;
+}

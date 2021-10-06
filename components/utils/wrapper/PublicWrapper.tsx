@@ -10,13 +10,14 @@ const mapState = (state : RootState) => ({
 })
 
 const mapDispatch = {
-    actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' })
+    actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' }),
+    actGetBilling: () => ({ type: 'GET_BILLING' })
 }
 
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin }) => {
+const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling }) => {
     const Router = useRouter()
 
     useEffect(() => {
@@ -24,7 +25,10 @@ const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, i
     }, [])
 
     useEffect(() => {
-        isLogin === true && setTimeout(() => Router.push('/'), 2000)
+        isLogin === true && setTimeout(() => {
+            actGetBilling()
+            Router.push('/')
+        }, 2000)
     }, [isLogin])
 
     // goal : if isLogin true redirect to last current page

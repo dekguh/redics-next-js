@@ -36,8 +36,14 @@ export async function apiRegister(data : TDataRegister) : Promise<void> {
 
 export async function apiGetBillingUser(jwt : string | null) : Promise<void> {
     try {
-        const response = await Api.get('')
-    } catch (err) {
-
+        const response = await Api.get('billing-get-by-jwt', {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = response.data
+        return result
+    } catch (err : any) {
+        return err.response.data.message[0].messages[0].message
     }
 }

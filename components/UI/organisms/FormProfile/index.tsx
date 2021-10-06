@@ -1,13 +1,14 @@
 import React from 'react'
+import { IFormProfile } from '../../../utils/types'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import FormPassword from '../../molecules/FormGroup/FormPassword'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 
-const FormProfile : React.FC = () => {
+const FormProfile : React.FC<IFormProfile> = ({ classes }) => {
     return (
-        <div>
+        <div className={classes}>
             <HeadingWithUrl
                 title='Akun Saya'
                 classes='mb-4'

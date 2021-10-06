@@ -10,13 +10,14 @@ const mapState = (state : RootState) => ({
 })
 
 const mapDispatch = {
-    actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' })
+    actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' }),
+    actGetBilling: () => ({ type: 'GET_BILLING' }),
 }
 
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin }) => {
+const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling }) => {
     const Router = useRouter()
 
     // test localstorage jwt
@@ -28,6 +29,7 @@ const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children,
     }, [])
 
     useEffect(() => {
+        isLogin === true && actGetBilling()
         isLogin === false && setTimeout(() => Router.push('/login'), 2000)
     }, [isLogin])
 
