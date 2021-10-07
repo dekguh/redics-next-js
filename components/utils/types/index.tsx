@@ -95,7 +95,7 @@ export interface IFormInput {
 export interface IFormPassword {
     classes?: string;
     label?: string;
-    value?: string | number | undefined;
+    defaultValue?: string | number | readonly string[] | undefined;
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
     required?: boolean;

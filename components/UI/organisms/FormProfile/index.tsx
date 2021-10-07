@@ -43,8 +43,8 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
             const response : any = await apiUpdateBillingUser(localStorage.getItem('jwt'), dataUpdate)
             setIsLoadingProfile(false)
             if(response.id) {
+                setValidationProfile({ type: 'success', message: 'berhasil update profile' })
                 updateBillingAct(response)
-                return setValidationProfile({ type: 'success', message: 'berhasil update profile' })
             }
 
             return setValidationProfile({ type: 'danger', message: response })

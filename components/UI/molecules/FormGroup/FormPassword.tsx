@@ -4,7 +4,7 @@ import Input from '../../atoms/control/Input'
 import LabelForm from '../../atoms/text/LabelForm'
 import { BiShow, BiHide } from 'react-icons/bi'
 
-const FormPassword : React.FC<IFormPassword> = ({ classes, label, value, onChange, placeholder, required }) => {
+const FormPassword : React.FC<IFormPassword> = ({ classes, label, defaultValue, onChange, placeholder, required }) => {
     const [isShow, setIsShow] = useState<boolean>(false)
 
     return (
@@ -12,7 +12,7 @@ const FormPassword : React.FC<IFormPassword> = ({ classes, label, value, onChang
             {label && (<LabelForm text={label} classes='mb-1' />)}
             <div className='relative'>
                 <Input
-                    value={value}
+                    defaultValue={defaultValue}
                     onChange={onChange}
                     placeholder={placeholder}
                     type={isShow ? 'text' : 'password'}
