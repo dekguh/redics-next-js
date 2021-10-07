@@ -6,6 +6,24 @@ export type TDataListMenu = Array<{
     toPath: string;
 }>
 
+export type TDataListProvinsi = Array<{
+    id: number;
+    name: string;
+}>
+
+export type TDataListKabupaten = Array<{
+    provinsiId: string;
+    id: number;
+    name: string;
+}>
+
+export type TDataListKecamatan = Array<{
+    provinsiId: string;
+    kabupatenId: string;
+    id: number;
+    name: string;
+}>
+
 export interface IButton {
     text: string;
     onClick?: React.MouseEventHandler;
@@ -13,7 +31,7 @@ export interface IButton {
 }
 
 export interface IInput {
-    value?: string | number | undefined;
+    defaultValue?: string | number | readonly string[] | undefined;
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
     type?: React.HTMLInputTypeAttribute;
@@ -29,6 +47,11 @@ export interface ISelect {
     onChange?: React.ChangeEventHandler;
     classes?: string;
     required?: boolean;
+    defaultVal?: {
+        value?: string | number | undefined;
+        text: string;
+    };
+    isSelected?: string | number | readonly string[] | undefined;
 }
 
 export interface ITextarea {
@@ -63,7 +86,7 @@ export interface IFormInput {
     classes?: string;
     label?: string;
     inputType?: React.HTMLInputTypeAttribute;
-    value?: string | number | undefined;
+    defaultValue?: string | number | readonly string[] | undefined;
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
     required?: boolean;
@@ -87,6 +110,11 @@ export interface IFormSelect {
         value: number | string;
         text: string;
     }>;
+    defaultVal?: {
+        value?: string | number | undefined;
+        text: string;
+    };
+    isSelected?: string | number | readonly string[] | undefined;
 }
 
 export interface ITextLink {
