@@ -17,8 +17,8 @@ const mapDispatch = {
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling }) => {
-    const Router = useRouter()
+const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling, lastCurrentPage }) => {
+    const Router : any = useRouter()
 
     useEffect(() => {
         actGetIsLogin()
@@ -27,7 +27,8 @@ const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, i
     useEffect(() => {
         isLogin === true && setTimeout(() => {
             actGetBilling()
-            Router.push('/')
+            if(Router.query.last) return Router.push(Router.query.last)
+            return Router.push('/')
         }, 2000)
     }, [isLogin])
 

@@ -152,10 +152,12 @@ export interface IHeadingWithUrl {
 
 export interface IPrivateWrapper {
     children?: JSX.Element | React.ReactNode;
+    lastCurrentPage?: string;
 }
 
 export interface IPublicWrapper {
     children?: JSX.Element | React.ReactNode;
+    lastCurrentPage?: string;
 }
 
 export type TUserInitState = {

@@ -17,9 +17,8 @@ const mapDispatch = {
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling }) => {
+const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling, lastCurrentPage }) => {
     const Router = useRouter()
-
     // test localstorage jwt
     //localStorage.setItem('jwt', 'test')
     //localStorage.removeItem('jwt')
@@ -29,8 +28,9 @@ const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children,
     }, [])
 
     useEffect(() => {
+        console.log(lastCurrentPage)
         isLogin === true && actGetBilling()
-        isLogin === false && setTimeout(() => Router.push('/login'), 2000)
+        isLogin === false && setTimeout(() => Router.push(`/login?last=${lastCurrentPage}`), 2000)
     }, [isLogin])
 
     return (
