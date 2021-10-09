@@ -32,7 +32,6 @@ const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, i
         }, 2000)
     }, [isLogin])
 
-    // goal : if isLogin true redirect to last current page
     return (
         <>
             {!isLogin

@@ -61,3 +61,17 @@ export async function apiUpdateBillingUser(jwt: string | null, data : {}) : Prom
         return err.response.data.message
     }
 }
+
+export async function apiUpdatePasswordUser(jwt: string | null, data : {}) : Promise<void> {
+    try {
+        const response = await Api.put('update-user-password-by-jwt', data, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = response.data
+        return result
+    } catch (err : any) {
+        return err.response.data.message
+    }
+}

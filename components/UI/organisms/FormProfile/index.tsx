@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { apiUpdateBillingUser } from '../../../utils/api'
+import { apiUpdateBillingUser, apiUpdatePasswordUser } from '../../../utils/api'
 import { dataListKabupaten, dataListKecamatan, dataListProvinsi } from '../../../utils/data'
 import { RootState } from '../../../utils/redux/store'
 import { IFormProfile } from '../../../utils/types'
@@ -37,6 +37,10 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
     const [validationProfile, setValidationProfile] = useState<any>({ type: '', message: '' })
     const [isLoadingProfile, setIsLoadingProfile] = useState<boolean>(false)
 
+    const [dataPassword, setDataPassword] = useState<any>({ newPassword: '', oldPassword: '' })
+    const [validationPassword, setValidationPassword] = useState<any>({ type: '', message: '' })
+    const [isLoadingPassword, setIsLoadingPassword] = useState<boolean>(false)
+
     const handleClickUpdateProfile = (e : MouseEvent<HTMLButtonElement>) : void => {
         setIsLoadingProfile(true)
         const updateBilling = async () : Promise<void> => {
@@ -50,6 +54,25 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
             return setValidationProfile({ type: 'danger', message: response })
         }
         updateBilling()
+    }
+
+    const handleClickUpdatePassword = (e : MouseEvent<HTMLInputElement>) : void => {
+        setIsLoadingPassword(true)
+        const updatePassword = async () => {
+            const response : any = await apiUpdatePasswordUser(localStorage.getItem('jwt'), {
+                newPassword: dataPassword.newPassword,
+                oldPassword: dataPassword.oldPassword,
+            })
+
+            setIsLoadingPassword(false)
+            if(response?.id) {
+                return setValidationPassword({ type: 'success', message: 'berhasil mengubah password anda' })
+            }
+
+            return setValidationPassword({ type: 'danger', message: response })
+        }
+
+        updatePassword()
     }
 
     return (
@@ -139,18 +162,31 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
 
                 <p className='leading-tight mb-3 text-gray-500'>catatan: biarkan kosong jika tidak ingin mengganti password</p>
 
+                {validationPassword.message.length >= 1 && (
+                    <BoxAlert
+                        text={validationPassword.message}
+                        type={validationPassword.type}
+                        classes='mb-4'
+                    />
+                )}
+
                 <FormPassword
-                    label='Password'
+                    label='New Password'
                     classes='mb-3'
+                    placeholder='new password'
+                    onChange={(e : ChangeEvent<HTMLInputElement>) => setDataPassword({ ...dataPassword, newPassword: e.target.value })}
                 />
 
                 <FormPassword
-                    label='Re-Password'
+                    label='Old Password'
                     classes='mb-3'
+                    placeholder='old password'
+                    onChange={(e : ChangeEvent<HTMLInputElement>) => setDataPassword({ ...dataPassword, oldPassword: e.target.value })}
                 />
 
                 <FormButton
-                    text='Update Password'
+                    text={isLoadingPassword ? 'Proses...' : 'Update Password'}
+                    onClick={handleClickUpdatePassword}
                 />
             </div>
         </div>
