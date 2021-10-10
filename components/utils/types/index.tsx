@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { IconType } from 'react-icons'
 
 export type TDataListMenu = Array<{
@@ -130,6 +130,7 @@ export interface ITextLink {
     text?: string;
     isActive?: boolean;
     toPath: string;
+    onClick?: MouseEventHandler;
 }
 
 export interface IHeadingAuth {
@@ -144,6 +145,7 @@ export interface IFormButton extends IButton {
 export interface IIconLink {
     icon: IconType;
     toPath: string;
+    onClick?: MouseEventHandler;
 }
 
 export interface ITextTitleSection {
@@ -200,4 +202,8 @@ export interface IFormProfile {
 export interface IHeadingButtonBack {
     classes?: string;
     toPath?: string;
+}
+
+export interface IListCalculatePricing {
+    pricePerDay: number;
 }

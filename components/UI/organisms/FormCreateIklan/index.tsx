@@ -5,6 +5,7 @@ import FormInput from '../../molecules/FormGroup/FormInput'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
 import FormTextarea from '../../molecules/FormGroup/FormTextarea'
 import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
+import ListCalculatePricing from '../../molecules/list/ListCalculatePricing'
 
 const FormCreateIklan : React.FC = () => {
     const [provinsi, setProvinsi] = useState<number | string>('bali')
@@ -58,9 +59,12 @@ const FormCreateIklan : React.FC = () => {
                 <FormInput
                     label='Harga (per-hari)'
                     placeholder='ex: 5000'
-                    classes='mb-3'
+                    classes='mb-2'
                     inputType='number'
                 />
+                <div className='mb-3'>
+                    <ListCalculatePricing pricePerDay={800} />
+                </div>
 
                 <FormInput
                     label='Thumbnail (jpeg, jpg, png)'
