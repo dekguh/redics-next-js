@@ -16,7 +16,7 @@ export const dataListMenu : TDataListMenu = [
     },
     {
         icon: MdLabelOutline,
-        toPath: '/iklan'
+        toPath: '/iklan-saya'
     },
     {
         icon: BiMessageDetail,
@@ -371,7 +371,3 @@ export const dataListKecamatan : TDataListKecamatan = [
         name: 'sideman'
     },
 ]
-
-export const getListProvinsi = () => {
-
-}

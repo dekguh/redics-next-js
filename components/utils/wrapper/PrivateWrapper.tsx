@@ -28,7 +28,7 @@ const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children,
     }, [])
 
     useEffect(() => {
-        console.log(lastCurrentPage)
+        console.log('private wrapper run')
         isLogin === true && actGetBilling()
         isLogin === false && setTimeout(() => Router.push(`/login?last=${lastCurrentPage}`), 2000)
     }, [isLogin])
@@ -36,8 +36,7 @@ const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children,
     return (
         <div>
             {isLogin
-            ? children
-            : (<LoadingFullScreen />)}
+            && children}
         </div>
     )
 }

@@ -55,12 +55,12 @@ export interface ISelect {
 }
 
 export interface ITextarea {
-    value: string;
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
     classes?: string;
     rows?: number;
     required?: boolean;
+    defaultValue?: string | number | readonly string[] | undefined;
 }
 
 export interface ILabelForm {
@@ -86,6 +86,15 @@ export interface IFormInput {
     classes?: string;
     label?: string;
     inputType?: React.HTMLInputTypeAttribute;
+    defaultValue?: string | number | readonly string[] | undefined;
+    onChange?: React.ChangeEventHandler;
+    placeholder?: string;
+    required?: boolean;
+}
+
+export interface IFormTextarea {
+    classes?: string;
+    label?: string;
     defaultValue?: string | number | readonly string[] | undefined;
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
@@ -186,4 +195,9 @@ export interface IBoxAlert {
 
 export interface IFormProfile {
     classes?: string;
+}
+
+export interface IHeadingButtonBack {
+    classes?: string;
+    toPath?: string;
 }
