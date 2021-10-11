@@ -1,4 +1,4 @@
-import { TDataListKabupaten, TDataListKecamatan, TDataListMenu, TDataListProvinsi } from '../types'
+import { TDataListKabupaten, TDataListKecamatan, TDataListMenu, TDataListMyIklan, TDataListProvinsi } from '../types'
 import { VscHome } from 'react-icons/vsc'
 import { CgSearch } from 'react-icons/cg'
 import { MdLabelOutline } from 'react-icons/md'
@@ -370,4 +370,23 @@ export const dataListKecamatan : TDataListKecamatan = [
         id: 57,
         name: 'sideman'
     },
+]
+
+export const dataListMyIklan : TDataListMyIklan = [
+    {
+        id: 1,
+        nama: 'Kursi Roda Aluminium',
+        date: '2 oktober 2021',
+        toPath: '/iklan-saya/username-id-judul',
+        totalView: 29,
+        status: true
+    },
+    {
+        id: 2,
+        nama: 'Tempat Tidur Pasien Kulit',
+        date: '4 oktober 2021',
+        toPath: '/iklan-saya/username-id-judul',
+        totalView: 64,
+        status: true
+    }
 ]

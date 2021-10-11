@@ -24,6 +24,15 @@ export type TDataListKecamatan = Array<{
     name: string;
 }>
 
+export type TDataListMyIklan = Array<{
+    id: number;
+    nama: string;
+    toPath: string;
+    date: string;
+    totalView: number;
+    status: boolean;
+}>
+
 export interface IButton {
     text: string;
     onClick?: React.MouseEventHandler;
