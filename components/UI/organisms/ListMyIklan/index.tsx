@@ -15,10 +15,10 @@ const ListMyIklan = () => {
 
             <ul>
                 {dataListMyIklan.length && dataListMyIklan.map((data, i) => (
-                    <li className='mb-3'>
+                    <li className='mb-3' key={i}>
                         <CardMyIklan
                             name={data.nama}
-                            toPath={data.toPath}
+                            toPath={'/iklan-saya/dekguh-13-kursi-roda-aluminium'}
                             totalView={data.totalView}
                             date={data.date}
                             status={data.status}
