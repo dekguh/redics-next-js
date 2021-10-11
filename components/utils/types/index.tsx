@@ -207,3 +207,11 @@ export interface IHeadingButtonBack {
 export interface IListCalculatePricing {
     pricePerDay: number;
 }
+
+export interface ICardMyIklan {
+    name: string;
+    date?: string;
+    status?: boolean;
+    totalView?: number | string;
+    toPath: string;
+}
