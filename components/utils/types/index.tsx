@@ -183,6 +183,7 @@ export interface IPublicWrapper {
 export type TUserInitState = {
     billing?: {} | null;
     isLogin?: boolean;
+    dataMyIklan?: {} | null;
 }
 
 export type TDataRegister = {

@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { apiGetBillingUser } from '../../api'
-import { updateIsLoginAction, updateBillingAction } from '../user/action'
+import { apiGetBillingUser, apiGetListMyIklan } from '../../api'
+import { updateIsLoginAction, updateBillingAction, updateListMyIklanAction } from '../user/action'
 
 function* watchIsLogin() : Generator {
     try {
@@ -31,7 +31,17 @@ function* watchBillingUser() : Generator {
     }
 }
 
+function* watchMyIklanUser() : Generator {
+    try {
+        const response : any = yield call(apiGetListMyIklan, localStorage.getItem('jwt'))
+        yield put(updateListMyIklanAction(response))
+    } catch (err : any) {
+        yield put(updateListMyIklanAction(null))
+    }
+}
+
 export default function* RootSaga() : Generator {
     yield takeEvery('GET_IS_LOGIN', watchIsLogin)
     yield takeEvery('GET_BILLING', watchBillingUser)
+    yield takeEvery('GET_LIST_MY_IKLAN', watchMyIklanUser)
 }

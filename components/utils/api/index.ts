@@ -75,3 +75,52 @@ export async function apiUpdatePasswordUser(jwt: string | null, data : {}) : Pro
         return err.response.data.message
     }
 }
+
+export async function apiUploadImage(jwt: string | null, formData : FormData) : Promise<void> {
+    try {
+        const response = await Api.post('/upload',
+            formData,{
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = response.data
+        return result
+    } catch (err : any) {
+        return err.response.data
+    }
+}
+
+export async function apiCreateIklan(jwt : string | null, data : {}, formData : FormData) : Promise<void | string> {
+    try {
+        const uploadImage : any = await apiUploadImage(jwt, formData)
+        if(!uploadImage[0].id) return 'gagal upload, periksa kembali gambar'
+
+        const create = await Api.post('/create-iklan-by-jwt', {
+            ...data,
+            thumbnail: uploadImage[0].id
+        },{
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = create.data
+        return result
+    } catch (err : any) {
+        return err.response.data.message
+    }
+}
+
+export async function apiGetListMyIklan(jwt : string | null) : Promise<void> {
+    try {
+        const response = await Api.get('/get-iklan-by-jwt', {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = response.data
+        return result
+    } catch (err : any) {
+        return err.response.data.message[0].messages[0].message
+    }
+}

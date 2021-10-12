@@ -91,7 +91,6 @@ const FormLogin : React.FC<PropsFromRedux> = ({ actUpdateIsLogin, actUpdateBilli
                 password
             )
             setIsLoading(false)
-            console.log(response)
             if(response?.jwt) {
                 localStorage.setItem('jwt', response.jwt)
                 actUpdateBilling(response.user.billing)

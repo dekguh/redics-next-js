@@ -1,10 +1,11 @@
 import { AnyAction } from 'redux'
 import { TUserInitState } from '../../types'
-import { UPDATE_IS_LOGIN, UPDATE_BILLING } from './action'
+import { UPDATE_IS_LOGIN, UPDATE_BILLING, UPDATE_LIST_MY_IKLAN } from './action'
 
 const initState : TUserInitState = {
     billing: null,
-    isLogin: false
+    isLogin: false,
+    dataMyIklan: null
 }
 
 export const reduce = (state = initState, action : AnyAction) => {
@@ -13,6 +14,11 @@ export const reduce = (state = initState, action : AnyAction) => {
             return {
                 ...state,
                 isLogin: action.payload
+            }
+        case UPDATE_LIST_MY_IKLAN:
+            return {
+                ...state,
+                dataMyIklan: action.payload
             }
         case UPDATE_BILLING:
             return {

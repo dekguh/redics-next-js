@@ -1,9 +1,29 @@
-import React from 'react'
-import { dataListMyIklan } from '../../../utils/data'
+import React, { useMemo, useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { RootState } from '../../../utils/redux/store'
 import CardMyIklan from '../../molecules/card/CardMyIklan'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 
-const ListMyIklan = () => {
+const mapState = (state : RootState) => ({
+    dataMyIklan: state.users.dataMyIklan
+})
+
+const mapDispatch = {
+    actGetListMyIklan: () => ({ type: 'GET_LIST_MY_IKLAN' })
+}
+
+const connector = connect(mapState, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+const ListMyIklan : React.FC<PropsFromRedux> = ({ actGetListMyIklan, dataMyIklan }) => {
+    useEffect(() => {
+        actGetListMyIklan()
+    }, [])
+
+    const dataList = useMemo(() => {
+        return dataMyIklan
+    }, [dataMyIklan])
+
     return (
         <div className='p-4'>
             <HeadingWithUrl
@@ -14,14 +34,14 @@ const ListMyIklan = () => {
             />
 
             <ul>
-                {dataListMyIklan.length && dataListMyIklan.map((data, i) => (
+                {dataMyIklan?.length && dataMyIklan.map((data : any, i : number) => (
                     <li className='mb-3' key={i}>
                         <CardMyIklan
-                            name={data.nama}
+                            name={data.judul}
                             toPath={'/iklan-saya/dekguh-13-kursi-roda-aluminium'}
                             totalView={data.totalView}
-                            date={data.date}
-                            status={data.status}
+                            date={data.created_at.substring(0, 10)}
+                            status={data.statusIklan}
                         />
                     </li>
                 ))}
@@ -30,4 +50,4 @@ const ListMyIklan = () => {
     )
 }
 
-export default ListMyIklan
+export default connector(ListMyIklan)
