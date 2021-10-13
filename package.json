@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -18,6 +18,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
+    "react-paginate": "^7.1.3",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
     "redux-saga": "^1.1.3"
@@ -29,6 +30,7 @@
     "@storybook/addon-links": "^6.3.8",
     "@storybook/react": "^6.3.8",
     "@types/react": "17.0.24",
+    "@types/react-paginate": "^7.1.1",
     "autoprefixer": "^10.3.6",
     "babel-loader": "^8.2.2",
     "eslint": "7.32.0",

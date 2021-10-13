@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import Navigation from '../../UI/organisms/Navigation'
 import PopupBilling from '../../UI/template/PopupBilling'
@@ -10,10 +10,18 @@ const mapState = (state : RootState) => ({
     isLogin: state.users.isLogin
 })
 
-const connector = connect(mapState, {})
+const mapDispatch = {
+    actGetListMyIklan: () => ({ type: 'GET_LIST_MY_IKLAN' })
+}
+
+const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const AppWrapper : React.FC<IAppWrapper & PropsFromRedux> = ({ children, billing, isLogin }) => {
+const AppWrapper : React.FC<IAppWrapper & PropsFromRedux> = ({ children, billing, isLogin, actGetListMyIklan }) => {
+    useEffect(() => {
+        if(isLogin) actGetListMyIklan()
+    }, [isLogin])
+
     return (
         <div>
             {children}

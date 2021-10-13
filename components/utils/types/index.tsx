@@ -225,3 +225,14 @@ export interface ICardMyIklan {
     totalView?: number | string;
     toPath: string;
 }
+
+export interface IBlockIconText {
+    imgUrl: string;
+    description?: string;
+}
+
+export interface IPagination {
+    pageCount: number;
+    pageRangeDisplayed: number;
+    marginPagesDisplayed: number;
+}
