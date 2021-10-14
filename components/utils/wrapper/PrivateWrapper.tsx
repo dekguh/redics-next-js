@@ -11,25 +11,23 @@ const mapState = (state : RootState) => ({
 
 const mapDispatch = {
     actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' }),
-    actGetBilling: () => ({ type: 'GET_BILLING' }),
 }
 
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, actGetBilling, lastCurrentPage }) => {
+const PrivateWrapper : React.FC<IPrivateWrapper & PropsFromRedux> = ({ children, isLogin, actGetIsLogin, lastCurrentPage }) => {
     const Router = useRouter()
     // test localstorage jwt
     //localStorage.setItem('jwt', 'test')
     //localStorage.removeItem('jwt')
 
-    useEffect(() => {
+    /*useEffect(() => {
         actGetIsLogin()
-    }, [])
+    }, [])*/
 
     useEffect(() => {
-        console.log('private wrapper run')
-        isLogin === true && actGetBilling()
+        console.log('use effect private wrapper: ', isLogin)
         isLogin === false && setTimeout(() => Router.push(`/login?last=${lastCurrentPage}`), 2000)
     }, [isLogin])
 

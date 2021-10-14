@@ -124,3 +124,43 @@ export async function apiGetListMyIklan(jwt : string | null) : Promise<void> {
         return err.response.data.message[0].messages[0].message
     }
 }
+
+export async function getSingleIklanById(jwt : string | null, id : string | number | null | undefined) : Promise<void> {
+    try {
+        const response = await Api.get(`/get-iklan-by-jwt/${id}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = response.data
+        return result
+    } catch (err : any) {
+        return err.response.data.message
+    }
+}
+
+export async function apiUpdateIklanByJwt(jwt : string | null, data : {}, selectedImage : FileList | Array<any> | null, latestThumbnail : number | string) : Promise<void | string> {
+    try {
+        let uploadImage : any = latestThumbnail
+        if(selectedImage != null) {
+            const formData = new FormData()
+            formData.append('files', selectedImage[0])
+
+            uploadImage = await apiUploadImage(jwt, formData)
+            if(!uploadImage[0].id) return 'gagal upload, periksa kembali gambar'
+        }
+
+        const update = await Api.put('/update-iklan-by-jwt', {
+            ...data,
+            thumbnail: uploadImage
+        },{
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = update.data
+        return result
+    } catch (err : any) {
+        return err.response
+    }
+}

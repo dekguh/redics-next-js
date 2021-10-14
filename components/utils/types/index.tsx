@@ -236,3 +236,12 @@ export interface IPagination {
     pageRangeDisplayed: number;
     marginPagesDisplayed: number;
 }
+
+export interface IFormEditMyIklan {
+    idIklan?: number | string | null;
+}
+
+export interface IFormPreviewImage {
+    imgSrc?: string;
+    classes?: string;
+}

@@ -58,7 +58,7 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
                 type: 'danger',
                 message: 'thumbnail tidak boleh kosong'
             })
-    }
+        }
 
         if(selectedImage[0].type != 'image/png' && selectedImage[0].type != 'image/jpeg'
         && selectedImage[0].type != 'image/jpg') {

@@ -11,13 +11,19 @@ const mapState = (state : RootState) => ({
 })
 
 const mapDispatch = {
-    actGetListMyIklan: () => ({ type: 'GET_LIST_MY_IKLAN' })
+    actGetListMyIklan: () => ({ type: 'GET_LIST_MY_IKLAN' }),
+    actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' }),
+    actGetBilling: () => ({ type: 'GET_BILLING' })
 }
 
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const AppWrapper : React.FC<IAppWrapper & PropsFromRedux> = ({ children, billing, isLogin, actGetListMyIklan }) => {
+const AppWrapper : React.FC<IAppWrapper & PropsFromRedux> = ({ children, billing, isLogin, actGetListMyIklan, actGetIsLogin }) => {
+    useEffect(() => {
+        actGetIsLogin()
+    }, [])
+
     useEffect(() => {
         if(isLogin) actGetListMyIklan()
     }, [isLogin])

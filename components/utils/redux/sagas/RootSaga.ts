@@ -35,7 +35,7 @@ function* watchMyIklanUser() : Generator {
     try {
         const response : any = yield call(apiGetListMyIklan, localStorage.getItem('jwt'))
         if(response.length <= 0) yield put(updateListMyIklanAction(null))
-        if(response.length >= 1) yield put(updateListMyIklanAction(null))
+        if(response.length >= 1) yield put(updateListMyIklanAction(response))
     } catch (err : any) {
         yield put(updateListMyIklanAction(null))
     }
