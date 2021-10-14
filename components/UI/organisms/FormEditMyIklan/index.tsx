@@ -202,7 +202,7 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
                             value: 0
                         }
                     ]}
-                    isSelected={dataCurrent.statusIklan}
+                    isSelected={dataCurrent.statusIklan == true ? '1' : '0'}
                     onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({
                         ...dataCurrent,
                         statusIklan: e.target.value == '1' ? true : false
