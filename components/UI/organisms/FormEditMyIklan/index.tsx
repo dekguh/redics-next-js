@@ -108,7 +108,7 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
                     statusIklan: response.statusIklan
                 })
                 return setValidation({
-                    type: 'info',
+                    type: 'success',
                     message: 'iklan anda berhasil diperbarui'
                 })
         }
