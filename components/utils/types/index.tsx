@@ -272,3 +272,18 @@ export interface ICardIklanFullImage {
         provinsi?: string;
     }
 }
+
+export interface ICardIklanFullWidth {
+    image?: string;
+    title?: string;
+    pricePerDay?: number;
+    location?: {
+        kecamatan?: string;
+        kabupaten?: string;
+        provinsi?: string;
+    }
+}
+
+export interface ILatestIklan {
+    
+}
