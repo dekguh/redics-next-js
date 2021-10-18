@@ -99,6 +99,7 @@ export interface IFormInput {
     onChange?: React.ChangeEventHandler;
     placeholder?: string;
     required?: boolean;
+    classesInput?: string;
 }
 
 export interface IFormTextarea {
@@ -155,6 +156,7 @@ export interface IIconLink {
     icon: IconType;
     toPath: string;
     onClick?: MouseEventHandler;
+    classes?: string;
 }
 
 export interface ITextTitleSection {
@@ -244,4 +246,29 @@ export interface IFormEditMyIklan {
 export interface IFormPreviewImage {
     imgSrc?: string;
     classes?: string;
+}
+
+export interface IHeaderSearch {
+    billing?: any;
+}
+
+export interface ITextBackground {
+    text?: string;
+    classes?: string;
+}
+
+export interface IIklanNearby {
+    classes?: string;
+    billing?: any;
+}
+
+export interface ICardIklanFullImage {
+    image?: string;
+    title?: string;
+    pricePerDay?: number;
+    location?: {
+        kecamatan?: string;
+        kabupaten?: string;
+        provinsi?: string;
+    }
 }

@@ -4,6 +4,7 @@ import Navigation from '../../UI/organisms/Navigation'
 import PopupBilling from '../../UI/template/PopupBilling'
 import { RootState } from '../redux/store'
 import { IAppWrapper } from '../types'
+import 'react-multi-carousel/lib/styles.css'
 
 const mapState = (state : RootState) => ({
     billing: state.users.billing,

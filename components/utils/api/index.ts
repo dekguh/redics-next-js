@@ -164,3 +164,13 @@ export async function apiUpdateIklanByJwt(jwt : string | null, data : {}, select
         return err.response
     }
 }
+
+export async function apiGetAllIklan() : Promise<void> {
+    try {
+        const response = await Api.get('/get-all-iklan')
+        const result = response.data
+        return result
+    } catch(err : any) {
+        return err.response
+    }
+}
