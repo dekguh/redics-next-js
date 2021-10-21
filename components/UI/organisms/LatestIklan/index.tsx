@@ -4,7 +4,7 @@ import { ILatestIklan } from '../../../utils/types'
 import CardIklanFullWidth from '../../molecules/card/CardIklanFullWidth'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 
-const LatestIklan : React.FC<ILatestIklan> = () => {
+const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8 }) => {
     const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const LatestIklan : React.FC<ILatestIklan> = () => {
                 classes='mb-3'
             />
 
-            {dataIklan && dataIklan.sort((a, b) => b.id - a.id).map(data => (
+            {dataIklan && dataIklan.slice(0, totalShow).sort((a, b) => b.id - a.id).map(data => (
                 <div className='mb-3' key={data.id}>
                     <CardIklanFullWidth
                         title={data.judul}

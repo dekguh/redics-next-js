@@ -26,7 +26,7 @@ const Beranda : React.FC<PropsFromRedux> = ({ billing }) => {
             />)}
 
             <LatestIklan
-
+                totalShow={8}
             />
         </div>
     )

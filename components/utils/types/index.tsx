@@ -260,6 +260,7 @@ export interface ITextBackground {
 export interface IIklanNearby {
     classes?: string;
     billing?: any;
+    totalShow?: number;
 }
 
 export interface ICardIklanFullImage {
@@ -285,5 +286,5 @@ export interface ICardIklanFullWidth {
 }
 
 export interface ILatestIklan {
-    
+    totalShow?: number;
 }

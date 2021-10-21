@@ -24,7 +24,7 @@ const responsive = {
     }
 };
 
-const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing }) => {
+const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8 }) => {
   const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing }) => {
                 ssr={true}
             >
               {dataIklan
-              ? dataIklan.filter(data => {
+              ? dataIklan.slice(0, totalShow).filter(data => {
                 return data.kabupaten.toLowerCase().indexOf(billing.kabupaten) > -1
                 && data.provinsi.toLowerCase().indexOf(billing.provinsi) > -1
               }).map((data, i) => (
