@@ -1,11 +1,10 @@
 import { NextPage } from 'next'
 import React from 'react'
+import PencarianContainer from '../components/UI/template/PencarianContainer'
 
 const pencarian : NextPage = () => {
     return (
-        <div>
-            pencarian
-        </div>
+        <PencarianContainer />
     )
 }
 
