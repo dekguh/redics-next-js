@@ -288,3 +288,7 @@ export interface ICardIklanFullWidth {
 export interface ILatestIklan {
     totalShow?: number;
 }
+
+export type TSearchInitState = {
+    text: string;
+}

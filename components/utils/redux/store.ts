@@ -4,13 +4,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Context, createWrapper } from 'next-redux-wrapper'
 import RootSaga from './sagas/RootSaga'
 import { reduce as userReducer } from './user/reduce'
-import { TUserInitState } from '../types'
+import { reduce as searchReducer } from './search/reduce'
 
 const sagaMiddleware = createSagaMiddleware()
 
 const store = configureStore({
     reducer: {
-        users: userReducer
+        users: userReducer,
+        search: searchReducer
     },
     middleware: [sagaMiddleware]
 })
