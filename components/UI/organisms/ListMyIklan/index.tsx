@@ -85,8 +85,8 @@ const ListMyIklan : React.FC<PropsFromRedux> = ({ dataMyIklan }) => {
                     <Pagination
                         pageCount={dataMyIklan.filter((data : any) => data.statusIklan == filterStatus).length
                             && Math.ceil(dataMyIklan.filter((data : any) => data.statusIklan == filterStatus).length/perPage) || 0}
-                        pageRangeDisplayed={perPage}
-                        marginPagesDisplayed={perPage}
+                        pageRangeDisplayed={2}
+                        marginPagesDisplayed={1}
                         onPageChange={num => setCurrentPage(num.selected)} // 0 = 1
                     />
                 </div>

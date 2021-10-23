@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { apiGetAllIklan } from '../../../utils/api'
-import { ILatestIklan } from '../../../utils/types'
+import { IListPencarian } from '../../../utils/types'
 import CardIklanFullWidth from '../../molecules/card/CardIklanFullWidth'
-import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 
-const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8 }) => {
+const ListPencarian : React.FC<IListPencarian> = ({ totalShow = 8, pageNum }) => {
     const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
 
   useEffect(() => {
@@ -17,11 +16,6 @@ const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8 }) => {
 
     return (
         <div>
-            <HeadingWithUrl
-                title='Iklan terbaru'
-                classes='mb-3'
-            />
-
             {dataIklan && dataIklan.filter(data => data.statusIklan == true).slice(0, totalShow)
             .sort((a, b) => b.id - a.id).map(data => (
                 <div className='mb-3' key={data.id}>
@@ -40,4 +34,4 @@ const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8 }) => {
     )
 }
 
-export default LatestIklan
+export default ListPencarian

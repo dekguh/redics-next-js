@@ -170,6 +170,7 @@ export interface IHeadingWithUrl {
     textLink?: string;
     toPath?: string;
     classes?: string;
+    onClick?: MouseEventHandler;
 }
 
 export interface IPrivateWrapper {
@@ -291,4 +292,9 @@ export interface ILatestIklan {
 
 export type TSearchInitState = {
     text: string;
+}
+
+export interface IListPencarian {
+    totalShow?: number;
+    pageNum?: number;
 }

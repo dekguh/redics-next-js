@@ -52,6 +52,7 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8 
               ? dataIklan.slice(0, totalShow).filter(data => {
                 return data.kabupaten.toLowerCase().indexOf(billing.kabupaten) > -1
                 && data.provinsi.toLowerCase().indexOf(billing.provinsi) > -1
+                && data.statusIklan == true
               }).map((data, i) => (
                 <div className='px-2' key={i}>
                   <CardIklanFullImage
