@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, ChangeEvent } from 'react'
+import React, { useState, useMemo, ChangeEvent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../../../utils/redux/store'
 import CardMyIklan from '../../molecules/card/CardMyIklan'
@@ -31,7 +31,7 @@ const ListMyIklan : React.FC<PropsFromRedux> = ({ dataMyIklan }) => {
         if(!data) return null
         return data
         .filter((data : any) => data.statusIklan == filterStatus)
-        .slice(currentPage * perPage, currentPage <= 0 ? perPage : perPage * currentPage * 2)
+        .slice(currentPage * perPage, currentPage <= 0 ? perPage : (perPage * currentPage) + perPage)
     }
 
     return (
