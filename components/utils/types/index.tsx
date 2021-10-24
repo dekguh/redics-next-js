@@ -263,6 +263,7 @@ export interface IIklanNearby {
     classes?: string;
     billing?: any;
     totalShow?: number;
+    dataIklan: Array<any> | undefined;
 }
 
 export interface ICardIklanFullImage {
@@ -291,6 +292,7 @@ export interface ICardIklanFullWidth {
 
 export interface ILatestIklan {
     totalShow?: number;
+    dataIklan: Array<any> | undefined;
 }
 
 export type TSearchInitState = {

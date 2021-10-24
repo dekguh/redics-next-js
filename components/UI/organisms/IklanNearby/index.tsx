@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Carousel from 'react-multi-carousel'
 import { IIklanNearby } from '../../../utils/types'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 import CardIklanFullImage from '../../molecules/card/CardIklanFullImage'
-import { apiGetAllIklan } from '../../../utils/api'
 
 const responsive = {
     superLargeDesktop: {
@@ -24,17 +23,7 @@ const responsive = {
     }
 };
 
-const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8 }) => {
-  const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
-
-  useEffect(() => {
-    const getListIklan = async () : Promise<void> => {
-      const response : any = await apiGetAllIklan()
-      setDataIklan(response)
-    }
-    getListIklan()
-  }, [])
-
+const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8, dataIklan }) => {
     return (
         <div className={classes}>
             <HeadingWithUrl

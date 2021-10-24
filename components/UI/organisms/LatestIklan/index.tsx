@@ -1,20 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { apiGetAllIklan } from '../../../utils/api'
+import React from 'react'
 import { ILatestIklan } from '../../../utils/types'
 import CardIklanFullWidth from '../../molecules/card/CardIklanFullWidth'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 
-const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8 }) => {
-    const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
-
-  useEffect(() => {
-    const getListIklan = async () : Promise<void> => {
-      const response : any = await apiGetAllIklan()
-      setDataIklan(response)
-    }
-    getListIklan()
-  }, [])
-
+const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8, dataIklan }) => {
     return (
         <div>
             <HeadingWithUrl

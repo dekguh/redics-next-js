@@ -11,11 +11,7 @@ const mapState = (state : RootState) => ({
     dataMyIklan: state.users.dataMyIklan
 })
 
-const mapDispatch = {
-    actGetListMyIklan: () => ({ type: 'GET_LIST_MY_IKLAN' })
-}
-
-const connector = connect(mapState, mapDispatch)
+const connector = connect(mapState, {})
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 const ListMyIklan : React.FC<PropsFromRedux> = ({ dataMyIklan }) => {
