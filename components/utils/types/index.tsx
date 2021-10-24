@@ -273,7 +273,8 @@ export interface ICardIklanFullImage {
         kecamatan?: string;
         kabupaten?: string;
         provinsi?: string;
-    }
+    };
+    id?: number;
 }
 
 export interface ICardIklanFullWidth {
@@ -285,6 +286,7 @@ export interface ICardIklanFullWidth {
         kabupaten?: string;
         provinsi?: string;
     }
+    id?: number;
 }
 
 export interface ILatestIklan {

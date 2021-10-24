@@ -51,6 +51,7 @@ const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow =
                             kabupaten: data.kabupaten,
                             provinsi: data.provinsi
                         }}
+                        id={data.id}
                     />
                 </div>
             ))}

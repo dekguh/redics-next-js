@@ -64,6 +64,7 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8 
                       kabupaten: data.kabupaten,
                       provinsi: data.provinsi
                     }}
+                    id={data.id}
                   />
               </div>
               ))

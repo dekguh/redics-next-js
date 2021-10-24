@@ -33,6 +33,7 @@ const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8 }) => {
                             kabupaten: data.kabupaten,
                             provinsi: data.provinsi
                         }}
+                        id={data.id}
                     />
                 </div>
             ))}

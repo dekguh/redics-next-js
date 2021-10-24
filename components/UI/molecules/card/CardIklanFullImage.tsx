@@ -3,7 +3,7 @@ import Link from 'next/link'
 import TextBackground from '../../atoms/text/TextBackground'
 import { ICardIklanFullImage } from '../../../utils/types'
 
-const CardIklanFullImage : React.FC<ICardIklanFullImage> = ({ image, title, pricePerDay = 0, location }) => {
+const CardIklanFullImage : React.FC<ICardIklanFullImage> = ({ image, title, pricePerDay = 0, location, id }) => {
     return (
         <div>
             <div
@@ -13,7 +13,7 @@ const CardIklanFullImage : React.FC<ICardIklanFullImage> = ({ image, title, pric
                 <TextBackground classes='absolute top-3 left-3' text={location?.kecamatan}/>
             </div>
             <div className='mt-2'>
-                <Link href='#'>
+                <Link href={`/detail/${id}-${title?.toLowerCase().replaceAll(' ', '-')}`}>
                     <a className='font-semibold text-gray-800 hover:text-blue-500 duration-300'>{title}</a>
                 </Link>
                 <div>
