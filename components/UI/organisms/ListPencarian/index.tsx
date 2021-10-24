@@ -21,11 +21,11 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow = 1, searchText, searchProvinsi, searchKabupaten, searchKecamatan, dataIklan }) => {
     const [filterDataIklan, setFilterDataIklan] = useState<Array<any> | undefined>()
     const [filterDataPaged, setFilterDataPaged] = useState<Array<any> | undefined>()
-    const [pageNum, setPageNum] = useState<number| undefined>()
+    const [pageNum, setPageNum] = useState<number| undefined>(1)
     const [currentPage, setCurrentPage] = useState<number>(0)
 
   useEffect(() => {
-    setPageNum(undefined)
+    setPageNum(1)
     setCurrentPage(0)
     const filtered = dataIklan && dataIklan.filter(data => {
         return data.statusIklan == true
