@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/react'
 import { default as HderSearch } from '.'
+import { IHeaderSearch } from '../../../utils/types'
 
 export default {
     component: HderSearch,
@@ -16,8 +17,12 @@ export default {
         provinsi: {
             control: { type: 'text' },
             defaultValue: 'bali'
+        },
+        isRedirect: {
+            control: { type: 'boolean' },
+            defaultValue: true
         }
     }
 } as Meta
 
-export const HeaderSearch = () => <HderSearch />
+export const HeaderSearch = (args : IHeaderSearch) => <HderSearch {...args}/>
