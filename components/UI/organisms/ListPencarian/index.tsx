@@ -1,22 +1,46 @@
 import React, { useState, useEffect } from 'react'
-import { apiGetAllIklan } from '../../../utils/api'
+import { connect, ConnectedProps } from 'react-redux'
+import { RootState } from '../../../utils/redux/store'
 import { IListPencarian } from '../../../utils/types'
 import CardIklanFullWidth from '../../molecules/card/CardIklanFullWidth'
+import BlockIconText from '../../molecules/other/BlockIconText'
+import Pagination from '../../molecules/other/Pagination'
 
-const ListPencarian : React.FC<IListPencarian> = ({ totalShow = 8, pageNum }) => {
-    const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
+const mapState = (state : RootState) => ({
+    billing: state.users.billing,
+    searchProvinsi: state.search.provinsi,
+    searchKabupaten: state.search.kabupaten,
+    searchKecamatan: state.search.kecamatan,
+    searchText: state.search.text
+})
+
+
+const connector = connect(mapState, {})
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow = 1, searchText, searchProvinsi, searchKabupaten, searchKecamatan, dataIklan }) => {
+    const [filterDataIklan, setFilterDataIklan] = useState<Array<any> | undefined>()
+    const [pageNum, setPageNum] = useState<number| undefined>()
+    const [currentPage, setCurrentPage] = useState<number>(0)
 
   useEffect(() => {
-    const getListIklan = async () : Promise<void> => {
-      const response : any = await apiGetAllIklan()
-      setDataIklan(response)
-    }
-    getListIklan()
-  }, [])
+    const filtered = dataIklan && dataIklan.filter(data => {
+        return data.statusIklan == true
+        && data.provinsi.toLowerCase().indexOf(searchProvinsi.toLowerCase()) > -1
+        && data.kabupaten.toLowerCase().indexOf(searchKabupaten.toLowerCase()) > -1
+        && data.kecamatan.toLowerCase().indexOf(searchKecamatan.toLowerCase()) > -1
+        && data.judul.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+    })
+
+    const filteredPagination = filtered && filtered.slice(currentPage * totalShow, currentPage <= 0 ? totalShow : (totalShow * currentPage) + totalShow)
+    const totalPage = filtered ? Math.ceil(filtered.length/totalShow) : 1
+    setPageNum(totalPage)
+    setFilterDataIklan(filteredPagination)
+  }, [dataIklan, searchProvinsi, searchKabupaten, searchKecamatan, searchText, currentPage])
 
     return (
         <div>
-            {dataIklan && dataIklan.filter(data => data.statusIklan == true).slice(0, totalShow)
+            {filterDataIklan && filterDataIklan
             .sort((a, b) => b.id - a.id).map(data => (
                 <div className='mb-3' key={data.id}>
                     <CardIklanFullWidth
@@ -30,8 +54,22 @@ const ListPencarian : React.FC<IListPencarian> = ({ totalShow = 8, pageNum }) =>
                     />
                 </div>
             ))}
+            {(!filterDataIklan || filterDataIklan.length <= 0) && (
+            <BlockIconText
+                imgUrl='/icon/icon-not-found.png'
+                description='sepertinya iklan tidak ditemukan'
+            />)}
+
+            {(filterDataIklan && filterDataIklan.length >= 1 && pageNum != 0) && (<div className='mt-4'>
+                <Pagination
+                    pageCount={pageNum || 1}
+                    pageRangeDisplayed={2}
+                    marginPagesDisplayed={1}
+                    onPageChange={curr => setCurrentPage(curr.selected)}
+                />
+            </div>)}
         </div>
     )
 }
 
-export default ListPencarian
+export default connector(ListPencarian)

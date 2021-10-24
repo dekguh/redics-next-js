@@ -251,6 +251,7 @@ export interface IFormPreviewImage {
 
 export interface IHeaderSearch {
     billing?: any;
+    isRedirect: boolean;
 }
 
 export interface ITextBackground {
@@ -292,9 +293,13 @@ export interface ILatestIklan {
 
 export type TSearchInitState = {
     text: string;
+    provinsi: string;
+    kabupaten: string;
+    kecamatan: string;
 }
 
 export interface IListPencarian {
     totalShow?: number;
     pageNum?: number;
+    dataIklan: Array<any> | undefined
 }

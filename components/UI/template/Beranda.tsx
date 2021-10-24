@@ -15,7 +15,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 const Beranda : React.FC<PropsFromRedux> = ({ billing }) => {
     return (
         <div className='p-4 mb-12'>
-            <HeaderSearch />
+            <HeaderSearch isRedirect={true} />
 
             {billing && (
             <IklanNearby

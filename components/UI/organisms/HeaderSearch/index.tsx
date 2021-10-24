@@ -21,7 +21,7 @@ const mapDispatch = {
 const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const HeaderSearch : React.FC<IHeaderSearch & PropsFromRedux> = ({ billing, searchTextGlobal, updateSearchTextAct }) => {
+const HeaderSearch : React.FC<IHeaderSearch & PropsFromRedux> = ({ isRedirect, billing, searchTextGlobal, updateSearchTextAct }) => {
     const [searchText, setSearchText] = useState<string>('')
     const Router = useRouter()
 
@@ -47,7 +47,7 @@ const HeaderSearch : React.FC<IHeaderSearch & PropsFromRedux> = ({ billing, sear
                 classes='absolute top-2/4 right-3 transform -translate-y-2/4 text-blue-500'
                 onClick={() => {
                     updateSearchTextAct(searchText)
-                    if(Router.asPath !== '/pencarian') Router.push('/pencarian')
+                    if(isRedirect) Router.push('/pencarian')
                 }}
             />
         </div>
