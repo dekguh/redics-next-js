@@ -54,7 +54,6 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
                 provinsi: response.provinsi,
                 kabupaten: response.kabupaten,
                 kecamatan: response.kecamatan,
-                phone: billing.phone,
                 pricePerDay: response.pricePerDay,
                 thumbnailURL: response.thumbnail.url,
                 statusIklan: response.statusIklan
