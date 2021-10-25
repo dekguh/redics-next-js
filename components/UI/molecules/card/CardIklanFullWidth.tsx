@@ -10,7 +10,7 @@ const CardIklanFullWidth : React.FC<ICardIklanFullWidth> = ({ image, title, pric
             </div>
 
             <div className='flex-grow flex-shrink pl-3'>
-                <Link href={`/detail/${id}-${title?.toLowerCase().replaceAll(' ', '-')}`}>
+                <Link href={`/detail/${id}-${title && title.toLowerCase().replace(/ /g, '-')}`}>
                     <a className='font-semibold text-gray-800 hover:text-blue-500 duration-300'>{title}</a>
                 </Link>
                 <ul className='flex flex-row flex-wrap'>

@@ -171,6 +171,6 @@ export async function apiGetAllIklan() : Promise<void> {
         const result = response.data
         return result
     } catch(err : any) {
-        return err.response
+        return console.log(err.response)
     }
 }
