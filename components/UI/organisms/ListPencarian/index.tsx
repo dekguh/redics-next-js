@@ -32,10 +32,9 @@ const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow =
             && data.kecamatan.toLowerCase().indexOf(searchKecamatan.toLowerCase()) > -1
             && data.judul.toLowerCase().indexOf(searchText.toLowerCase()) > -1
         })
-        console.log('effect 1')
         setFilterDataPaged(filtered)
-        setPageNum(1)
-        setCurrentPage(0)
+        //setPageNum(1)
+        //setCurrentPage(0)
     }, [dataIklan, searchProvinsi, searchKabupaten, searchKecamatan, searchText])
 
     /*useEffect(() => {
