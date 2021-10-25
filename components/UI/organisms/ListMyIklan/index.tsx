@@ -61,7 +61,7 @@ const ListMyIklan : React.FC<PropsFromRedux> = ({ dataMyIklan }) => {
                     <li className='mb-3' key={i}>
                         <CardMyIklan
                             name={data.judul}
-                            toPath={`/iklan-saya/${data.id}-${data.judul.toLowerCase().replaceAll(' ', '-')}`}
+                            toPath={`/iklan-saya/${data.id}-${data.judul.toLowerCase().replace(/ /g, '-')}`}
                             totalView={data.totalView}
                             date={data.created_at.substring(0, 10)}
                             status={data.statusIklan}
