@@ -22,7 +22,7 @@ const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow =
     const [filterDataIklan, setFilterDataIklan] = useState<Array<any> | undefined | null>()
     const [filterDataPaged, setFilterDataPaged] = useState<Array<any> | undefined | null>()
     const [pageNum, setPageNum] = useState<number| undefined>()
-    const [currentPage, setCurrentPage] = useState<number>()
+    const [currentPage, setCurrentPage] = useState<number | null>(null)
 
     useEffect(() => {
         const filtered = dataIklan && dataIklan.filter(data => {
@@ -32,15 +32,17 @@ const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow =
             && data.kecamatan.toLowerCase().indexOf(searchKecamatan.toLowerCase()) > -1
             && data.judul.toLowerCase().indexOf(searchText.toLowerCase()) > -1
         })
-
+        console.log('effect 1')
+        setPageNum(1)
         setFilterDataIklan(filtered)
         setCurrentPage(0)
-        setPageNum(1)
     }, [dataIklan, searchProvinsi, searchKabupaten, searchKecamatan, searchText])
 
     useEffect(() => {
-        const filteredPagination = (filterDataIklan && currentPage) ? filterDataIklan.slice(currentPage * totalShow, currentPage <= 0 ? totalShow : (totalShow * currentPage) + totalShow) : null
+        const filteredPagination = (filterDataIklan && currentPage != null) ? filterDataIklan.slice(currentPage * totalShow, currentPage <= 0 ? totalShow : (totalShow * currentPage) + totalShow) : null
         const totalPage = filterDataIklan ? Math.ceil(filterDataIklan.length/totalShow) : 1
+        console.log({currentPage, filteredPagination, filterDataIklan})
+        console.log('effect 2')
         setPageNum(totalPage)
         setFilterDataPaged(filteredPagination)
     }, [currentPage, filterDataIklan])
