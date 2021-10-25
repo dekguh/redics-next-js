@@ -19,30 +19,30 @@ const connector = connect(mapState, {})
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 const ListPencarian : React.FC<IListPencarian & PropsFromRedux> = ({ totalShow = 1, searchText, searchProvinsi, searchKabupaten, searchKecamatan, dataIklan }) => {
-    const [filterDataIklan, setFilterDataIklan] = useState<Array<any> | undefined>()
-    const [filterDataPaged, setFilterDataPaged] = useState<Array<any> | undefined>()
-    const [pageNum, setPageNum] = useState<number| undefined>(1)
-    const [currentPage, setCurrentPage] = useState<number>(0)
+    const [filterDataIklan, setFilterDataIklan] = useState<Array<any> | undefined | null>()
+    const [filterDataPaged, setFilterDataPaged] = useState<Array<any> | undefined | null>()
+    const [pageNum, setPageNum] = useState<number| undefined>()
+    const [currentPage, setCurrentPage] = useState<number>()
 
     useEffect(() => {
-    const filtered = dataIklan && dataIklan.filter(data => {
-        return data.statusIklan == true
-        && data.provinsi.toLowerCase().indexOf(searchProvinsi.toLowerCase()) > -1
-        && data.kabupaten.toLowerCase().indexOf(searchKabupaten.toLowerCase()) > -1
-        && data.kecamatan.toLowerCase().indexOf(searchKecamatan.toLowerCase()) > -1
-        && data.judul.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-    })
+        const filtered = dataIklan && dataIklan.filter(data => {
+            return data.statusIklan == true
+            && data.provinsi.toLowerCase().indexOf(searchProvinsi.toLowerCase()) > -1
+            && data.kabupaten.toLowerCase().indexOf(searchKabupaten.toLowerCase()) > -1
+            && data.kecamatan.toLowerCase().indexOf(searchKecamatan.toLowerCase()) > -1
+            && data.judul.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        })
 
-    setFilterDataIklan(filtered)
-    setPageNum(1)
-    setCurrentPage(0)
+        setFilterDataIklan(filtered)
+        setCurrentPage(0)
+        setPageNum(1)
     }, [dataIklan, searchProvinsi, searchKabupaten, searchKecamatan, searchText])
 
     useEffect(() => {
-    const filteredPagination = filterDataIklan && filterDataIklan.slice(currentPage * totalShow, currentPage <= 0 ? totalShow : (totalShow * currentPage) + totalShow)
-    const totalPage = filterDataIklan ? Math.ceil(filterDataIklan.length/totalShow) : 1
-    setPageNum(totalPage)
-    setFilterDataPaged(filteredPagination)
+        const filteredPagination = (filterDataIklan && currentPage) ? filterDataIklan.slice(currentPage * totalShow, currentPage <= 0 ? totalShow : (totalShow * currentPage) + totalShow) : null
+        const totalPage = filterDataIklan ? Math.ceil(filterDataIklan.length/totalShow) : 1
+        setPageNum(totalPage)
+        setFilterDataPaged(filteredPagination)
     }, [currentPage, filterDataIklan])
 
     return (
