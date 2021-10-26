@@ -307,3 +307,22 @@ export interface IListPencarian {
     pageNum?: number;
     dataIklan: Array<any> | undefined
 }
+
+export interface IDetailIklan {
+    title: string | null | undefined;
+}
+
+export interface IDetailIklanContainer {
+    
+}
+
+export interface IListPricing {
+    pricePerDay: number;
+    classes?: string;
+}
+
+export interface ICardOwnerIklan {
+    name?: string;
+    isOnline?: boolean;
+    onClick?: MouseEventHandler;
+}
