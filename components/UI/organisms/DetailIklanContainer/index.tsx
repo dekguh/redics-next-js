@@ -37,7 +37,7 @@ const DetailIklanContainer : React.FC<IDetailIklanContainer> = ({ dataSingleIkla
 
             <div className='mt-3'>
                 <CardOwnerIklan
-                    userId={dataSingleIklan?.id}
+                    userId={dataSingleIklan?.user?.id}
                 />
             </div>
         </div>
