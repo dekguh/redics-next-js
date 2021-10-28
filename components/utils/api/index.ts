@@ -174,3 +174,21 @@ export async function apiGetAllIklan() : Promise<void> {
         return console.log(err.response)
     }
 }
+
+export async function apiGetSingleIklanNoJwt(id : number | string) : Promise<void | {}> {
+    try {
+        const response = await Api.get(`/iklans/${id}`)
+        return response.data
+    } catch (err : any) {
+        return err.response.data.message
+    }
+}
+
+export async function apiGetOwnIklanBilling(id : number | string) : Promise<void | {}> {
+    try {
+        const response = await Api.get(`/get-iklan-own-billing/${id}`)
+        return response.data
+    } catch (err : any) {
+        return err.response.data.message
+    }
+}

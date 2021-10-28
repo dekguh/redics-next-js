@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { apiGetAllIklan } from '../../utils/api'
+import { apiGetAllIklan, apiGetSingleIklanNoJwt } from '../../utils/api'
 import { RootState } from '../../utils/redux/store'
 import { IDetailIklan } from '../../utils/types'
 import DetailIklanContainer from '../organisms/DetailIklanContainer'
@@ -15,6 +15,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 const DetailIklan : React.FC<IDetailIklan & PropsFromRedux> = ({ title, billing }) => {
     const [dataIklan, setDataIklan] = useState<Array<any> | undefined>()
+    const [dataSingleIklan, setDataSingleIklan] = useState<{} | undefined>()
 
     useEffect(() => {
         const getListIklan = async () : Promise<void> => {
@@ -24,10 +25,23 @@ const DetailIklan : React.FC<IDetailIklan & PropsFromRedux> = ({ title, billing 
         getListIklan()
       }, [])
 
-    console.log({title, dataIklan, billing})
+    useEffect(() => {
+        const getSingleData = async (id : number | string) => {
+            const response : any = await apiGetSingleIklanNoJwt(id)
+            setDataSingleIklan(response)
+        }
+
+        const splitTitle = title && title.split('-')
+        if(Array.isArray(splitTitle)) {
+            getSingleData(splitTitle[0])
+        }
+    }, [title])
+
+    console.log(dataSingleIklan)
+
     return (
         <div className='p-4 mb-12'>
-            <DetailIklanContainer />
+            <DetailIklanContainer dataSingleIklan={dataSingleIklan} />
 
             <div className='mt-5'>
                 {billing && (

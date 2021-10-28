@@ -313,7 +313,7 @@ export interface IDetailIklan {
 }
 
 export interface IDetailIklanContainer {
-    
+    dataSingleIklan: any;
 }
 
 export interface IListPricing {
@@ -322,7 +322,6 @@ export interface IListPricing {
 }
 
 export interface ICardOwnerIklan {
-    name?: string;
-    isOnline?: boolean;
+    userId: number | string;
     onClick?: MouseEventHandler;
 }
