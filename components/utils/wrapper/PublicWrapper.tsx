@@ -24,7 +24,6 @@ const PublicWrapper : React.FC<IPublicWrapper & PropsFromRedux> = ({ children, i
     }, [])*/
 
     useEffect(() => {
-        console.log('public wrapper run')
         isLogin === true && setTimeout(() => {
             if(Router.query.last) return Router.push(Router.query.last)
             return Router.push('/')

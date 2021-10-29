@@ -37,8 +37,6 @@ const DetailIklan : React.FC<IDetailIklan & PropsFromRedux> = ({ title, billing 
         }
     }, [title])
 
-    console.log(dataSingleIklan)
-
     return (
         <div className='p-4 mb-12'>
             <DetailIklanContainer dataSingleIklan={dataSingleIklan} />

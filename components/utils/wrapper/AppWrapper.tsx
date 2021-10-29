@@ -5,6 +5,7 @@ import PopupBilling from '../../UI/template/PopupBilling'
 import { RootState } from '../redux/store'
 import { IAppWrapper } from '../types'
 import 'react-multi-carousel/lib/styles.css'
+import { socket } from '../socket'
 
 const mapState = (state : RootState) => ({
     billing: state.users.billing,
@@ -14,7 +15,6 @@ const mapState = (state : RootState) => ({
 const mapDispatch = {
     actGetListMyIklan: () => ({ type: 'GET_LIST_MY_IKLAN' }),
     actGetIsLogin: () => ({ type: 'GET_IS_LOGIN' }),
-    actGetBilling: () => ({ type: 'GET_BILLING' })
 }
 
 const connector = connect(mapState, mapDispatch)
@@ -27,6 +27,9 @@ const AppWrapper : React.FC<IAppWrapper & PropsFromRedux> = ({ children, billing
 
     useEffect(() => {
         if(isLogin) actGetListMyIklan()
+        if(isLogin && billing) {
+            socket.emit('updateUserOnline', { userId: billing.user.id , status: true })
+        }
     }, [isLogin])
 
     return (
