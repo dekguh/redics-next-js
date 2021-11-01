@@ -325,3 +325,16 @@ export interface ICardOwnerIklan {
     userId: number | string;
     onClick?: MouseEventHandler;
 }
+
+export interface IFormChatBox {
+    messageId?: number;
+    userId?: number;
+    ownIklanId: number;
+}
+
+export interface ICardListPesan {
+    name?: string;
+    message: string;
+    url: string;
+    onClick?: MouseEventHandler;
+}
