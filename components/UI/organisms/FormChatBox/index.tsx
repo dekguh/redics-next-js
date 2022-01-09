@@ -6,6 +6,11 @@ import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
 import { FaPaperPlane } from 'react-icons/fa'
 import { apiGetTextAllMessage } from '../../../utils/api'
 
+/*
+** bug
+error on endpoint GET https://redics.herokuapp.com/get-iklan-own-billing/undefined 500 (Internal Server Error)
+when receiver user gonna to offline
+*/
 const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId, billing }) => {
     const [dataTextMessage, setDataTextMessage] = useState<Array<any> | undefined>([])
 
@@ -30,9 +35,9 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
             <div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
                 <ul>
                     {dataTextMessage && dataTextMessage.map((data, i) => {
-                        if(data.user.username === billing.user.username) {
+                        if(data.user.username == billing.user.username) {
                             return (
-                                <li className='mb-3'>
+                                <li className='mb-3' key={i}>
                                     <div className='text-right'>
                                         <div>
                                             <span className='mr-3 text-xs'>12.00</span>
@@ -47,9 +52,9 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                             )
                         }
 
-                        if(data.user.username !== billing.user.username) {
+                        if(data.user.username != billing.user.username) {
                             return (
-                                <li className='mb-3'>
+                                <li className='mb-3' key={i}>
                                     <div className='text-left'>
                                         <div>
                                             <span className='text-gray-800'>{data.user.username}</span>
