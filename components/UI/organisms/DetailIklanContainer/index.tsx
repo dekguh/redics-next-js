@@ -1,10 +1,32 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { RootState } from '../../../utils/redux/store'
 import { IDetailIklanContainer } from '../../../utils/types'
 import CardOwnerIklan from '../../molecules/card/CardOwnerIklan'
 import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
 import ListPricing from '../../molecules/list/ListPricing'
+import Link from 'next/link'
+import { apiCreateMessage } from '../../../utils/api'
+import { useRouter } from 'next/router'
 
-const DetailIklanContainer : React.FC<IDetailIklanContainer> = ({ dataSingleIklan }) => {
+const mapState = (state : RootState) => ({
+    isLogin: state.users.isLogin
+})
+
+const connector = connect(mapState, {})
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = ({ isLogin, dataSingleIklan }) => {
+    const Router = useRouter()
+
+    const handleClickMessage = (e: MouseEvent) => {
+        const createMsg = async () => {
+            const res : any = await apiCreateMessage(localStorage.getItem('jwt'), dataSingleIklan?.user?.id)
+            if(res) return Router.push(`/pesan/${res.id}`)
+        }
+        createMsg()
+    }
+
     return (
         <div>
             <HeadingButtonBack toPath='/pencarian' />
@@ -35,13 +57,20 @@ const DetailIklanContainer : React.FC<IDetailIklanContainer> = ({ dataSingleIkla
                 />
             </div>
 
+            {isLogin ? (
             <div className='mt-3'>
                 <CardOwnerIklan
                     userId={dataSingleIklan?.user?.id}
+                    onClick={handleClickMessage}
                 />
-            </div>
+            </div>)
+            : (
+                <p className='mt-4 py-2 px-3 bg-gray-100 rounded'>
+                    silahkan <Link href='/login'><a className='text-blue-500 font-bold'>login</a></Link> untuk bisa menghubungi pemilik iklan
+                </p>
+            )}
         </div>
     )
 }
 
-export default DetailIklanContainer
+export default connector(DetailIklanContainer)

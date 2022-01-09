@@ -192,3 +192,59 @@ export async function apiGetOwnIklanBilling(id : number | string) : Promise<void
         return err.response.data.message
     }
 }
+
+export async function apiCreateMessage(jwt : string | null, user2 : number) : Promise<void> {
+    try {
+        const response = await Api.post('/create-message-by-user', {
+            user2,
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response
+    }
+}
+
+export async function apiGetAllListMessage(jwt : string | null) : Promise<void> {
+    try {
+        const response = await Api.get('/get-all-message-by-user', {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response
+    }
+}
+
+export async function apiGetMessageDetail(messageId : string | number | string[] | undefined, jwt : string | null) : Promise<void> {
+    try {
+        const response = await Api.get(`/get-single-message-by-user/${messageId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+        const result = response.data
+        return result
+    } catch(err : any) {
+        return err.response
+    }
+}
+
+export async function apiGetTextAllMessage(messageId : string | number | string[] | undefined, jwt : string | null) : Promise<void> {
+    try {
+        const response = await Api.get(`/get-list-text-message-by-id/${messageId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+
+        return response.data
+    } catch (err : any) {
+        return err.response
+    }
+}

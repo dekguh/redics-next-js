@@ -327,9 +327,10 @@ export interface ICardOwnerIklan {
 }
 
 export interface IFormChatBox {
-    messageId?: number;
+    messageId?: string | number | string[];
     userId?: number;
-    ownIklanId: number;
+    messageWithId: number;
+    billing?: any;
 }
 
 export interface ICardListPesan {
@@ -337,4 +338,8 @@ export interface ICardListPesan {
     message: string;
     url: string;
     onClick?: MouseEventHandler;
+}
+
+export interface IMessageDetail {
+    messageId?: string | number | string[];
 }
