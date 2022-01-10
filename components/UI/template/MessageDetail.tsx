@@ -7,7 +7,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { apiGetMessageDetail } from '../../utils/api'
 
 const mapState = (state : RootState) => ({
-    billing: state.users.billing
+    billing: state.users.billing || {}
 })
 
 const connector = connect(mapState, {})
@@ -29,9 +29,9 @@ const MessageDetail : React.FC<IMessageDetail & PropsFromRedux> = ({ messageId, 
         <>
             <PrivateWrapper lastCurrentPage='/pesan'>
                 <FormChatBox
-                    messageWithId={dataMessage?.user1?.id == billing?.user?.id
-                        ? dataMessage?.user2?.id
-                        : dataMessage?.user1?.id
+                    messageWithId={dataMessage.user1?.id == billing.user?.id
+                        ? dataMessage.user2?.id
+                        : dataMessage.user1?.id
                     } // user id people who chat with you (get message detail)
                     userId={billing?.user?.id} // your id (login user)
                     messageId={messageId}
