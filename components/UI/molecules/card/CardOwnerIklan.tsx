@@ -6,10 +6,13 @@ import ButtonPrimary from '../../atoms/control/ButtonPrimary'
 
 const CardOwnerIklan : React.FC<ICardOwnerIklan> = ({ userId, onClick }) => {
     const [dataBilling, setDataBilling] = useState<any>({})
+    const [ownUsername, setOwnUsername] = useState<any>('')
+
     useEffect(() => {
         const getBilling = async () => {
-            const response = await apiGetOwnIklanBilling(userId)
+            const response : any = await apiGetOwnIklanBilling(userId)
             setDataBilling(response)
+            setOwnUsername(response?.username)
         }
         getBilling()
     }, [userId])
@@ -23,7 +26,7 @@ console.log(dataBilling)
     return (
         <div className='border border-gray-200 p-3 rounded-lg flex flex-row flex-nowrap items-center'>
             <div className='flex-grow flex-shrink'>
-                <h5>{dataBilling?.username}</h5>
+                <h5>{ownUsername}</h5>
                 <div className='flex flex-row flex-nowrap items-center mt-1'>
                     <span className={`${dataBilling?.isOnline ? 'bg-green-500' : 'bg-red-500'} rounded-full h-2 w-2 block mr-1`}></span>
                     <span>{dataBilling?.isOnline ? 'online' : 'offline'}</span>
