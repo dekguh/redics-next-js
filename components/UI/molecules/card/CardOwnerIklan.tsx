@@ -27,8 +27,8 @@ console.log(dataBilling)
             <div className='flex-grow flex-shrink'>
                 <h5>{dataBillingOnline ? dataBillingOnline.username : dataBilling.username}</h5>
                 <div className='flex flex-row flex-nowrap items-center mt-1'>
-                    <span className={`${dataBilling?.isOnline ? 'bg-green-500' : 'bg-red-500'} rounded-full h-2 w-2 block mr-1`}></span>
-                    <span>{dataBilling?.isOnline ? 'online' : 'offline'}</span>
+                    <span className={`${dataBillingOnline?.isOnline ? 'bg-green-500' : 'bg-red-500'} rounded-full h-2 w-2 block mr-1`}></span>
+                    <span>{dataBillingOnline?.isOnline ? 'online' : 'offline'}</span>
                 </div>
             </div>
 
