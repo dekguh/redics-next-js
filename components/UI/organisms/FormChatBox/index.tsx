@@ -40,7 +40,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
     socket.on('updateNewReply', (res) => {
         const parseRes = JSON.parse(res)
         console.log('updateNewReply data: ', parseRes.data)
-        setDataTextMessage(JSON.parse(parseRes.data))
+        setDataTextMessage(parseRes.data)
     })
 
     return (
