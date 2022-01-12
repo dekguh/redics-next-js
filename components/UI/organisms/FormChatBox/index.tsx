@@ -38,8 +38,8 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
 
     // run this event when have same messageId
     socket.on('updateNewReply', (res) => {
-        console.log('updateNewReply response: ', res)
-        setDataTextMessage(res.data)
+        console.log('updateNewReply data: ', res.data)
+        setDataTextMessage(JSON.parse(res.data))
     })
 
     return (
