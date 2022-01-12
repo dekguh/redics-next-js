@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IFormChatBox } from '../../../utils/types'
 import CardOwnerIklan from '../../molecules/card/CardOwnerIklan'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
 import { FaPaperPlane } from 'react-icons/fa'
-import { apiGetTextAllMessage } from '../../../utils/api'
+import { apiCreateTextMessage, apiGetTextAllMessage } from '../../../utils/api'
+import { socket } from '../../../utils/socket'
 
 /*
 ** bug
@@ -13,6 +14,7 @@ when receiver user gonna to offline
 */
 const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId, billing }) => {
     const [dataTextMessage, setDataTextMessage] = useState<Array<any> | undefined>([])
+    const [messageReply, setMessageReply] = useState<String>('')
 
     useEffect(() => {
         const getListTextMessage = async () => {
@@ -22,6 +24,22 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
 
         getListTextMessage()
     }, [messageId])
+
+    const handleSendMessage = () => {
+        const createMsg = async () => {
+            const response = await apiCreateTextMessage(messageId, userId, messageReply, localStorage.getItem('jwt'))
+            /* socket emit to backend */
+            socket.emit('sendNewReply', {
+                messageId: messageId
+            })
+        }
+        createMsg()
+    }
+
+    socket.on('updateNewReply', (res) => {
+        console.log('updateNewReply response: ', res)
+    })
+
     return (
         <div className='p-4 relative'>
             <HeadingButtonBack
@@ -76,9 +94,13 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                 <FormInput
                     placeholder='message'
                     classesInput='rounded-full pr-14'
+                    onChange={(e : ChangeEvent<HTMLInputElement>) => setMessageReply(e.target.value)}
                 />
 
-                <button className='text-blue-500 text-lg absolute right-5 top-2/4 transform -translate-y-2/4'>
+                <button
+                    className='text-blue-500 text-lg absolute right-5 top-2/4 transform -translate-y-2/4'
+                    onClick={handleSendMessage}
+                >
                     <i><FaPaperPlane /></i>
                 </button>
             </div>

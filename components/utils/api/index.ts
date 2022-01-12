@@ -248,3 +248,23 @@ export async function apiGetTextAllMessage(messageId : string | number | string[
         return err.response
     }
 }
+
+export async function apiCreateTextMessage(messageId : string | number | string[] | undefined,
+    userId : number |  undefined,
+    content : String,
+    jwt : string | null
+) : Promise<void> {
+    try {
+        const response = await Api.post('/create-text-message', {
+            messageId,
+            userId,
+            content
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+    } catch (err : any) {
+        return err.response
+    }
+}

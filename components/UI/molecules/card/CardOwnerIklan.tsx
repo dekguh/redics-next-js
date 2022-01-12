@@ -18,11 +18,10 @@ const CardOwnerIklan : React.FC<ICardOwnerIklan> = ({ userId, onClick }) => {
     }, [userId])
 
     socket.on('sendInfoOnline', async (res) => {
-        console.log('called sendInfoOnline ', res.message)
         const response = await apiGetOwnIklanBilling(userId)
         setDataBilling(response)
     })
-console.log(dataBilling)
+
     return (
         <div className='border border-gray-200 p-3 rounded-lg flex flex-row flex-nowrap items-center'>
             <div className='flex-grow flex-shrink'>
