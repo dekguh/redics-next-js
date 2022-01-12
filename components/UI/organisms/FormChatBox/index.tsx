@@ -16,12 +16,12 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
     const [dataTextMessage, setDataTextMessage] = useState<Array<any> | undefined>([])
     const [messageReply, setMessageReply] = useState<String>('')
 
-    useEffect(() => {
-        const getListTextMessage = async () => {
-            const response : any = await apiGetTextAllMessage(messageId, localStorage.getItem('jwt'));
-            setDataTextMessage(response)
-        }
+    const getListTextMessage = async () => {
+        const response : any = await apiGetTextAllMessage(messageId, localStorage.getItem('jwt'));
+        setDataTextMessage(response)
+    }
 
+    useEffect(() => {
         getListTextMessage()
     }, [messageId])
 
@@ -32,6 +32,8 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
             socket.emit('sendNewReply', {
                 messageId: messageId
             })
+
+            getListTextMessage()
         }
         createMsg()
     }
