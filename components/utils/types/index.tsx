@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react'
+import { MouseEventHandler, MutableRefObject, ReactNode } from 'react'
 import { IconType } from 'react-icons'
 
 export type TDataListMenu = Array<{
@@ -46,6 +46,9 @@ export interface IInput {
     type?: React.HTMLInputTypeAttribute;
     classes?: string;
     required?: boolean;
+    ref?: any;
+    id?: any;
+    value?: string;
 }
 
 export interface ISelect {
@@ -100,6 +103,9 @@ export interface IFormInput {
     placeholder?: string;
     required?: boolean;
     classesInput?: string;
+    ref?: any;
+    id?: any;
+    value?: any;
 }
 
 export interface IFormTextarea {

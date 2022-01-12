@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react'
 import { IFormChatBox } from '../../../utils/types'
 import CardOwnerIklan from '../../molecules/card/CardOwnerIklan'
 import FormInput from '../../molecules/FormGroup/FormInput'
@@ -15,6 +15,7 @@ when receiver user gonna to offline
 const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId, billing }) => {
     const [dataTextMessage, setDataTextMessage] = useState<Array<any> | undefined>([])
     const [messageReply, setMessageReply] = useState<String>('')
+    const resetBtnRef : any = useRef(null)
 
     const getListTextMessage = async () => {
         const response : any = await apiGetTextAllMessage(messageId, localStorage.getItem('jwt'));
@@ -35,7 +36,8 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
 
             getListTextMessage()
         }
-        createMsg()
+        messageReply && createMsg()
+        console.log(resetBtnRef?.current?.click())
     }
 
     // run this event when have same messageId
@@ -95,20 +97,25 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                 </ul>
             </div>
 
-            <div className='relative'>
-                <FormInput
-                    placeholder='message'
-                    classesInput='rounded-full pr-14'
-                    onChange={(e : ChangeEvent<HTMLInputElement>) => setMessageReply(e.target.value)}
-                />
+            <form method='post' onLoad={(e) => e.preventDefault()}>
+                <div className='relative'>
+                    <FormInput
+                        placeholder='message'
+                        classesInput='rounded-full pr-14'
+                        onChange={(e : ChangeEvent<HTMLInputElement>) => setMessageReply(e.target.value)}
+                        id='inputReply'
+                    />
 
-                <button
-                    className='text-blue-500 text-lg absolute right-5 top-2/4 transform -translate-y-2/4'
-                    onClick={handleSendMessage}
-                >
-                    <i><FaPaperPlane /></i>
-                </button>
-            </div>
+                    <button
+                        className='text-blue-500 text-lg absolute right-5 top-1/3 transform -translate-y-2/4'
+                        onClick={handleSendMessage}
+                        type='button'
+                    >
+                        <i><FaPaperPlane /></i>
+                    </button>
+                    <button ref={resetBtnRef} type='reset' className='invisible'>reset</button>
+                </div>
+            </form>
         </div>
     )
 }
