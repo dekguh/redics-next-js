@@ -7,11 +7,7 @@ import { FaPaperPlane } from 'react-icons/fa'
 import { apiCreateTextMessage, apiGetTextAllMessage } from '../../../utils/api'
 import { socket } from '../../../utils/socket'
 
-/*
-** bug
-error on endpoint GET https://redics.herokuapp.com/get-iklan-own-billing/undefined 500 (Internal Server Error)
-when receiver user gonna to offline
-*/
+/* next to do make list text message from oldest to newest */
 const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId, billing }) => {
     const [dataTextMessage, setDataTextMessage] = useState<Array<any> | undefined>([])
     const [messageReply, setMessageReply] = useState<String>('')
@@ -40,7 +36,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
         console.log(resetBtnRef?.current?.click())
     }
 
-    // run this event when have same messageId
+    // run this event when user have same messageId
     socket.on('updateNewReply', (res) => {
         const parseRes = JSON.parse(res)
         console.log('updateNewReply data: ', parseRes.data)
@@ -59,7 +55,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
 
             <div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
                 <ul>
-                    {dataTextMessage && dataTextMessage.map((data, i) => {
+                    {dataTextMessage && dataTextMessage.sort((a, b) => a.id - b.id).map((data, i) => {
                         if(data.user.username == billing.user.username) {
                             return (
                                 <li className='mb-3' key={i}>
