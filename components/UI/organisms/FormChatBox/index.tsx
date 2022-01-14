@@ -39,9 +39,10 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
     // run this event when user have same messageId
     socket.on('updateNewReply', (res) => {
         const parseRes = JSON.parse(res)
-        console.log('updateNewReply data: ', parseRes.data)
         setDataTextMessage(parseRes.data)
     })
+
+    console.log(dataTextMessage)
 
     return (
         <div className='p-4 relative'>
@@ -61,7 +62,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                                 <li className='mb-3' key={i}>
                                     <div className='text-right'>
                                         <div>
-                                            <span className='mr-3 text-xs'>12.00</span>
+                                            <span className='mr-3 text-xs'>{data.created_at.substring(12, 16)}</span>
                                             <span className='text-gray-800'>{data.user.username}</span>
                                         </div>
 
@@ -79,7 +80,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                                     <div className='text-left'>
                                         <div>
                                             <span className='text-gray-800'>{data.user.username}</span>
-                                            <span className='ml-3 text-xs'>12.03</span>
+                                            <span className='ml-3 text-xs'>{data.created_at.substring(12, 16)}</span>
                                         </div>
 
                                         <p className='mt-1 inline-block bg-gray-200 rounded-lg py-2 px-3 text-gray-500 max-w-3/4'>
