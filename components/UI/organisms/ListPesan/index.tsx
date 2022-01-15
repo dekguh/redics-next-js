@@ -29,7 +29,7 @@ const ListPesan : React.FC<PropsFromRedux> = ({ billing }) => {
 
             <ul>
                 {dataPesan && dataPesan.map((data, i) => (
-                    <li key={i}>
+                    <li key={i} className='mb-2'>
                         <CardListPesan
                             name={data.user1.id == billing.user.id ? data.user2.username : data.user1.username}
                             message={data.text_messages.length ? data.text_messages[data.text_messages.length-1].content : 'tidak ada pesan'}
