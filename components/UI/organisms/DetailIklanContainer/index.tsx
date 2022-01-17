@@ -8,6 +8,7 @@ import ListPricing from '../../molecules/list/ListPricing'
 import Link from 'next/link'
 import { apiCreateMessage } from '../../../utils/api'
 import { useRouter } from 'next/router'
+import FormButton from '../../molecules/FormGroup/FormButton'
 
 const mapState = (state : RootState) => ({
     isLogin: state.users.isLogin
@@ -58,12 +59,24 @@ const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = 
             </div>
 
             {isLogin ? (
-            <div className='mt-3'>
-                <CardOwnerIklan
-                    userId={dataSingleIklan?.user?.id}
-                    onClick={handleClickMessage}
-                />
-            </div>)
+            <>
+                <div className='mt-3'>
+                    <CardOwnerIklan
+                        userId={dataSingleIklan?.user?.id}
+                        onClick={handleClickMessage}
+                    />
+                </div>
+
+                <div className='mt-4'>
+                    <Link href='/buat-pesanan'>
+                        <FormButton
+                            classes='block'
+                            text='pesan sekarang'
+                        />
+                    </Link>
+                </div>
+            </>
+            )
             : (
                 <p className='mt-4 py-2 px-3 bg-gray-100 rounded'>
                     silahkan <Link href='/login'><a className='text-blue-500 font-bold'>login</a></Link> untuk bisa menghubungi pemilik iklan

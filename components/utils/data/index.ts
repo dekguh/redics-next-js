@@ -2,7 +2,7 @@ import { TDataListKabupaten, TDataListKecamatan, TDataListMenu, TDataListMyIklan
 import { VscHome } from 'react-icons/vsc'
 import { CgSearch } from 'react-icons/cg'
 import { MdLabelOutline } from 'react-icons/md'
-import { BiMessageDetail } from 'react-icons/bi'
+import { BiMessageDetail, BiMoney } from 'react-icons/bi'
 import { FiUser } from 'react-icons/fi'
 
 export const dataListMenu : TDataListMenu = [
@@ -21,6 +21,10 @@ export const dataListMenu : TDataListMenu = [
     {
         icon: BiMessageDetail,
         toPath: '/pesan'
+    },
+    {
+        icon: BiMoney,
+        toPath: '/transaksi'
     },
     {
         icon: FiUser,
