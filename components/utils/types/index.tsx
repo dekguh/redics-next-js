@@ -356,3 +356,7 @@ export interface ICardTransaksi {
     statusTransaksi?: string;
     urlDetail?: string;
 }
+
+export interface IDetailTransaksiPemilik {
+    orderId?: string | number | string[];
+}

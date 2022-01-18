@@ -10,7 +10,7 @@ import TransaksiPemilik from '../organisms/TransaksiPemilik'
 
 const Transaksi : React.FC = () => {
     const Router = useRouter()
-    const [currentPage, setCurrentPage] = useState<string>('saldo')
+    const [currentPage, setCurrentPage] = useState<string>('transaksi-penyewa')
 
     return (
         <>
@@ -26,17 +26,17 @@ const Transaksi : React.FC = () => {
                         <FormSelect
                             list={[
                                 {
-                                    text: 'saldo',
-                                    value: 'saldo'
-                                },
-                                {
                                     text: 'transaksi penyewa',
                                     value: 'transaksi-penyewa'
                                 },
                                 {
                                     text: 'transaksi pemilik',
                                     value: 'transaksi-pemilik'
-                                }
+                                },
+                                {
+                                    text: 'saldo',
+                                    value: 'saldo'
+                                },
                             ]}
                             onChange={(e : ChangeEvent<HTMLSelectElement>) => setCurrentPage(e.target.value)}
                         />
