@@ -349,3 +349,10 @@ export interface ICardListPesan {
 export interface IMessageDetail {
     messageId?: string | number | string[];
 }
+
+export interface ICardTransaksi {
+    orderId?: number;
+    totalPembayaran?: number;
+    statusTransaksi?: string;
+    urlDetail?: string;
+}
