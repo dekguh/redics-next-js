@@ -9,15 +9,20 @@ import Link from 'next/link'
 import { apiCreateMessage } from '../../../utils/api'
 import { useRouter } from 'next/router'
 import FormButton from '../../molecules/FormGroup/FormButton'
+import { updatePesananIklanIdAct } from '../../../utils/redux/pesanan/action'
 
 const mapState = (state : RootState) => ({
-    isLogin: state.users.isLogin
+    isLogin: state.users.isLogin,
 })
 
-const connector = connect(mapState, {})
+const mapDispatch = {
+    actUpdatePesananIklanId: (id: number | null) => (updatePesananIklanIdAct(id))
+}
+
+const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = ({ isLogin, dataSingleIklan }) => {
+const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = ({ isLogin, dataSingleIklan, actUpdatePesananIklanId }) => {
     const Router = useRouter()
 
     const handleClickMessage = (e: MouseEvent) => {
@@ -68,12 +73,14 @@ const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = 
                 </div>
 
                 <div className='mt-4'>
-                    <Link href='/buat-pesanan'>
-                        <FormButton
-                            classes='block'
-                            text='pesan sekarang'
-                        />
-                    </Link>
+                    <FormButton
+                        classes='block'
+                        text='pesan sekarang'
+                        onClick={() => {
+                            actUpdatePesananIklanId(dataSingleIklan?.id)
+                            Router.push('/buat-pesanan')
+                        }}
+                    />
                 </div>
             </>
             )

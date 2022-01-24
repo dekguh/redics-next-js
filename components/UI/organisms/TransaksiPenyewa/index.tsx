@@ -10,7 +10,7 @@ const TransaksiPenyewa : React.FC = () => {
                         orderId={12345}
                         statusTransaksi='sedang diproses'
                         totalPembayaran={400000}
-                        urlDetail='/detail-transaksi-sewa/12345'
+                        urlDetail='/detail-transaksi-penyewa/12345'
                     />
                 </li>
 
@@ -19,7 +19,7 @@ const TransaksiPenyewa : React.FC = () => {
                         orderId={12345}
                         statusTransaksi='berhasil'
                         totalPembayaran={400000}
-                        urlDetail='/detail-transaksi-sewa/12345'
+                        urlDetail='/detail-transaksi-penyewa/12345'
                     />
                 </li>
             </ul>

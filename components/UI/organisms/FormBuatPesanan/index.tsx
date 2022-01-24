@@ -1,26 +1,66 @@
-import React from 'react'
-import Input from '../../atoms/control/Input'
-import TextTitleSection from '../../atoms/text/TextTitleSection'
+import React, { ChangeEvent, useState, useEffect } from 'react'
+import { apigetBookedDateIklan, apiGetOwnIklanBilling } from '../../../utils/api'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
-import FormSelect from '../../molecules/FormGroup/FormSelect'
 import FormSelectDate from '../../molecules/FormGroup/FormSelectDate'
 import FormSelectKurir from '../../molecules/FormGroup/FormSelectKurir'
-import { HeadingBackButton } from '../../molecules/heading/HeadingButtonBack.stories'
+import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
+import CalendarBooked from '../../molecules/other/CalendarBooked'
 
-const FormBuatPesanan = () => {
+const FormBuatPesanan : React.FC<{
+    dataSingleIklan?: any;
+    billingPenyewa?: any;
+    pesananIklanId?: any;
+}> = ({ dataSingleIklan, billingPenyewa, pesananIklanId }) => {
+    const [billingPemilik, setBillingPemilik] = useState<any>()
+    const [listBookedDate, setListBookedDate] = useState<any>()
+
+    const getOwnIklanBilling = async (id : number) => {
+        const response = await apiGetOwnIklanBilling(id)
+        setBillingPemilik(response)
+    }
+
+    const getBookedDate = async (id : number) => {
+        const response : any = await apigetBookedDateIklan(id)
+        const getDateOnly = response.map((data : any) => new Date(`${data.mulai}T00:00:00.000Z`))
+        setListBookedDate(getDateOnly)
+    }
+
+    useEffect(() => {
+        dataSingleIklan && getOwnIklanBilling(dataSingleIklan.user.id)
+        dataSingleIklan && getBookedDate(pesananIklanId)
+    }, [dataSingleIklan])
+
+    console.log(listBookedDate)
+
     return (
         <div className='p-4'>
-            <HeadingBackButton
+            <HeadingButtonBack
                 toPath='/'
             />
 
-            <CardBillingPesanan />
+            <CardBillingPesanan
+                billingPenyewa={billingPenyewa}
+                billingPemilik={billingPemilik}
+            />
 
             <div className='border-t border-gray-300 my-5'></div>
 
-            <FormSelectDate />
+            <div className='mb-3'>
+                <CalendarBooked
+                    dateBooked={listBookedDate}
+                />
+            </div>
+
+            <FormSelectDate
+                onChangeMulai={(e : ChangeEvent<HTMLInputElement>) => {
+                    console.log(e.target.value) // example result: 2022-01-21
+                }}
+                onChangeAkhir={(e : ChangeEvent<HTMLInputElement>) => {
+                    console.log(e.target.value) // example result: 2022-01-21
+                }}
+            />
 
             <div className='border-t border-gray-300 my-5'></div>
 

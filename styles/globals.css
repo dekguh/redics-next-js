@@ -49,4 +49,8 @@
         @apply text-blue-500;
         @apply pb-1 border-b border-blue-500;
     }
+
+    .booked-date-css {
+        @apply text-red-500 !important;
+    }
 }

@@ -4,16 +4,21 @@ import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
+import CustomCountdown from '../../molecules/other/CustomCountdown'
 
-const MenungguPembayaranPemilik : React.FC = () => {
+const MenungguPembayaranPenyewa : React.FC = () => {
     return(
         <div>
+            <div className='mb-3'>
+                <CustomCountdown />
+            </div>
+            <FormButton text='bayar sekarang' classes='mb-3'/>
             <FormButton text='batalkan pesanan' classes='mb-3'/>
         </div>
     )
 }
 
-const FormInputResiPemilik : React.FC = () => {
+const FormInputResiPengembalian : React.FC = () => {
     return(
         <div>
             <FormInput placeholder='masukan resi' classes='mb-3' />
@@ -22,10 +27,10 @@ const FormInputResiPemilik : React.FC = () => {
     )
 }
 
-const MenungguDikembalikan : React.FC = () => {
+const MenungguDikirim : React.FC = () => {
     return(
         <div>
-            <TextTitleSection text='pengembalian'/>
+            <TextTitleSection text='Pengiriman'/>
 
             <div className='border border-gray-200 rounded flex flex-row flex-nowrap items-center p-2 mt-3'>
                 <span className='flex-grow flex-shrink pr-5 text-lg'>TRX12345667890</span>
@@ -37,7 +42,7 @@ const MenungguDikembalikan : React.FC = () => {
             </div>
 
             <div className='mt-4'>
-                <FormButton text='barang dikembalikan'/>
+                <FormButton text='barang sampai'/>
             </div>
         </div>
     )
@@ -64,7 +69,7 @@ const TanggalMulaiAhir : React.FC<{
     )
 }
 
-const CardDetailPemilik : React.FC = () => {
+const CardDetailPenyewa : React.FC = () => {
     return (
         <div>
             <div className='flex flex-row flex-nowrap mt-5'>
@@ -92,13 +97,13 @@ const CardDetailPemilik : React.FC = () => {
             <div className='border-t border-gray-300 my-5'></div>
 
             <div>
-                <MenungguPembayaranPemilik />
+                <MenungguPembayaranPenyewa />
             </div>
 
             <div className='border-t border-gray-300 my-5'></div>
 
             <div>
-                <FormInputResiPemilik />
+                <MenungguDikirim />
             </div>
 
             <div className='border-t border-gray-300 my-5'></div>
@@ -113,10 +118,10 @@ const CardDetailPemilik : React.FC = () => {
             <div className='border-t border-gray-300 my-5'></div>
 
             <div>
-                <MenungguDikembalikan />
+                <FormInputResiPengembalian />
             </div>
         </div>
     )
 }
 
-export default CardDetailPemilik
+export default CardDetailPenyewa

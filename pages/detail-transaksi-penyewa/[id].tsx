@@ -1,11 +1,16 @@
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import React from 'react'
+import DetailTransaksiPenyewa from '../../components/UI/template/DetailTransaksiPenyewa'
 
-const DetailTransaksiPenyewa = () => {
+const DetailTransaksiPenyewaPage : NextPage = () => {
+    const Router = useRouter()
+
     return (
-        <div>
-            
-        </div>
+        <DetailTransaksiPenyewa
+            orderId={Router.query.id ? Router.query.id : 0}
+        />
     )
 }
 
-export default DetailTransaksiPenyewa
+export default DetailTransaksiPenyewaPage

@@ -268,3 +268,18 @@ export async function apiCreateTextMessage(messageId : string | number | string[
         return err.response
     }
 }
+
+export async function apigetBookedDateIklan(iklanId: number | undefined) : Promise<void> {
+    try {
+        const response = await Api.post('/get-booked-date-by-iklan', {
+            iklan: iklanId
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch(err : any) {
+        return err.response
+    }
+}

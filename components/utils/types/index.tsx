@@ -360,3 +360,7 @@ export interface ICardTransaksi {
 export interface IDetailTransaksiPemilik {
     orderId?: string | number | string[];
 }
+
+export interface IPesananInitState {
+    pesananIklanId?: number | null;
+}
