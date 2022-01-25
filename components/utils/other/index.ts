@@ -130,7 +130,7 @@ export async function getPriceOngkir(
         formData,
         {
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "application/x-www-form-urlencoded",
                 key: process.env.NEXT_PUBLIC_RAJA_ONGKIR_KEY
             }
         })
