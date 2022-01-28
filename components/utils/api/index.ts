@@ -312,6 +312,9 @@ export async function getPriceOngkir(
     kecamatanOrigin : string,
     kecamatanDestination : string,
     weight : string,
+    width: number,
+    height: number,
+    dimension: number,
 ) {
     try {
         const response = await Api.post('/cek-ongkir', {
@@ -319,6 +322,9 @@ export async function getPriceOngkir(
             kecamatanOrigin,
             kecamatanDestination,
             weight, // in grams
+            width,
+            height,
+            dimension
         }, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`

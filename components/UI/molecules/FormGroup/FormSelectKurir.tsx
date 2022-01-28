@@ -25,7 +25,10 @@ const FormSelectKurir : React.FC<{
                 pilihKurir,
                 kecamatanIdPemilik.kecamatan_id,
                 kecamatanIdPenyewa.kecamatan_id,
-                (dataSingleIklan.berat * 1000).toString()
+                (dataSingleIklan.berat * 1000).toString(),
+                dataSingleIklan.width,
+                dataSingleIklan.height,
+                dataSingleIklan.dimension
             )
 
             const reMappingOngkir = cekHarga && cekHarga.map((data : any) => {
@@ -41,9 +44,6 @@ const FormSelectKurir : React.FC<{
         }
         getPrice()
     }, [pilihKurir])
-
-    console.log(pilihKurir)
-
     return (
         <div>
             <TextTitleSection text='kurir'/>
