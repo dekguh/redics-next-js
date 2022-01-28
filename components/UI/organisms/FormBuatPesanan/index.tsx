@@ -32,8 +32,6 @@ const FormBuatPesanan : React.FC<{
         dataSingleIklan && getBookedDate(pesananIklanId)
     }, [dataSingleIklan])
 
-    console.log(listBookedDate)
-
     return (
         <div className='p-4'>
             <HeadingButtonBack
@@ -64,7 +62,10 @@ const FormBuatPesanan : React.FC<{
 
             <div className='border-t border-gray-300 my-5'></div>
 
-            <FormSelectKurir />
+            <FormSelectKurir
+                billingPemilik={billingPemilik}
+                billingPenyewa={billingPenyewa}
+            />
 
             <div className='border-t border-gray-300 my-5'></div>
 

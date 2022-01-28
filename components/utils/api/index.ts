@@ -283,3 +283,49 @@ export async function apigetBookedDateIklan(iklanId: number | undefined) : Promi
         return err.response
     }
 }
+
+export async function getKecamatanIdOngkir(kecamatan : string, kabupatenId : number) {
+    try {
+        const response = await Api.post(`/get-kecamatan-id-ongkir`, {
+            kabupatenId,
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        const result = response.data.rajaongkir.results
+        const getId = result && result.filter((data : any) => data.subdistrict_name.toLowerCase() == kecamatan.toLowerCase())
+        if(getId.length <= 0) return null
+        return {
+            provinsi_id: getId[0].province_id,
+            kabupaten_id: getId[0].city_id,
+            kecamatan_id: getId[0].subdistrict_id,
+
+        }
+    } catch(err : any) {
+        return err
+    }
+}
+
+export async function getPriceOngkir(
+    kurir : string,
+    kecamatanOrigin : string,
+    kecamatanDestination : string,
+    weight : string,
+) {
+    try {
+        const response = await Api.post('/cek-ongkir', {
+            courier : kurir,
+            kecamatanOrigin,
+            kecamatanDestination,
+            weight, // in grams
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data.rajaongkir.results
+    } catch(err : any) {
+        return err
+    }
+}
