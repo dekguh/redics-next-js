@@ -65,6 +65,7 @@ const FormBuatPesanan : React.FC<{
             <FormSelectKurir
                 billingPemilik={billingPemilik}
                 billingPenyewa={billingPenyewa}
+                dataSingleIklan={dataSingleIklan}
             />
 
             <div className='border-t border-gray-300 my-5'></div>

@@ -56,8 +56,11 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
                 kecamatan: response.kecamatan,
                 pricePerDay: response.pricePerDay,
                 thumbnailURL: response.thumbnail.url,
-                statusIklan: response.statusIklan
-
+                statusIklan: response.statusIklan,
+                berat: response.berat,
+                height: response.height,
+                width: response.width,
+                diameter: response.diameter,
             })
             setIsHaveId(true)
         }
@@ -92,6 +95,7 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
         const uploaded = async () => {
             const response : any = await apiUpdateIklanByJwt(localStorage.getItem('jwt'), dataCurrent, selectedImage, latestThumbnailId)
             setIsLoading(false)
+            console.log(response)
 
             if(response.id) {
                 actGetListMyIklan()
@@ -104,7 +108,11 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
                     kecamatan: response.kecamatan,
                     pricePerDay: response.pricePerDay,
                     thumbnailURL: response.thumbnail.url,
-                    statusIklan: response.statusIklan
+                    statusIklan: response.statusIklan,
+                    berat: response.berat,
+                    height: response.height,
+                    width: response.width,
+                    diameter: response.diameter,
                 })
                 return setValidation({
                     type: 'success',
@@ -243,6 +251,48 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
                     defaultValue={dataCurrent.deskripsi}
                     required={true}
                     onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({ ...dataCurrent, deskripsi: e.target.value })}
+                />
+
+                <FormInput
+                    label='berat barang (kg)'
+                    placeholder='ex: 1'
+                    classes='mb-2'
+                    inputType='number'
+                    defaultValue={dataCurrent.berat}
+                    required={true}
+                    onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({ ...dataCurrent, berat: e.target.value })}
+                />
+
+                <div className='flex flex-row flex-nowrap mb-3'>
+                    <FormInput
+                        label='tinggi (cm)'
+                        placeholder='ex: 100'
+                        classes='mb-2 w-2/4 pr-1'
+                        inputType='number'
+                        defaultValue={dataCurrent.height}
+                        required={true}
+                        onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({ ...dataCurrent, height: e.target.value })}
+                    />
+
+                    <FormInput
+                        label='panjang (cm)'
+                        placeholder='ex: 100'
+                        classes='mb-2 w-2/4 pl-1'
+                        inputType='number'
+                        defaultValue={dataCurrent.width}
+                        required={true}
+                        onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({ ...dataCurrent, width: e.target.value })}
+                    />
+                </div>
+
+                <FormInput
+                    label='diameter (cm)'
+                    placeholder='ex: 500'
+                    classes='mb-2'
+                    inputType='number'
+                    defaultValue={dataCurrent.diameter}
+                    required={true}
+                    onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({ ...dataCurrent, diameter: e.target.value })}
                 />
 
                 <FormButton text={isLoading ? 'Proses...' : 'update iklan'} type='submit' />

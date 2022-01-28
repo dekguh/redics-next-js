@@ -42,7 +42,11 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
         phone: billing?.phone,
         statusIklan: true,
         pricePerDay: 0,
-        totalView: 0
+        totalView: 0,
+        berat: 0,
+        height: 0,
+        width: 0,
+        diameter: 0
 
     })
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -192,6 +196,44 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
                         classes='mb-3'
                         onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, deskripsi: e.target.value })}
                     />
+
+                    <FormInput
+                        label='berat barang (kg)'
+                        placeholder='ex: 1'
+                        classes='mb-2'
+                        inputType='number'
+                        required={true}
+                        onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, berat: e.target.value })}
+                    />
+
+                <div className='flex flex-row flex-nowrap mb-3'>
+                    <FormInput
+                        label='tinggi (cm)'
+                        placeholder='ex: 100'
+                        classes='mb-2 w-2/4 pr-1'
+                        inputType='number'
+                        required={true}
+                        onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, height: e.target.value })}
+                    />
+
+                    <FormInput
+                        label='panjang (cm)'
+                        placeholder='ex: 100'
+                        classes='mb-2 w-2/4 pl-1'
+                        inputType='number'
+                        required={true}
+                        onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, width: e.target.value })}
+                    />
+                </div>
+
+                <FormInput
+                    label='diameter (cm)'
+                    placeholder='ex: 500'
+                    classes='mb-2'
+                    inputType='number'
+                    required={true}
+                    onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, diameter: e.target.value })}
+                />
 
                     <FormButton
                         text={isLoading ? 'Proses...' : 'buat iklan'}

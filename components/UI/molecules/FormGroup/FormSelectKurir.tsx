@@ -4,10 +4,12 @@ import { getKabupatenIdOngkir } from '../../../utils/other'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import FormSelect from './FormSelect'
 
+// todo implement dimension ongkir
 const FormSelectKurir : React.FC<{
     billingPemilik?: any;
     billingPenyewa?: any;
-}> = ({ billingPemilik, billingPenyewa }) => {
+    dataSingleIklan?: any;
+}> = ({ billingPemilik, billingPenyewa, dataSingleIklan }) => {
     const [listLayanan, setListLayanan] = useState<any>(null)
     const [pilihKurir, setPilihKurir] = useState<string | null>(null)
 
@@ -19,11 +21,11 @@ const FormSelectKurir : React.FC<{
             const kecamatanIdPemilik = kabupatenidPemilik && await getKecamatanIdOngkir(billingPemilik.kecamatan, kabupatenidPemilik.kabupatenId)
             const kecamatanIdPenyewa = kabupatenidPenyewa && await getKecamatanIdOngkir(billingPenyewa.kecamatan, kabupatenidPenyewa.kabupatenId)
 
-            const cekHarga = (kecamatanIdPemilik && kecamatanIdPenyewa && pilihKurir) && await getPriceOngkir(
+            const cekHarga = (dataSingleIklan && kecamatanIdPemilik && kecamatanIdPenyewa && pilihKurir) && await getPriceOngkir(
                 pilihKurir,
                 kecamatanIdPemilik.kecamatan_id,
                 kecamatanIdPenyewa.kecamatan_id,
-                '1000'
+                (dataSingleIklan.berat * 1000).toString()
             )
 
             const reMappingOngkir = cekHarga && cekHarga.map((data : any) => {
