@@ -71,6 +71,10 @@ const FormSelectKurir : React.FC<{
             />
 
             {listLayanan && (<FormSelect
+                defaultVal={{
+                    value: '',
+                    text: 'pilih layanan',
+                }}
                 label='pilih layanan'
                 classes='mt-3'
                 list={listLayanan && listLayanan[0].listLayanan.map((data : any) => ({
