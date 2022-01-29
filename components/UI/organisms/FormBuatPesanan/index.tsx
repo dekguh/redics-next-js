@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, useEffect } from 'react'
-import { apigetBookedDateIklan, apiGetOwnIklanBilling } from '../../../utils/api'
+import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked } from '../../../utils/api'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormSelectDate from '../../molecules/FormGroup/FormSelectDate'
@@ -7,6 +7,7 @@ import FormSelectKurir from '../../molecules/FormGroup/FormSelectKurir'
 import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
 import CalendarBooked from '../../molecules/other/CalendarBooked'
+import BoxAlert from '../BoxAlert'
 
 const FormBuatPesanan : React.FC<{
     dataSingleIklan?: any;
@@ -15,6 +16,12 @@ const FormBuatPesanan : React.FC<{
 }> = ({ dataSingleIklan, billingPenyewa, pesananIklanId }) => {
     const [billingPemilik, setBillingPemilik] = useState<any>()
     const [listBookedDate, setListBookedDate] = useState<any>()
+    const [tanggalMulai, setTanggalMulai] = useState<string | null>(null)
+    const [tanggalAkhir, setTanggalAkhir] = useState<string | null>(null)
+    const [messageTanggal, setMessageTanggal] = useState<any>({
+        message: '',
+        status: false
+    })
 
     const getOwnIklanBilling = async (id : number) => {
         const response = await apiGetOwnIklanBilling(id)
@@ -27,10 +34,30 @@ const FormBuatPesanan : React.FC<{
         setListBookedDate(getDateOnly)
     }
 
+    const checkDateIsBooked = async (
+        mulai: string,
+        akhir: string
+    ) => { /// diubah yang kedua tidak work (bug)
+        const response = await checkDateHadBooked(
+            mulai,
+            akhir,
+            pesananIklanId
+        )
+        console.log(response)
+        setMessageTanggal(response)
+    }
+
     useEffect(() => {
         dataSingleIklan && getOwnIklanBilling(dataSingleIklan.user.id)
         dataSingleIklan && getBookedDate(pesananIklanId)
     }, [dataSingleIklan])
+
+    useEffect(() => {
+        (tanggalMulai && tanggalAkhir) && checkDateIsBooked(
+            tanggalMulai,
+            tanggalAkhir
+        )
+    }, [tanggalMulai, tanggalAkhir])
 
     return (
         <div className='p-4'>
@@ -51,12 +78,28 @@ const FormBuatPesanan : React.FC<{
                 />
             </div>
 
+            {(messageTanggal.status == false && messageTanggal.message.length >= 1) && (
+                <BoxAlert
+                    text={messageTanggal.message}
+                    type='danger'
+                    classes='my-3'
+                />
+            )}
+
+            {messageTanggal.status && (
+                <BoxAlert
+                    text={messageTanggal.message}
+                    type='success'
+                    classes='my-3'
+                />
+            )}
+
             <FormSelectDate
                 onChangeMulai={(e : ChangeEvent<HTMLInputElement>) => {
-                    console.log(e.target.value) // example result: 2022-01-21
+                    setTanggalMulai(e.target.value) // example result: 2022-01-21
                 }}
                 onChangeAkhir={(e : ChangeEvent<HTMLInputElement>) => {
-                    console.log(e.target.value) // example result: 2022-01-21
+                    setTanggalAkhir(e.target.value) // example result: 2022-01-21
                 }}
             />
 

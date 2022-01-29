@@ -335,3 +335,30 @@ export async function getPriceOngkir(
         return err
     }
 }
+
+export async function checkDateHadBooked(
+    tanggalMulai : string | null,
+    tanggalAkhir : string | null,
+    iklan : string | number
+) {
+    try {
+        const response = await Api.post('/check-date-had-booked', {
+            tanggalMulai,
+            tanggalAkhir,
+            iklan
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return {
+            message: response.data.message,
+            status: true
+        }
+    } catch(err : any) {
+        return {
+            message: err.response.data.message,
+            status: false
+        }
+    }
+}

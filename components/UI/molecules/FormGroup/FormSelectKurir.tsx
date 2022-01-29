@@ -74,7 +74,7 @@ const FormSelectKurir : React.FC<{
                 label='pilih layanan'
                 classes='mt-3'
                 list={listLayanan && listLayanan[0].listLayanan.map((data : any) => ({
-                    value: '-',
+                    value: data.harga[0].value,
                     text: `${data.deskripsi} (${data.harga[0].etd} hari) - ${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.harga[0].value)}`
                 }))}
             />)}
