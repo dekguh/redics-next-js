@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react'
 import { getKecamatanIdOngkir, getPriceOngkir } from '../../../utils/api'
 import { getKabupatenIdOngkir } from '../../../utils/other'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
@@ -9,7 +9,8 @@ const FormSelectKurir : React.FC<{
     billingPemilik?: any;
     billingPenyewa?: any;
     dataSingleIklan?: any;
-}> = ({ billingPemilik, billingPenyewa, dataSingleIklan }) => {
+    onChangeLayanan?: ChangeEventHandler;
+}> = ({ billingPemilik, billingPenyewa, dataSingleIklan, onChangeLayanan }) => {
     const [listLayanan, setListLayanan] = useState<any>(null)
     const [pilihKurir, setPilihKurir] = useState<string | null>(null)
 
@@ -78,9 +79,10 @@ const FormSelectKurir : React.FC<{
                 label='pilih layanan'
                 classes='mt-3'
                 list={listLayanan && listLayanan[0].listLayanan.map((data : any) => ({
-                    value: data.harga[0].value,
+                    value: `${pilihKurir} ${data.deskripsi} ${data.harga[0].value}`,
                     text: `${data.deskripsi} (${data.harga[0].etd} hari) - ${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.harga[0].value)}`
                 }))}
+                onChange={onChangeLayanan}
             />)}
         </div>
     )

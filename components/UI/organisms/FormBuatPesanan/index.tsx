@@ -22,6 +22,38 @@ const FormBuatPesanan : React.FC<{
         message: '',
         status: false
     })
+    const [dataPesanan, setDataPesanan] = useState<any>({
+        iklan: null, // id
+        kurir: '-',
+        resiKirim: null,
+        resiPengembalian: null,
+        statusPemesanan: 'menunggu pembayaran',
+        hargaPerHari: 0,
+        hargaTotalDurasi: 0,
+        hargaKurir: 0,
+        totalDenda: 0,
+        userPenyewa: null, // id
+        userPemilik: null, // id
+        billingPenyewa: null, // id
+        billingPemilik: null, // id
+        tanggalMulai: '',
+        tanggalAkhir: ''
+    })
+    const [totalHari, setTotalhari] = useState<number>(0)
+
+    console.log(dataPesanan)
+
+    useEffect(() => {
+        setDataPesanan(({
+            ...dataPesanan,
+            iklan: dataSingleIklan && dataSingleIklan.id, // id
+            userPenyewa: billingPenyewa.user.id, // id
+            userPemilik: dataSingleIklan && dataSingleIklan.user.id, // id
+            billingPenyewa: billingPenyewa.id, // id
+            billingPemilik: billingPemilik && billingPemilik.id, // id
+            hargaPerHari: dataSingleIklan && Number(dataSingleIklan.pricePerDay),
+        }))
+    }, [dataSingleIklan, billingPemilik])
 
     const getOwnIklanBilling = async (id : number) => {
         const response = await apiGetOwnIklanBilling(id)
@@ -57,6 +89,18 @@ const FormBuatPesanan : React.FC<{
             tanggalMulai,
             tanggalAkhir
         )
+
+        if(tanggalMulai && tanggalAkhir) {
+            const mulaiStamp = new Date(`${tanggalMulai}T00:00:00.000Z`).getTime()/1000
+            const akhirStamp = new Date(`${tanggalAkhir}T00:00:00.000Z`).getTime()/1000
+
+            const total = ((akhirStamp - mulaiStamp) + 86400) / 86400
+            setTotalhari(total)
+            setDataPesanan({
+                ...dataPesanan,
+                hargaTotalDurasi: dataSingleIklan.pricePerDay * total
+            })
+        }
     }, [tanggalMulai, tanggalAkhir])
 
     return (
@@ -109,11 +153,29 @@ const FormBuatPesanan : React.FC<{
                 billingPemilik={billingPemilik}
                 billingPenyewa={billingPenyewa}
                 dataSingleIklan={dataSingleIklan}
+                onChangeLayanan={(e : ChangeEvent<HTMLSelectElement>) => {
+                    const splitValue = e.target.value.split(' ')
+                    console.log(splitValue[splitValue.length-1])
+                    setDataPesanan({
+                        ...dataPesanan,
+                        kurir: e.target.value,
+                        hargaKurir: splitValue[splitValue.length-1]
+                    })
+                }}
             />
 
             <div className='border-t border-gray-300 my-5'></div>
 
-            <ListTotalPembayaranPesanan />
+            <ListTotalPembayaranPesanan
+                namaBarang={dataSingleIklan && dataSingleIklan.judul}
+                ongkosKirim={dataPesanan.hargaKurir}
+                totalHari={totalHari}
+                totalBayar={(dataPesanan.hargaKurir > 0 && dataPesanan.hargaTotalDurasi > 0)
+                    ? Number(dataPesanan.hargaKurir) + Number(dataPesanan.hargaTotalDurasi)
+                    : 0
+                }
+                hargaTotalDurasi={dataPesanan.hargaTotalDurasi}
+            />
 
             <div className='border-t border-gray-300 my-5'></div>
 
