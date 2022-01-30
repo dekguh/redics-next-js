@@ -141,9 +141,17 @@ const FormBuatPesanan : React.FC<{
             <FormSelectDate
                 onChangeMulai={(e : ChangeEvent<HTMLInputElement>) => {
                     setTanggalMulai(e.target.value) // example result: 2022-01-21
+                    setDataPesanan({
+                        ...dataPesanan,
+                        tanggalMulai: e.target.value
+                    })
                 }}
                 onChangeAkhir={(e : ChangeEvent<HTMLInputElement>) => {
                     setTanggalAkhir(e.target.value) // example result: 2022-01-21
+                    setDataPesanan({
+                        ...dataPesanan,
+                        tanggalAkhir: e.target.value
+                    })
                 }}
             />
 
