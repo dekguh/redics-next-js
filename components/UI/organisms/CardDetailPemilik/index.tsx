@@ -86,7 +86,7 @@ const CardDetailPemilik : React.FC = () => {
             <div className='border-t border-gray-300 my-5'></div>
 
             <div>
-                <ListTotalPembayaranPesanan />
+                {/* <ListTotalPembayaranPesanan /> */}
             </div>
 
             <div className='border-t border-gray-300 my-5'></div>
