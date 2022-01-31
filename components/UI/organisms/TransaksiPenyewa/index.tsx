@@ -34,7 +34,7 @@ const TransaksiPenyewa : React.FC = () => {
         <div>
             <ul className='list-none mt-4'>
                 {dataPagination.length >= 1 && dataPagination.map((data : any) => (
-                    <li className='mb-3'>
+                    <li className='mb-3' key={data.id}>
                         <CardTransaksi
                             orderId={data.id}
                             statusTransaksi={data.statusPemesanan}
