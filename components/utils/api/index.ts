@@ -362,3 +362,19 @@ export async function checkDateHadBooked(
         }
     }
 }
+
+export async function createPesananByUser(
+    data: any
+) {
+    try {
+        const response = await Api.post('/create-pesanan-by-user',
+        data, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response.data
+    }
+}

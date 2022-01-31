@@ -1,5 +1,6 @@
+import { useRouter } from 'next/router'
 import React, { ChangeEvent, useState, useEffect } from 'react'
-import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked } from '../../../utils/api'
+import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked, createPesananByUser } from '../../../utils/api'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormSelectDate from '../../molecules/FormGroup/FormSelectDate'
@@ -14,6 +15,7 @@ const FormBuatPesanan : React.FC<{
     billingPenyewa?: any;
     pesananIklanId?: any;
 }> = ({ dataSingleIklan, billingPenyewa, pesananIklanId }) => {
+    const Router = useRouter()
     const [billingPemilik, setBillingPemilik] = useState<any>()
     const [listBookedDate, setListBookedDate] = useState<any>()
     const [tanggalMulai, setTanggalMulai] = useState<string | null>(null)
@@ -43,18 +45,6 @@ const FormBuatPesanan : React.FC<{
 
     console.log(dataPesanan)
 
-    useEffect(() => {
-        setDataPesanan(({
-            ...dataPesanan,
-            iklan: dataSingleIklan && dataSingleIklan.id, // id
-            userPenyewa: billingPenyewa.user.id, // id
-            userPemilik: dataSingleIklan && dataSingleIklan.user.id, // id
-            billingPenyewa: billingPenyewa.id, // id
-            billingPemilik: billingPemilik && billingPemilik.id, // id
-            hargaPerHari: dataSingleIklan && Number(dataSingleIklan.pricePerDay),
-        }))
-    }, [dataSingleIklan, billingPemilik])
-
     const getOwnIklanBilling = async (id : number) => {
         const response = await apiGetOwnIklanBilling(id)
         setBillingPemilik(response)
@@ -75,14 +65,35 @@ const FormBuatPesanan : React.FC<{
             akhir,
             pesananIklanId
         )
-        console.log(response)
         setMessageTanggal(response)
+    }
+
+    const createPesanan = async (data : any) => {
+        const response = await createPesananByUser(data)
+        console.log(response)
+        Router.push(`/detail-transaksi-penyewa/${response.id}`)
+    }
+
+    const handleBuatPesanan = () => {
+        createPesanan(dataPesanan)
     }
 
     useEffect(() => {
         dataSingleIklan && getOwnIklanBilling(dataSingleIklan.user.id)
         dataSingleIklan && getBookedDate(pesananIklanId)
     }, [dataSingleIklan])
+
+    useEffect(() => {
+        setDataPesanan(({
+            ...dataPesanan,
+            iklan: dataSingleIklan && dataSingleIklan.id, // id
+            userPenyewa: billingPenyewa.user.id, // id
+            userPemilik: dataSingleIklan && dataSingleIklan.user.id, // id
+            billingPenyewa: billingPenyewa.id, // id
+            billingPemilik: billingPemilik && billingPemilik.id, // id
+            hargaPerHari: dataSingleIklan && Number(dataSingleIklan.pricePerDay),
+        }))
+    }, [dataSingleIklan, billingPemilik])
 
     useEffect(() => {
         (tanggalMulai && tanggalAkhir) && checkDateIsBooked(
@@ -187,7 +198,16 @@ const FormBuatPesanan : React.FC<{
 
             <div className='border-t border-gray-300 my-5'></div>
 
-            <FormButton text='buat pesanan'/>
+            {(dataPesanan.tanggalMulai && dataPesanan.tanggalAkhir && dataPesanan.hargaKurir)
+            ? (
+                <FormButton text='buat pesanan' onClick={handleBuatPesanan}/>
+            )
+            : (
+                <BoxAlert
+                    text='isi semua form untuk membuat pesanan'
+                    type='danger'
+                />
+            )}
         </div>
     )
 }
