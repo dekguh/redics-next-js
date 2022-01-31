@@ -9,7 +9,6 @@ import CardDetailPenyewa from '../organisms/CardDetailPenyewa'
 
 const DetailTransaksiPenyewa : React.FC<IDetailTransaksiPemilik> = ({ orderId }) => {
     const Router = useRouter()
-    console.log(orderId)
 
     useEffect(() => {
         if(orderId === undefined) Router.push('/transaksi')
@@ -23,7 +22,7 @@ const DetailTransaksiPenyewa : React.FC<IDetailTransaksiPemilik> = ({ orderId })
             <PrivateWrapper lastCurrentPage='/transaksi'>
                 <div className='px-5 pt-5 pb-16'>
                     <HeadingButtonBack toPath='/transaksi'/>
-                    <CardDetailPenyewa />
+                    {orderId && (<CardDetailPenyewa orderId={orderId}/>)}
                 </div>
             </PrivateWrapper>
         </>

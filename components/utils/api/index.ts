@@ -378,3 +378,31 @@ export async function createPesananByUser(
         return err.response.data
     }
 }
+
+export async function getListPesananPenyewaByJwt() {
+    try {
+        const response = await Api.post('/get-list-pesanan-penyewa-by-jwt',
+        null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response.data
+    }
+}
+
+export async function getListPesananPemilikByJwt() {
+    try {
+        const response = await Api.post('/get-list-pesanan-pemilik-by-jwt',
+        null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response.data
+    }
+}

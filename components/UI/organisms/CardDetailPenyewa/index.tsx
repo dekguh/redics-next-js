@@ -69,7 +69,10 @@ const TanggalMulaiAhir : React.FC<{
     )
 }
 
-const CardDetailPenyewa : React.FC = () => {
+const CardDetailPenyewa : React.FC<{
+    orderId?: string | number | string[]
+}> = ({ orderId }) => {
+    console.log(orderId)
     return (
         <div>
             <div className='flex flex-row flex-nowrap mt-5'>
