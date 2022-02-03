@@ -1,8 +1,9 @@
 import React from 'react'
 import Countdown, { CountdownRendererFn } from 'react-countdown'
+import { CountdownTimeDeltaFn } from 'react-countdown/dist/Countdown';
 
 // Random component
-const Completionist = () => <span>You are good to go!</span>
+const Completionist = () => <div className='text-center mb-2'>waktu berakhir</div>
 
 // Renderer callback with condition
 const renderer : CountdownRendererFn | undefined = ({ hours, minutes, seconds, completed }) => {
@@ -28,12 +29,16 @@ const renderer : CountdownRendererFn | undefined = ({ hours, minutes, seconds, c
   }
 };
 
-const CustomCountdown : React.FC = () => {
+const CustomCountdown : React.FC<{
+  dateCreated: any;
+  onComplete?: CountdownTimeDeltaFn;
+}> = ({ dateCreated, onComplete }) => {
   return (
       <div>
           <Countdown
-          date={Date.now() + 500000}
+            date={new Date(dateCreated).getTime() + 7200000} // 7200000 = 2 hour
             renderer={renderer}
+            onComplete={onComplete}
           />
       </div>
   )

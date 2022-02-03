@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { MouseEventHandler, useEffect, useState } from 'react'
+import { batalkanPesananById, getSingleDataPesananById } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
 import CustomCountdown from '../../molecules/other/CustomCountdown'
+import BoxAlert from '../BoxAlert'
 
-const MenungguPembayaranPenyewa : React.FC = () => {
+/** todo (menunggu pembayaran)
+ * - auto pesanan "dibatalkan" ketika countdown berakhir (done)
+ * - button batalkan pesanan (done)
+ * - integrasi pembayaran midtrans
+ */
+
+const MenungguPembayaranPenyewa : React.FC<{
+    onClickBayar?: MouseEventHandler;
+    onClickBatalkan?: MouseEventHandler;
+    dateCreated?: any;
+    onComplete?: any;
+}> = ({ onClickBayar, onClickBatalkan, dateCreated, onComplete }) => {
     return(
         <div>
             <div className='mb-3'>
-                <CustomCountdown />
+                <CustomCountdown
+                    dateCreated={dateCreated}
+                    onComplete={onComplete}
+                />
             </div>
-            <FormButton text='bayar sekarang' classes='mb-3'/>
-            <FormButton text='batalkan pesanan' classes='mb-3'/>
+            <FormButton text='bayar sekarang' classes='mb-3' onClick={onClickBayar}/>
+            <FormButton text='batalkan pesanan' classes='mb-3' onClick={onClickBatalkan}/>
         </div>
     )
 }
@@ -27,7 +43,7 @@ const FormInputResiPengembalian : React.FC = () => {
     )
 }
 
-const MenungguDikirim : React.FC = () => {
+const BarangDikirim : React.FC = () => {
     return(
         <div>
             <TextTitleSection text='Pengiriman'/>
@@ -70,59 +86,147 @@ const TanggalMulaiAhir : React.FC<{
 }
 
 const CardDetailPenyewa : React.FC<{
-    orderId?: string | number | string[]
-}> = ({ orderId }) => {
-    console.log(orderId)
+    orderId?: string | number | string[] }> = ({ orderId }) => {
+    const [dataPesanan, setDataPesanan] = useState<any>()
+
+    const getSingleData = async (id : string | number | string[]) => {
+        const response = await getSingleDataPesananById(id)
+        setDataPesanan(response)
+    }
+
+    const batalkanPesanan = async () => {
+        const response = orderId && await batalkanPesananById(orderId)
+        setDataPesanan(response)
+    }
+
+    useEffect(() => {
+        if(orderId) {
+            getSingleData(orderId)
+        }
+    }, [orderId])
+
+    useEffect(() => {
+        if(dataPesanan) {
+            const datePlus2Hour = (new Date(dataPesanan.created_at).getTime()/1000) + 7200
+            const currentTime = Date.now()
+
+            if(currentTime > datePlus2Hour) { // waktu sekarang melewati waktu pembuat + 2 jam
+                batalkanPesanan()
+            }
+        }
+    }, [dataPesanan])
+
+    console.log(dataPesanan)
     return (
         <div>
             <div className='flex flex-row flex-nowrap mt-5'>
-                <h2 className='border-r border-gray-300 pr-5'>#12345</h2>
-                <span className='ml-5'>menunggu pembayaran</span>
+                <h2 className='border-r border-gray-300 pr-5'>#{dataPesanan ? dataPesanan.id : '-'}</h2>
+                <span className='ml-5'>{dataPesanan && dataPesanan.statusPemesanan}</span>
             </div>
 
             <div className='mb-4'>
-                <CardBillingPesanan />
-            </div>
-
-            <div className='border-t border-gray-300 my-5'></div>
-
-            <div>
-                <TextTitleSection text='kurir'/>
-                <p className='mt-3'>JNE - YES</p>
-            </div>
-
-            <div className='border-t border-gray-300 my-5'></div>
-
-            <div>
-                {/* <ListTotalPembayaranPesanan /> */}
-            </div>
-
-            <div className='border-t border-gray-300 my-5'></div>
-
-            <div>
-                <MenungguPembayaranPenyewa />
-            </div>
-
-            <div className='border-t border-gray-300 my-5'></div>
-
-            <div>
-                <MenungguDikirim />
-            </div>
-
-            <div className='border-t border-gray-300 my-5'></div>
-
-            <div>
-                <TanggalMulaiAhir
-                    mulai='22'
-                    akhir='23'
+                <CardBillingPesanan
+                    billingPemilik={dataPesanan && dataPesanan.billingPemilik}
+                    billingPenyewa={dataPesanan && dataPesanan.billingPenyewa}
                 />
             </div>
 
             <div className='border-t border-gray-300 my-5'></div>
 
             <div>
-                <FormInputResiPengembalian />
+                <TextTitleSection text='kurir'/>
+                <p className='mt-3'>{dataPesanan && dataPesanan.kurir}</p>
             </div>
+
+            {(dataPesanan && dataPesanan.tanggalSewa.length >= 1) && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <TanggalMulaiAhir
+                        mulai={dataPesanan && dataPesanan.tanggalSewa[0].mulai}
+                        akhir={dataPesanan && dataPesanan.tanggalSewa[0].akhir}
+                    />
+                </div>
+            </>)}
+
+            <div className='border-t border-gray-300 my-5'></div>
+
+            <div>
+                <ListTotalPembayaranPesanan
+                    namaBarang={dataPesanan && dataPesanan.iklan.judul}
+                    ongkosKirim={dataPesanan && dataPesanan.hargaKurir}
+                    totalHari={dataPesanan && dataPesanan.hargaTotalDurasi/dataPesanan.hargaPerHari}
+                    totalBayar={dataPesanan && Number(dataPesanan.hargaKurir) + Number(dataPesanan.hargaTotalDurasi)}
+                    hargaTotalDurasi={dataPesanan && dataPesanan.hargaTotalDurasi}
+                />
+            </div>
+
+
+            {(dataPesanan && dataPesanan.statusPemesanan) == 'menunggu pembayaran' && (
+            <>
+            <div className='border-t border-gray-300 my-5'></div>
+
+            <div>
+                <MenungguPembayaranPenyewa
+                    onClickBatalkan={() => {
+                        batalkanPesanan()
+                    }}
+                    dateCreated={dataPesanan && dataPesanan.created_at}
+                    onComplete={() => {
+                        batalkanPesanan()
+                    }}
+                />
+            </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'menunggu dikirim') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    menunggu dikirim
+                </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'barang dikirim') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <BarangDikirim />
+                </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'telah sampai') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    telah sampai
+                </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'menunggu dikembalikan') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <FormInputResiPengembalian />
+                </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'dibatalkan') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <BoxAlert
+                        type='danger'
+                        text='pesananan anda sudah dibatalkan'
+                    />
+                </div>
+            </>)}
         </div>
     )
 }

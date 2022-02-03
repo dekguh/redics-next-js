@@ -406,3 +406,31 @@ export async function getListPesananPemilikByJwt() {
         return err.response.data
     }
 }
+
+export async function getSingleDataPesananById(id : string | number | string[]) {
+    try {
+        const response = await Api.get(`/get-single-data-pesanan/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response.data
+    }
+}
+
+export async function batalkanPesananById(id : string | number | string[]) {
+    try {
+        const response = await Api.put('/batalkan-status-pesanan', {
+            pesanan: id
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return err.response.data
+    }
+}
