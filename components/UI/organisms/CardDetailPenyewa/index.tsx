@@ -106,11 +106,14 @@ const CardDetailPenyewa : React.FC<{
     }, [orderId])
 
     useEffect(() => {
-        if(dataPesanan) {
-            const datePlus2Hour = (new Date(dataPesanan.created_at).getTime()/1000) + 7200
-            const currentTime = Date.now()
+        if(dataPesanan && dataPesanan.statusPemesanan == 'menunggu pembayaran') {
+            const datePlus2Hour = (new Date(dataPesanan.created_at).getTime()+7200000)/1000
+            const currentTime = Date.now()/1000
 
-            if(currentTime > datePlus2Hour) { // waktu sekarang melewati waktu pembuat + 2 jam
+            console.log({ datePlus2Hour, currentTime })
+            console.log(datePlus2Hour <= currentTime)
+
+            if(datePlus2Hour <= currentTime) { // waktu sekarang melewati waktu pembuat + 2 jam
                 batalkanPesanan()
             }
         }
