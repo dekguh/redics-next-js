@@ -434,3 +434,49 @@ export async function batalkanPesananById(id : string | number | string[]) {
         return err.response.data
     }
 }
+
+export async function buatPembayaran(data : any) {
+    const response = await axios.post('https://redics-payment.herokuapp.com/buat-pembayaran', {
+        method: data.method,
+        merchant_ref: data.merchant_ref,
+        amount: data.amount,
+        customer_name: data.customer_name,
+        customer_email: data.customer_email,
+        customer_phone: data.customer_phone,
+        order_items: [
+            {
+                sku: data.order_items.sku,
+                name: data.order_items.name,
+                price: data.order_items.price,
+                quantity: data.order_items.quantity,
+                product_url: data.order_items.product_url,
+                image_url: data.order_items.image_url
+            }
+        ],
+        return_url: data.return_url
+    })
+    return response.data
+}
+
+export async function detailPembayaran(payment_reference?: any) {
+    const response = await axios.post('https://redics-payment.herokuapp.com/detail-pembayaran', {
+        reference: payment_reference
+    })
+    return response.data
+}
+
+export async function updateReferencePayment(id?: string | number | string[], payment_reference?: any) {
+    try {
+        const response = await Api.put('/update-payment-reference', {
+            pesanan: id,
+            payment_reference: payment_reference,
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err) {
+        return err
+    }
+}

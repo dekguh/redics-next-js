@@ -1,17 +1,20 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react'
-import { batalkanPesananById, getSingleDataPesananById } from '../../../utils/api'
+import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
+import { batalkanPesananById, buatPembayaran, detailPembayaran, getSingleDataPesananById, updateReferencePayment } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
+import FormSelect from '../../molecules/FormGroup/FormSelect'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
 import CustomCountdown from '../../molecules/other/CustomCountdown'
 import BoxAlert from '../BoxAlert'
+import parse from 'html-react-parser'
 
 /** todo (menunggu pembayaran)
  * - auto pesanan "dibatalkan" ketika countdown berakhir (done)
  * - button batalkan pesanan (done)
- * - integrasi pembayaran midtrans
+ * - integrasi pembayaran tripay
+ * - membuat callback ketika berhasil membayar
  */
 
 const MenungguPembayaranPenyewa : React.FC<{
@@ -19,17 +22,101 @@ const MenungguPembayaranPenyewa : React.FC<{
     onClickBatalkan?: MouseEventHandler;
     dateCreated?: any;
     onComplete?: any;
-}> = ({ onClickBayar, onClickBatalkan, dateCreated, onComplete }) => {
+    onChangeListPembayaran?: ChangeEventHandler;
+    dataPesanan?: any;
+}> = ({ onClickBayar, onClickBatalkan, dateCreated, onComplete, onChangeListPembayaran, dataPesanan }) => {
+    const [dataPembayaran, setDatapembayaran] = useState<any>()
+
+    useEffect(() => {
+        const getDetailPembayaran = async () => {
+            const response = await detailPembayaran(dataPesanan.payment_reference)
+            setDatapembayaran(response.data)
+        }
+
+        if(dataPesanan.payment_reference) {
+            getDetailPembayaran()
+        }
+    }, [dataPesanan])
+
     return(
         <div>
-            <div className='mb-3'>
-                <CustomCountdown
-                    dateCreated={dateCreated}
-                    onComplete={onComplete}
-                />
-            </div>
-            <FormButton text='bayar sekarang' classes='mb-3' onClick={onClickBayar}/>
-            <FormButton text='batalkan pesanan' classes='mb-3' onClick={onClickBatalkan}/>
+            {dataPesanan && (
+            <>
+                <div className='mb-3'>
+                    <CustomCountdown
+                        dateCreated={dateCreated}
+                        onComplete={onComplete}
+                    />
+                </div>
+                {!dataPesanan.payment_reference && (
+                <>
+                    <FormSelect
+                        onChange={onChangeListPembayaran}
+                        classes='mb-3'
+                        list={[
+                            {
+                                text: 'BRI',
+                                value: 'BRIVA'
+                            },
+                            {
+                                text: 'Mandiri',
+                                value: 'MANDIRIVA'
+                            },
+                            {
+                                text: 'BCA',
+                                value: 'BCAVA'
+                            },
+                            {
+                                text: 'Cimb Niaga',
+                                value: 'CIMBVA'
+                            },
+                            {
+                                text: 'Alfamart',
+                                value: 'ALFAMART'
+                            },
+                            {
+                                text: 'Indomaret',
+                                value: 'INDOMARET'
+                            },
+                            {
+                                text: 'OVO',
+                                value: 'OVO'
+                            },
+                            {
+                                text: 'QRIS - Shopee',
+                                value: 'QRIS'
+                            }
+                        ]}
+                        defaultVal={{
+                            text: 'Pilih Pembayaran',
+                            value: '-'
+                        }}
+                    />
+                    <FormButton text='bayar sekarang' classes='mb-3' onClick={onClickBayar}/>
+                </>
+                )}
+
+                {dataPembayaran && (
+                <div>
+                    <a href={dataPembayaran.checkout_url}>
+                        <FormButton text='bayar disini' classes='mb-3'/>
+                    </a>
+                    {/*dataPembayaran.instructions.map((data : any, i : any) => (
+                    <div className='mb-4'>
+                        <h2>{data.title}</h2>
+                        <div className='w-7 h-1 bg-blue-500 my-2'></div>
+                        <ul key={i}>
+                            {data.steps.map((step : any, j : any) => (
+                                <li key={j} className='mb-1'>{j+1}. {parse(step)}</li>
+                            ))}
+                        </ul>
+                    </div>
+                    ))*/}
+                </div>)}
+
+                <FormButton text='batalkan pesanan' classes='mb-3' onClick={onClickBatalkan}/>
+            </>
+        )}
         </div>
     )
 }
@@ -88,6 +175,7 @@ const TanggalMulaiAhir : React.FC<{
 const CardDetailPenyewa : React.FC<{
     orderId?: string | number | string[] }> = ({ orderId }) => {
     const [dataPesanan, setDataPesanan] = useState<any>()
+    const [paymentMethod, setPaymentMethod] = useState<any>()
 
     const getSingleData = async (id : string | number | string[]) => {
         const response = await getSingleDataPesananById(id)
@@ -110,16 +198,11 @@ const CardDetailPenyewa : React.FC<{
             const datePlus2Hour = (new Date(dataPesanan.created_at).getTime()+7200000)/1000
             const currentTime = Date.now()/1000
 
-            console.log({ datePlus2Hour, currentTime })
-            console.log(datePlus2Hour <= currentTime)
-
             if(datePlus2Hour <= currentTime) { // waktu sekarang melewati waktu pembuat + 2 jam
                 batalkanPesanan()
             }
         }
     }, [dataPesanan])
-
-    console.log(dataPesanan)
     return (
         <div>
             <div className='flex flex-row flex-nowrap mt-5'>
@@ -179,6 +262,34 @@ const CardDetailPenyewa : React.FC<{
                     onComplete={() => {
                         batalkanPesanan()
                     }}
+                    onChangeListPembayaran={(e : ChangeEvent<HTMLSelectElement>) => {
+                        setPaymentMethod(e.target.value)
+                    }}
+                    onClickBayar={() => {
+                        const pembayaran = async () => {
+                            const response = await buatPembayaran({
+                                method: paymentMethod,
+                                merchant_ref: dataPesanan.id,
+                                amount: Number(dataPesanan.hargaKurir) + Number(dataPesanan.hargaTotalDurasi),
+                                customer_name: dataPesanan.billingPenyewa.nama,
+                                customer_email: dataPesanan.userPenyewa.email,
+                                customer_phone: dataPesanan.billingPenyewa.phone,
+                                order_items: {
+                                    sku: '',
+                                    name: dataPesanan.iklan.judul,
+                                    price: Number(dataPesanan.hargaKurir) + Number(dataPesanan.hargaTotalDurasi),
+                                    quantity: '1',
+                                    product_url: '',
+                                    image_url: ''
+                                },
+                                return_url: ''
+                            })
+                            const updateReference = await updateReferencePayment(orderId, response.data.reference)
+                            setDataPesanan(updateReference)
+                        }
+                        pembayaran()
+                    }}
+                    dataPesanan={dataPesanan}
                 />
             </div>
             </>)}

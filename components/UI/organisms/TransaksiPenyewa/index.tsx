@@ -26,10 +26,8 @@ const TransaksiPenyewa : React.FC = () => {
             const sliceData = dataListPesanan.slice(currentPage * perPage, currentPage <= 0 ? perPage : (perPage * currentPage) + perPage)
             setDataPagination(sliceData)
         }
-        if(dataListPesanan.length === 1) setDataPagination(dataListPesanan)
+        if(dataListPesanan.length <= 2) setDataPagination(dataListPesanan)
     }, [dataListPesanan, currentPage])
-
-    console.log(dataListPesanan)
     return (
         <div>
             <ul className='list-none mt-4'>
