@@ -330,7 +330,10 @@ const CardDetailPenyewa : React.FC<{
                 <div className='border-t border-gray-300 my-5'></div>
 
                 <div>
-                    telah sampai
+                    <BoxAlert
+                        type='information'
+                        text={`barang sudah telah sampai, batas tanggal pengembalian adalah ${new Date(new Date(`${dataPesanan.tanggalSewa[0].akhir}T00:00:00.000Z`).getTime() + (86400000 * 2)).toISOString().substring(0, 10)}`}
+                    />
                 </div>
             </>)}
 
