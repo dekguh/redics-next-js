@@ -168,6 +168,8 @@ const FormBuatPesanan : React.FC<{
                 }}
             />
 
+            <p className='mt-2 text-xs text-gray-700'>catatan: pilih tanggal yang sesuai karena pengiriman barang membutuhkan waktu beberapa hari.</p>
+
             <div className='border-t border-gray-300 my-5'></div>
 
             <FormSelectKurir
