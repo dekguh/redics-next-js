@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
-import { batalkanPesananById, buatPembayaran, detailPembayaran, getSingleDataPesananById, updateReferencePayment } from '../../../utils/api'
+import { batalkanPesananById, buatPembayaran, detailPembayaran, getSingleDataPesananById, updateReferencePayment, updateStatusPesananByid } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -120,22 +120,26 @@ const FormInputResiPengembalian : React.FC = () => {
     )
 }
 
-const BarangDikirim : React.FC = () => {
+const BarangDikirim : React.FC<{
+    resi?: string;
+    onClickKonfirmasi?: MouseEventHandler;
+    isLoading?: boolean;
+}> = ({ resi, onClickKonfirmasi, isLoading }) => {
     return(
         <div>
             <TextTitleSection text='Pengiriman'/>
 
             <div className='border border-gray-200 rounded flex flex-row flex-nowrap items-center p-2 mt-3'>
-                <span className='flex-grow flex-shrink pr-5 text-lg'>TRX12345667890</span>
+                <span className='flex-grow flex-shrink pr-5 text-lg'>{resi ? resi : '-'}</span>
                 <div>
-                    <FormButton text='copy' onClick={() => {
-                        navigator.clipboard.writeText('TRX12345667890')
+                    <FormButton text='salin' onClick={() => {
+                        navigator.clipboard.writeText(resi ? resi : '')
                     }}/>
                 </div>
             </div>
 
             <div className='mt-4'>
-                <FormButton text='barang sampai'/>
+                <FormButton text={isLoading ? 'proses....' : 'barang sampai'} onClick={onClickKonfirmasi}/>
             </div>
         </div>
     )
@@ -305,7 +309,19 @@ const CardDetailPenyewa : React.FC<{
                 <div className='border-t border-gray-300 my-5'></div>
 
                 <div>
-                    <BarangDikirim />
+                    <BarangDikirim
+                        resi={dataPesanan.resiKirim}
+                        onClickKonfirmasi={() => {
+                            const updateKonfirmasiStatus = async () => {
+                                setIsLoadingBayar(true)
+                                const response = await updateStatusPesananByid(dataPesanan.id, 'telah sampai')
+                                setIsLoadingBayar(false)
+                                setDataPesanan(response)
+                            }
+                            updateKonfirmasiStatus()
+                        }}
+                        isLoading={isLoadingBayar}
+                    />
                 </div>
             </>)}
 

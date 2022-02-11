@@ -496,3 +496,19 @@ export async function checkExpiredPesananByIklanid(id?: string | number | string
         console.log(err)
     }
 }
+
+export async function updateStatusPesananByid(id?: string | number | string[], statusPemesanan?: string) {
+    try {
+        const response = await Api.post(`/update-status-pesanan`, {
+            pesanan: id,
+            statusPemesanan,
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
