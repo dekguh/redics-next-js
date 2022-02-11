@@ -293,7 +293,10 @@ const CardDetailPenyewa : React.FC<{
                 <div className='border-t border-gray-300 my-5'></div>
 
                 <div>
-                    menunggu dikirim
+                    <BoxAlert
+                        type='information'
+                        text='barang sedang disiapkan untuk dikirim segera, mohon ditunggu.'
+                    />
                 </div>
             </>)}
 

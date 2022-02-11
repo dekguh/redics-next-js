@@ -1,5 +1,5 @@
 import React, { ChangeEvent, MouseEvent, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { apiUpdateBillingUser, apiUpdatePasswordUser } from '../../../utils/api'
 import { dataListKabupaten, dataListKecamatan, dataListProvinsi } from '../../../utils/data'
 import { RootState } from '../../../utils/redux/store'
@@ -10,7 +10,8 @@ import FormPassword from '../../molecules/FormGroup/FormPassword'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 import BoxAlert from '../BoxAlert'
-import { updateBillingAction } from '../../../utils/redux/user/action'
+import { updateBillingAction, updateIsLoginAction } from '../../../utils/redux/user/action'
+import { useRouter } from 'next/router'
 
 const mapState = (state: RootState) => ({
     billing: state.users.billing
@@ -24,6 +25,7 @@ const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billing, updateBillingAct }) => {
+    const Router = useRouter()
     const [dataUpdate, setDataUpdate] = useState<{}>({
         nama: billing?.nama,
         kecamatan: billing?.kecamatan,
@@ -40,6 +42,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
     const [dataPassword, setDataPassword] = useState<any>({ newPassword: '', oldPassword: '' })
     const [validationPassword, setValidationPassword] = useState<any>({ type: '', message: '' })
     const [isLoadingPassword, setIsLoadingPassword] = useState<boolean>(false)
+    const dispatch = useDispatch()
 
     const handleClickUpdateProfile = (e : MouseEvent<HTMLButtonElement>) : void => {
         setIsLoadingProfile(true)
@@ -158,6 +161,16 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                     text={isLoadingProfile ? 'Proses...' : 'Update Profile'}
                     classes='mb-3'
                     onClick={handleClickUpdateProfile}
+                />
+                <FormButton
+                    text='logout'
+                    classes='mb-3'
+                    onClick={() => {
+                        localStorage.removeItem('jwt')
+                        dispatch(updateIsLoginAction(false))
+                        dispatch(updateBillingAction(null))
+                        Router.push('/login')
+                    }}
                 />
 
                 <p className='leading-tight mb-3 text-gray-500'>catatan: biarkan kosong jika tidak ingin mengganti password</p>
