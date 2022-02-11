@@ -24,7 +24,8 @@ const MenungguPembayaranPenyewa : React.FC<{
     onComplete?: any;
     onChangeListPembayaran?: ChangeEventHandler;
     dataPesanan?: any;
-}> = ({ onClickBayar, onClickBatalkan, dateCreated, onComplete, onChangeListPembayaran, dataPesanan }) => {
+    isLoadingBayar?: boolean;
+}> = ({ onClickBayar, onClickBatalkan, dateCreated, onComplete, onChangeListPembayaran, dataPesanan, isLoadingBayar }) => {
     const [dataPembayaran, setDatapembayaran] = useState<any>()
 
     useEffect(() => {
@@ -92,7 +93,7 @@ const MenungguPembayaranPenyewa : React.FC<{
                             value: '-'
                         }}
                     />
-                    <FormButton text='bayar sekarang' classes='mb-3' onClick={onClickBayar}/>
+                    <FormButton text={isLoadingBayar ? 'proses...' : 'bayar sekarang'} classes='mb-3' onClick={onClickBayar}/>
                 </>
                 )}
 
@@ -101,17 +102,6 @@ const MenungguPembayaranPenyewa : React.FC<{
                     <a href={dataPembayaran.checkout_url}>
                         <FormButton text='bayar disini' classes='mb-3'/>
                     </a>
-                    {/*dataPembayaran.instructions.map((data : any, i : any) => (
-                    <div className='mb-4'>
-                        <h2>{data.title}</h2>
-                        <div className='w-7 h-1 bg-blue-500 my-2'></div>
-                        <ul key={i}>
-                            {data.steps.map((step : any, j : any) => (
-                                <li key={j} className='mb-1'>{j+1}. {parse(step)}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    ))*/}
                 </div>)}
 
                 <FormButton text='batalkan pesanan' classes='mb-3' onClick={onClickBatalkan}/>
@@ -176,6 +166,7 @@ const CardDetailPenyewa : React.FC<{
     orderId?: string | number | string[] }> = ({ orderId }) => {
     const [dataPesanan, setDataPesanan] = useState<any>()
     const [paymentMethod, setPaymentMethod] = useState<any>()
+    const [isLoadingBayar, setIsLoadingBayar] = useState<boolean>(false)
 
     const getSingleData = async (id : string | number | string[]) => {
         const response = await getSingleDataPesananById(id)
@@ -266,6 +257,7 @@ const CardDetailPenyewa : React.FC<{
                         setPaymentMethod(e.target.value)
                     }}
                     onClickBayar={() => {
+                        setIsLoadingBayar(true)
                         const pembayaran = async () => {
                             const response = await buatPembayaran({
                                 method: paymentMethod,
@@ -285,11 +277,13 @@ const CardDetailPenyewa : React.FC<{
                                 return_url: ''
                             })
                             const updateReference = await updateReferencePayment(orderId, response.data.reference)
+                            setIsLoadingBayar(true)
                             setDataPesanan(updateReference)
                         }
                         pembayaran()
                     }}
                     dataPesanan={dataPesanan}
+                    isLoadingBayar={isLoadingBayar}
                 />
             </div>
             </>)}

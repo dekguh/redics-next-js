@@ -480,3 +480,19 @@ export async function updateReferencePayment(id?: string | number | string[], pa
         return err
     }
 }
+
+export async function checkExpiredPesananByIklanid(id?: string | number | string[]) {
+    try {
+        const response = await Api.post(`/check-expired-pesanan`, {
+            iklanId: id
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+
+        return true
+    } catch (err : any) {
+        console.log(err)
+    }
+}

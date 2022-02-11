@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, useState, useEffect } from 'react'
-import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked, createPesananByUser } from '../../../utils/api'
+import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked, checkExpiredPesananByIklanid, createPesananByUser } from '../../../utils/api'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormSelectDate from '../../molecules/FormGroup/FormSelectDate'
@@ -42,8 +42,8 @@ const FormBuatPesanan : React.FC<{
         tanggalAkhir: ''
     })
     const [totalHari, setTotalhari] = useState<number>(0)
+    const [isLoadingBuat, setIsLoadingBuat] = useState<boolean>(false)
 
-    console.log(dataPesanan)
 
     const getOwnIklanBilling = async (id : number) => {
         const response = await apiGetOwnIklanBilling(id)
@@ -51,6 +51,7 @@ const FormBuatPesanan : React.FC<{
     }
 
     const getBookedDate = async (id : number) => {
+        const checkExpiredPesanan = await checkExpiredPesananByIklanid(pesananIklanId)
         const response : any = await apigetBookedDateIklan(id)
         const getDateOnly = response.map((data : any) => new Date(`${data.mulai}T00:00:00.000Z`))
         setListBookedDate(getDateOnly)
@@ -69,8 +70,9 @@ const FormBuatPesanan : React.FC<{
     }
 
     const createPesanan = async (data : any) => {
+        setIsLoadingBuat(true)
         const response = await createPesananByUser(data)
-        console.log(response)
+        setIsLoadingBuat(false)
         Router.push(`/detail-transaksi-penyewa/${response.id}`)
     }
 
@@ -200,7 +202,7 @@ const FormBuatPesanan : React.FC<{
 
             {(dataPesanan.tanggalMulai && dataPesanan.tanggalAkhir && dataPesanan.hargaKurir)
             ? (
-                <FormButton text='buat pesanan' onClick={handleBuatPesanan}/>
+                <FormButton text={isLoadingBuat ? 'proses...' : 'buat pesanan'} onClick={handleBuatPesanan}/>
             )
             : (
                 <BoxAlert

@@ -255,18 +255,19 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
 
                 <FormInput
                     label='berat barang (kg)'
-                    placeholder='ex: 1'
+                    placeholder='1'
                     classes='mb-2'
                     inputType='number'
                     defaultValue={dataCurrent.berat}
                     required={true}
                     onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCurrent({ ...dataCurrent, berat: e.target.value })}
                 />
+                <p className='text-xs mb-2 text-gray-700'>barang dihitung 1kg, 2kg dan kelipatannya</p>
 
                 <div className='flex flex-row flex-nowrap mb-3'>
                     <FormInput
                         label='tinggi (cm)'
-                        placeholder='ex: 100'
+                        placeholder='100 (optional)'
                         classes='mb-2 w-2/4 pr-1'
                         inputType='number'
                         defaultValue={dataCurrent.height}
@@ -276,7 +277,7 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
 
                     <FormInput
                         label='panjang (cm)'
-                        placeholder='ex: 100'
+                        placeholder='100 (optional)'
                         classes='mb-2 w-2/4 pl-1'
                         inputType='number'
                         defaultValue={dataCurrent.width}
@@ -287,7 +288,7 @@ const FormEditMyIklan : React.FC<IFormEditMyIklan & PropsFromRedux> = ({ billing
 
                 <FormInput
                     label='diameter (cm)'
-                    placeholder='ex: 500'
+                    placeholder='100 (optional)'
                     classes='mb-2'
                     inputType='number'
                     defaultValue={dataCurrent.diameter}
