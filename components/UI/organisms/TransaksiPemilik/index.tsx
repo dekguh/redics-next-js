@@ -7,7 +7,7 @@ const TransaksiPemilik : React.FC = () => {
     const [dataListPesanan, setDataListPesanan] = useState<any>([])
     const [dataPagination, setDataPagination] = useState<any>([])
     const [currentPage, setCurrentPage] = useState<number>(0) // 0 = 1
-    const perPage = 2
+    const perPage = 5
 
     const getLatestListPesanan = async () => {
         const response = await getListPesananPemilikByJwt()
