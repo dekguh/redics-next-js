@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
-import { batalkanPesananById, buatPembayaran, detailPembayaran, getSingleDataPesananById, updateReferencePayment, updateStatusPesananByid } from '../../../utils/api'
+import { batalkanPesananById, buatPembayaran, detailPembayaran, getSingleDataPesananById, updateReferencePayment, updateResiPengembalian, updateStatusPesananByid } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -111,11 +111,15 @@ const MenungguPembayaranPenyewa : React.FC<{
     )
 }
 
-const FormInputResiPengembalian : React.FC = () => {
+const FormInputResiPengembalian : React.FC<{
+    onClickResi?: MouseEventHandler;
+    onChangeResi?: ChangeEventHandler;
+    isLoading?: boolean;
+}> = ({ onClickResi, onChangeResi, isLoading }) => {
     return(
         <div>
-            <FormInput placeholder='masukan resi' classes='mb-3' />
-            <FormButton text='update resi' />
+            <FormInput placeholder='masukan resi' classes='mb-3' onChange={onChangeResi}/>
+            <FormButton text={isLoading ? 'proses...' : 'update resi'} onClick={onClickResi}/>
         </div>
     )
 }
@@ -141,6 +145,31 @@ const BarangDikirim : React.FC<{
             <div className='mt-4'>
                 <FormButton text={isLoading ? 'proses....' : 'barang sampai'} onClick={onClickKonfirmasi}/>
             </div>
+        </div>
+    )
+}
+
+const BarangDikembalikan : React.FC<{
+    resi?: string;
+}> = ({ resi }) => {
+    return(
+        <div>
+            <TextTitleSection text='Pengembalian'/>
+
+            <div className='border border-gray-200 rounded flex flex-row flex-nowrap items-center p-2 mt-3'>
+                <span className='flex-grow flex-shrink pr-5 text-lg'>{resi ? resi : '-'}</span>
+                <div>
+                    <FormButton text='salin' onClick={() => {
+                        navigator.clipboard.writeText(resi ? resi : '')
+                    }}/>
+                </div>
+            </div>
+
+
+            <BoxAlert
+                classes='mt-2'
+                text='anda berhasil menginput no resi pengembalian, barang sedang dalam proses.'
+            />
         </div>
     )
 }
@@ -171,6 +200,7 @@ const CardDetailPenyewa : React.FC<{
     const [dataPesanan, setDataPesanan] = useState<any>()
     const [paymentMethod, setPaymentMethod] = useState<any>()
     const [isLoadingBayar, setIsLoadingBayar] = useState<boolean>(false)
+    const [inputResiPengembalian, setInputResiPengembalian] = useState<string>()
 
     const getSingleData = async (id : string | number | string[]) => {
         const response = await getSingleDataPesananById(id)
@@ -342,8 +372,46 @@ const CardDetailPenyewa : React.FC<{
                 <div className='border-t border-gray-300 my-5'></div>
 
                 <div>
-                    <FormInputResiPengembalian />
+                    <FormInputResiPengembalian
+                        onChangeResi={(e : ChangeEvent<HTMLInputElement>) => {
+                            setInputResiPengembalian(e.target.value)
+                        }}
+                        onClickResi={() => {
+                            const updateResi = async () => {
+                                setIsLoadingBayar(true)
+                                const res = await updateResiPengembalian(dataPesanan.id, inputResiPengembalian)
+                                setIsLoadingBayar(false)
+                                setDataPesanan(res)
+                            }
+                            updateResi()
+                        }}
+                        isLoading={isLoadingBayar}
+                    />
+
+                    <div className='mt-2'>
+                        <BoxAlert
+                            type='information'
+                            text={`batas tanggal pengembalian adalah ${new Date(new Date(`${dataPesanan.tanggalSewa[0].akhir}T00:00:00.000Z`).getTime() + (86400000 * 2)).toISOString().substring(0, 10)}, kami menyarankan untuk menggunakan ekspedisi yang sama.`}
+                        />
+                    </div>
                 </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'dikembalikan') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <BarangDikembalikan resi={dataPesanan.resiPengembalian}/>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'selesai') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <BoxAlert
+                    type='information'
+                    text='barang telah dikembalikan dan pesanan telah selesai.'
+                />
             </>)}
 
             {(dataPesanan && dataPesanan.statusPemesanan == 'dibatalkan') && (

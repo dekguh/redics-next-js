@@ -512,3 +512,19 @@ export async function updateStatusPesananByid(id?: string | number | string[], s
         return null
     }
 }
+
+export async function updateResiPengembalian(id?: string | number | string[], resi?: string) {
+    try {
+        const response = await Api.post('/update-resi-pengembalian', {
+            pesanan: id,
+            resiPengembalian: resi,
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
