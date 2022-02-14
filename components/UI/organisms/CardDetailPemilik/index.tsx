@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
-import { batalkanPesananById, getSingleDataPesananById, updateResiDikirim } from '../../../utils/api'
+import { batalkanPesananById, getSingleDataPesananById, updateResiDikirim, updateStatusPesananByid } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -9,13 +9,10 @@ import BoxAlert from '../BoxAlert'
 
 const MenungguPembayaranPemilik : React.FC<{
     onClickBatalkan?: MouseEventHandler;
-    dateCreated?: any;
-    dataPesanan?: any;
-    onComplete?: any;
-}> = ({ onClickBatalkan, dateCreated, dataPesanan, onComplete }) => {
+}> = ({ onClickBatalkan }) => {
     return(
         <div>
-            <FormButton text='batalkan pesanan' classes='mb-3'/>
+            <FormButton text='batalkan pesanan' classes='mb-3' onClick={onClickBatalkan}/>
         </div>
     )
 }
@@ -30,27 +27,6 @@ const FormInputResiPemilik : React.FC<{
             <TextTitleSection text='pengiriman'/>
             <FormInput placeholder='masukan resi' classes='mb-3 mt-3' onChange={onChangeResi}/>
             <FormButton text={isLoadingProses ? 'proses...' : 'update resi'} onClick={onClickResi}/>
-        </div>
-    )
-}
-
-const MenungguDikembalikan : React.FC = () => {
-    return(
-        <div>
-            <TextTitleSection text='pengembalian'/>
-
-            <div className='border border-gray-200 rounded flex flex-row flex-nowrap items-center p-2 mt-3'>
-                <span className='flex-grow flex-shrink pr-5 text-lg'>TRX12345667890</span>
-                <div>
-                    <FormButton text='copy' onClick={() => {
-                        navigator.clipboard.writeText('TRX12345667890')
-                    }}/>
-                </div>
-            </div>
-
-            <div className='mt-4'>
-                <FormButton text='barang dikembalikan'/>
-            </div>
         </div>
     )
 }
@@ -96,6 +72,30 @@ const BarangDikirim : React.FC<{
     )
 }
 
+const BarangDikembalikan : React.FC<{
+    resi?: string;
+    onClickSampai?: MouseEventHandler;
+    isLoadingProses?: boolean;
+}> = ({ resi, onClickSampai, isLoadingProses }) => {
+    return(
+        <div>
+            <TextTitleSection text='Pengembalian'/>
+
+            <div className='border border-gray-200 rounded flex flex-row flex-nowrap items-center p-2 mt-3'>
+                <span className='flex-grow flex-shrink pr-5 text-lg'>{resi ? resi : '-'}</span>
+                <div>
+                    <FormButton text='salin' onClick={() => {
+                        navigator.clipboard.writeText(resi ? resi : '')
+                    }}/>
+                </div>
+            </div>
+
+
+            <FormButton text={isLoadingProses ? 'proses...' : 'barang sampai'} onClick={onClickSampai} classes='mt-2'/>
+        </div>
+    )
+}
+
 const CardDetailPemilik : React.FC<{
     orderId?: string | number | string[] }> = ({ orderId }) => {
      const [dataPesanan, setDataPesanan] = useState<any>()
@@ -117,8 +117,6 @@ const CardDetailPemilik : React.FC<{
             getSingleData(orderId)
         }
     }, [orderId])
-
-    console.log(dataPesanan)
 
     useEffect(() => {
         if(dataPesanan && dataPesanan.statusPemesanan == 'menunggu pembayaran') {
@@ -185,11 +183,6 @@ const CardDetailPemilik : React.FC<{
                     onClickBatalkan={() => {
                         batalkanPesanan()
                     }}
-                    dateCreated={dataPesanan && dataPesanan.created_at}
-                    onComplete={() => {
-                        batalkanPesanan()
-                    }}
-                    dataPesanan={dataPesanan}
                 />
             </div>
             </>)}
@@ -240,12 +233,58 @@ const CardDetailPemilik : React.FC<{
                 </div>
             </>)}
 
+            {(dataPesanan && dataPesanan.statusPemesanan == 'menunggu dikembalikan') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
 
-            <div className='border-t border-gray-300 my-5'></div>
+                <div className='mt-2'>
+                    <BoxAlert
+                        type='information'
+                        text={`batas tanggal pengembalian adalah ${new Date(new Date(`${dataPesanan.tanggalSewa[0].akhir}T00:00:00.000Z`).getTime() + (86400000 * 2)).toISOString().substring(0, 10)}, silahkan hubungi penyewa melalui chat.`}
+                    />
+                </div>
+            </>)}
 
-            <div>
-                <MenungguDikembalikan />
-            </div>
+            {(dataPesanan && dataPesanan.statusPemesanan == 'dikembalikan') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <BarangDikembalikan
+                    resi={dataPesanan.resiPengembalian}
+                    onClickSampai={() => {
+                        const updateKonfirmasiStatus = async () => {
+                            setIsLoadingProses(true)
+                            const response = await updateStatusPesananByid(dataPesanan.id, 'selesai')
+                            setIsLoadingProses(false)
+                            setDataPesanan(response)
+                        }
+                        updateKonfirmasiStatus()
+                    }}
+                    isLoadingProses={isLoadingProses}
+                />
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'selesai') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <BoxAlert
+                    type='information'
+                    text='barang telah dikembalikan dan pesanan telah selesai.'
+                />
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'dibatalkan') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <BoxAlert
+                        type='danger'
+                        text='pesananan ini sudah dibatalkan'
+                    />
+                </div>
+            </>)}
         </div>
     )
 }
