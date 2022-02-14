@@ -28,7 +28,7 @@ const PencarianContainer : React.FC = () => {
             </div>
 
             <div className='mt-4'>
-                <ListPencarian dataIklan={dataIklan} totalShow={2} />
+                <ListPencarian dataIklan={dataIklan} totalShow={5} />
             </div>
         </div>
     )
