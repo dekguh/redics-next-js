@@ -1,10 +1,11 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react'
-import { batalkanPesananById, getSingleDataPesananById } from '../../../utils/api'
+import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
+import { batalkanPesananById, getSingleDataPesananById, updateResiDikirim } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
+import BoxAlert from '../BoxAlert'
 
 const MenungguPembayaranPemilik : React.FC<{
     onClickBatalkan?: MouseEventHandler;
@@ -19,11 +20,16 @@ const MenungguPembayaranPemilik : React.FC<{
     )
 }
 
-const FormInputResiPemilik : React.FC = () => {
+const FormInputResiPemilik : React.FC<{
+    onChangeResi?: ChangeEventHandler;
+    onClickResi?: MouseEventHandler;
+    isLoadingProses?: boolean;
+}> = ({ onChangeResi, onClickResi, isLoadingProses }) => {
     return(
         <div>
-            <FormInput placeholder='masukan resi' classes='mb-3' />
-            <FormButton text='update resi' />
+            <TextTitleSection text='pengiriman'/>
+            <FormInput placeholder='masukan resi' classes='mb-3 mt-3' onChange={onChangeResi}/>
+            <FormButton text={isLoadingProses ? 'proses...' : 'update resi'} onClick={onClickResi}/>
         </div>
     )
 }
@@ -70,9 +76,31 @@ const TanggalMulaiAhir : React.FC<{
     )
 }
 
+
+const BarangDikirim : React.FC<{
+    resi?: string;
+}> = ({ resi }) => {
+    return(
+        <div>
+            <TextTitleSection text='Pengiriman'/>
+
+            <div className='border border-gray-200 rounded flex flex-row flex-nowrap items-center p-2 mt-3'>
+                <span className='flex-grow flex-shrink pr-5 text-lg'>{resi ? resi : '-'}</span>
+                <div>
+                    <FormButton text='salin' onClick={() => {
+                        navigator.clipboard.writeText(resi ? resi : '')
+                    }}/>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const CardDetailPemilik : React.FC<{
     orderId?: string | number | string[] }> = ({ orderId }) => {
      const [dataPesanan, setDataPesanan] = useState<any>()
+     const [inputResiDikirim, setInputResiDikirim] = useState<string>()
+     const [isLoadingProses, setIsLoadingProses] = useState<boolean>(false)
 
      const getSingleData = async (id : string | number | string[]) => {
         const response = await getSingleDataPesananById(id)
@@ -171,7 +199,44 @@ const CardDetailPemilik : React.FC<{
                 <div className='border-t border-gray-300 my-5'></div>
 
                 <div>
-                    <FormInputResiPemilik />
+                    <FormInputResiPemilik
+                        onChangeResi={(e : ChangeEvent<HTMLInputElement>) => {
+                            setInputResiDikirim(e.target.value)
+                        }}
+                        onClickResi={() => {
+                            const updateResi = async () => {
+                                setIsLoadingProses(true)
+                                const res = await updateResiDikirim(dataPesanan.id, inputResiDikirim)
+                                setIsLoadingProses(false)
+                                setDataPesanan(res)
+                            }
+                            updateResi()
+                        }}
+                        isLoadingProses={isLoadingProses}
+                    />
+                </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'barang dikirim') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <BarangDikirim
+                        resi={dataPesanan.resiKirim}
+                    />
+                </div>
+            </>)}
+
+            {(dataPesanan && dataPesanan.statusPemesanan == 'telah sampai') && (
+            <>
+                <div className='border-t border-gray-300 my-5'></div>
+
+                <div>
+                    <BoxAlert
+                        type='information'
+                        text={`barang telah diterima, batas tanggal pengembalian adalah ${new Date(new Date(`${dataPesanan.tanggalSewa[0].akhir}T00:00:00.000Z`).getTime() + (86400000 * 2)).toISOString().substring(0, 10)}`}
+                    />
                 </div>
             </>)}
 

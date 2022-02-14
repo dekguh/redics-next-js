@@ -528,3 +528,19 @@ export async function updateResiPengembalian(id?: string | number | string[], re
         return null
     }
 }
+
+export async function updateResiDikirim(id?: string | number | string[], resi?: string) {
+    try {
+        const response = await Api.post('/update-resi-dikirim', {
+            pesanan: id,
+            resiKirim: resi,
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
