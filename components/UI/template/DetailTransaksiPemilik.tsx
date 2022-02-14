@@ -22,7 +22,7 @@ const DetailTransaksiPemilik : React.FC<IDetailTransaksiPemilik> = ({ orderId })
             <PrivateWrapper lastCurrentPage='/transaksi'>
                 <div className='px-5 pt-5 pb-16'>
                     <HeadingButtonBack toPath='/transaksi'/>
-                    <CardDetailPemilik />
+                    <CardDetailPemilik orderId={orderId}/>
                 </div>
             </PrivateWrapper>
         </>

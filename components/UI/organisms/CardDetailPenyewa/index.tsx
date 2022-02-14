@@ -8,14 +8,6 @@ import FormSelect from '../../molecules/FormGroup/FormSelect'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
 import CustomCountdown from '../../molecules/other/CustomCountdown'
 import BoxAlert from '../BoxAlert'
-import parse from 'html-react-parser'
-
-/** todo (menunggu pembayaran)
- * - auto pesanan "dibatalkan" ketika countdown berakhir (done)
- * - button batalkan pesanan (done)
- * - integrasi pembayaran tripay
- * - membuat callback ketika berhasil membayar
- */
 
 const MenungguPembayaranPenyewa : React.FC<{
     onClickBayar?: MouseEventHandler;
