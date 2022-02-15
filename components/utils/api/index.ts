@@ -573,3 +573,16 @@ export async function updateRekeningUser(namaBank?: string, nomorRekening?: stri
         return null
     }
 }
+
+export async function getSaldoAccount() {
+    try {
+        const response = await Api.post('/get-my-saldo', null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}

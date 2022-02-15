@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getSaldoAccount } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardTransaksi from '../../molecules/card/CardTransaksi'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -6,20 +7,31 @@ import FormInput from '../../molecules/FormGroup/FormInput'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
 
 const TransaksiSaldo : React.FC = () => {
+    const [dataSaldo, setDataSaldo] = useState<any>()
+
+    useEffect(() => {
+        const getSaldo = async () => {
+            const res = await getSaldoAccount()
+            setDataSaldo(res)
+        }
+        getSaldo()
+    }, [])
+
+    console.log(dataSaldo)
     return (
     <>
         <div className='flex flex-row flex-nowrap'>
             <div className='bg-green-100 flex-grow-0 flex-shrink w-2/4 mr-2 rounded p-5 text-center'>
                 <span className='block mb-1'>saldo</span>
                 <span className='block text-xs font-bold'>
-                    {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(120000)}
+                    {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSaldo ? dataSaldo.totalReady : 0)}
                 </span>
             </div>
 
             <div className='bg-yellow-100 flex-grow-0 flex-shrink w-2/4 ml-2 rounded p-5 text-center'>
                 <span className='block mb-1'>ditahan</span>
                 <span className='block text-xs font-bold'>
-                    {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(420000)}
+                    {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSaldo ? dataSaldo.totalPending : 0)}
                 </span>
             </div>
         </div>
