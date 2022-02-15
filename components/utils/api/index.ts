@@ -544,3 +544,32 @@ export async function updateResiDikirim(id?: string | number | string[], resi?: 
         return null
     }
 }
+
+export async function getRekeningUser() {
+    try {
+        const response = await Api.post('/get-rekening-user', null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('JWT')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
+
+export async function updateRekeningUser(namaBank?: string, nomorRekening?: string) {
+    try {
+        const response = await Api.post('/update-rekening-user', {
+            namaBank,
+            nomorRekening,
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
