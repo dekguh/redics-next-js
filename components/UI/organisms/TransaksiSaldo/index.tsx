@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { getSaldoAccount } from '../../../utils/api'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import { getRekeningUser, getSaldoAccount, updateRekeningUser } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardTransaksi from '../../molecules/card/CardTransaksi'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -8,16 +8,44 @@ import FormSelect from '../../molecules/FormGroup/FormSelect'
 
 const TransaksiSaldo : React.FC = () => {
     const [dataSaldo, setDataSaldo] = useState<any>()
+    const [isLoadingproses, setisLoadingProses] = useState<boolean>(false)
+    const [dataRekening, setDataRekening] = useState<any>({
+        namaBank: '',
+        nomorRekening: ''
+    })
+    const [updateRekening, setUpdateRekening] = useState<any>({
+        namaBank: '',
+        nomorRekening: ''
+    })
+
+    const getSaldo = async () => {
+        const res = await getSaldoAccount()
+        setDataSaldo(res)
+    }
+
+    const getRekeningData = async () => {
+        const res = await getRekeningUser()
+        setDataRekening(res)
+    }
+
+    const updateRekeningData = async () => {
+        setisLoadingProses(true)
+        const res = await updateRekeningUser(updateRekening.namaBank, updateRekening.nomorRekening)
+        getRekeningData()
+        setisLoadingProses(false)
+    }
 
     useEffect(() => {
-        const getSaldo = async () => {
-            const res = await getSaldoAccount()
-            setDataSaldo(res)
-        }
         getSaldo()
+        getRekeningData()
     }, [])
 
-    console.log(dataSaldo)
+    useEffect(() => {
+        setUpdateRekening({
+            namaBank: dataRekening.namaBank,
+            nomorRekening: dataRekening.nomorRekening
+        })
+    }, [dataRekening])
     return (
     <>
         <div className='flex flex-row flex-nowrap'>
@@ -49,16 +77,36 @@ const TransaksiSaldo : React.FC = () => {
                         value: 'mandiri'
                     }
                 ]}
+                isSelected={updateRekening.namaBank}
+                onChange={(e : ChangeEvent<HTMLSelectElement>) => {
+                    setUpdateRekening({
+                        ...updateRekening,
+                        namaBank: e.target.value
+                    })
+                }}
+                defaultVal={{
+                    text: 'pilih rekening',
+                    value: ''
+                }}
             />
 
             <FormInput
-                inputType={'number'}
                 placeholder='nomor rekening'
+                defaultValue={dataRekening ? dataRekening.nomorRekening : ''}
+                onChange={(e : ChangeEvent<HTMLInputElement>) => {
+                    setUpdateRekening({
+                        ...updateRekening,
+                        nomorRekening: e.target.value
+                    })
+                }}
             />
 
             <FormButton
-                text='update rekening'
+                text={isLoadingproses ? 'proses...' : 'update rekening'}
                 classes='mt-3'
+                onClick={() => {
+                    updateRekeningData()
+                }}
             />
         </div>
 

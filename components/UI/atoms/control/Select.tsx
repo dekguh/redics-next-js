@@ -7,7 +7,7 @@ const Select : React.FC<ISelect> = ({ list, classes, onChange, required = false,
             className={`input-base ${classes}`}
             onChange={onChange}
             required={required}
-            defaultValue={isSelected}
+            value={isSelected}
         >
             {defaultVal && <option>{defaultVal.text}</option>}
             {list.length >= 1 && list.map((data, i) => (

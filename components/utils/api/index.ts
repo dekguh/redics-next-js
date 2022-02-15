@@ -549,7 +549,7 @@ export async function getRekeningUser() {
     try {
         const response = await Api.post('/get-rekening-user', null, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('JWT')}`
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
             }
         })
         return response.data
