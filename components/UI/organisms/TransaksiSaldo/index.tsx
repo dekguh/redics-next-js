@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { createPencairanSaldo, getRekeningUser, getSaldoAccount, updateRekeningUser } from '../../../utils/api'
+import { createPencairanSaldo, getListPencairanSaldo, getRekeningUser, getSaldoAccount, updateRekeningUser } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardTransaksi from '../../molecules/card/CardTransaksi'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -72,7 +72,7 @@ const TransaksiSaldo : React.FC = () => {
     }
 
     const getListPencairan = async () => {
-        const res = await getListPencairan()
+        const res = await getListPencairanSaldo()
         setListPencairan(res)
     }
 
@@ -155,28 +155,21 @@ const TransaksiSaldo : React.FC = () => {
         </div>
 
         <div className='mt-4'>
-            <FormInput
-                inputType={'number'}
-                placeholder='200000'
-                onChange={(e : ChangeEvent<HTMLInputElement>) => {
-                    setDataPencairan({
-                        ...dataPencairan,
-                        totalPenarikan: e.target.value,
-                        atasNama: dataRekening.atasNama,
-                        namaBank: dataRekening.namaBank,
-                        nomorRekening: dataRekening.nomorRekening
-                    })
-                }}
-            />
-
             <p className='mt-2'>
                 note: minimal pencairan saldo adalah Rp.200,000 dan dikenakan biaya Rp.7,000 untuk setiap penarikan.
             </p>
 
             <FormButton
-                text='tarik saldo'
+                text={`tarik ${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSaldo ? dataSaldo.totalReady - 7000 : 0)}`}
                 classes='mt-3'
                 onClick={() => {
+                    setDataPencairan({
+                        ...dataPencairan,
+                        totalPenarikan: dataSaldo.totalReady - 7000,
+                        atasNama: dataRekening.atasNama,
+                        namaBank: dataRekening.namaBank,
+                        nomorRekening: dataRekening.nomorRekening
+                    })
                     buatPencairanSaldo()
                 }}
             />
