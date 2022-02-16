@@ -1,10 +1,36 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { getRekeningUser, getSaldoAccount, updateRekeningUser } from '../../../utils/api'
+import { createPencairanSaldo, getRekeningUser, getSaldoAccount, updateRekeningUser } from '../../../utils/api'
 import TextTitleSection from '../../atoms/text/TextTitleSection'
 import CardTransaksi from '../../molecules/card/CardTransaksi'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
+
+const ListTransaksi : React.FC = () => {
+    return(
+        <div className='mt-5'>
+            <TextTitleSection text='list penarikan' />
+
+            <ul className='list-none mt-4'>
+                <li className='mb-3'>
+                    <CardTransaksi
+                        orderId={12345}
+                        statusTransaksi='sedang diproses'
+                        totalPembayaran={400000}
+                    />
+                </li>
+
+                <li className='mb-3'>
+                    <CardTransaksi
+                        orderId={12345}
+                        statusTransaksi='berhasil'
+                        totalPembayaran={400000}
+                    />
+                </li>
+            </ul>
+        </div>
+    )
+}
 
 const TransaksiSaldo : React.FC = () => {
     const [dataSaldo, setDataSaldo] = useState<any>()
@@ -17,6 +43,16 @@ const TransaksiSaldo : React.FC = () => {
         namaBank: '',
         nomorRekening: ''
     })
+    const [dataPencairan, setDataPencairan] = useState<any>({
+        atasNama: '',
+        totalPenarikan: '',
+        totalBiaya: 7000,
+        namaBank: '',
+        nomorRekening: '',
+        status: 'sedang_diproses'
+    })
+
+    console.log(dataPencairan)
 
     const getSaldo = async () => {
         const res = await getSaldoAccount()
@@ -33,6 +69,11 @@ const TransaksiSaldo : React.FC = () => {
         const res = await updateRekeningUser(updateRekening.namaBank, updateRekening.nomorRekening)
         getRekeningData()
         setisLoadingProses(false)
+    }
+
+    const buatPencairanSaldo = async () => {
+        const res = await createPencairanSaldo(dataPencairan)
+        console.log(res)
     }
 
     useEffect(() => {
@@ -113,40 +154,32 @@ const TransaksiSaldo : React.FC = () => {
         <div className='mt-4'>
             <FormInput
                 inputType={'number'}
-                placeholder='120000'
+                placeholder='200000'
+                onChange={(e : ChangeEvent<HTMLInputElement>) => {
+                    setDataPencairan({
+                        ...dataPencairan,
+                        totalPenarikan: e.target.value,
+                        atasNama: dataRekening.atasNama,
+                        namaBank: dataRekening.namaBank,
+                        nomorRekening: dataRekening.nomorRekening
+                    })
+                }}
             />
 
             <p className='mt-2'>
-                note: minimal pencairan saldo adalah Rp.200,000 dan dikenakan biaya Rp.6,500 untuk setiap penarikan.
+                note: minimal pencairan saldo adalah Rp.200,000 dan dikenakan biaya Rp.7,000 untuk setiap penarikan.
             </p>
 
             <FormButton
                 text='tarik saldo'
                 classes='mt-3'
+                onClick={() => {
+                    buatPencairanSaldo()
+                }}
             />
         </div>
 
-        <div className='mt-5'>
-            <TextTitleSection text='list penarikan' />
-
-            <ul className='list-none mt-4'>
-                <li className='mb-3'>
-                    <CardTransaksi
-                        orderId={12345}
-                        statusTransaksi='sedang diproses'
-                        totalPembayaran={400000}
-                    />
-                </li>
-
-                <li className='mb-3'>
-                    <CardTransaksi
-                        orderId={12345}
-                        statusTransaksi='berhasil'
-                        totalPembayaran={400000}
-                    />
-                </li>
-            </ul>
-        </div>
+        <ListTransaksi />
     </>
     )
 }

@@ -586,3 +586,16 @@ export async function getSaldoAccount() {
         return null
     }
 }
+
+export async function createPencairanSaldo(data : any) {
+    try {
+        const response = await Api.post('/create-pencairan-saldo', data, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
