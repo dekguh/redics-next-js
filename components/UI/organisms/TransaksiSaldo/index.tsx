@@ -39,14 +39,6 @@ const TransaksiSaldo : React.FC = () => {
         namaBank: '',
         nomorRekening: ''
     })
-    const [dataPencairan, setDataPencairan] = useState<any>({
-        atasNama: '',
-        totalPenarikan: '',
-        totalBiaya: 7000,
-        namaBank: '',
-        nomorRekening: '',
-        status: 'sedang_diproses'
-    })
     const [listPencairan, setListPencairan] = useState<any>()
 
     const getSaldo = async () => {
@@ -66,8 +58,8 @@ const TransaksiSaldo : React.FC = () => {
         setisLoadingProses(false)
     }
 
-    const buatPencairanSaldo = async () => {
-        const res = await createPencairanSaldo(dataPencairan)
+    const buatPencairanSaldo = async (data : any) => {
+        const res = await createPencairanSaldo(data)
         console.log(res)
     }
 
@@ -163,14 +155,14 @@ const TransaksiSaldo : React.FC = () => {
                 text={`tarik ${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSaldo ? dataSaldo.totalReady - 7000 : 0)}`}
                 classes='mt-3'
                 onClick={() => {
-                    setDataPencairan({
-                        ...dataPencairan,
+                    buatPencairanSaldo({
                         totalPenarikan: dataSaldo.totalReady - 7000,
                         atasNama: dataRekening.atasNama,
                         namaBank: dataRekening.namaBank,
-                        nomorRekening: dataRekening.nomorRekening
+                        nomorRekening: dataRekening.nomorRekening,
+                        status: 'sedang_diproses',
+                        totalBiaya: 7000
                     })
-                    buatPencairanSaldo()
                 }}
             />
         </div>
