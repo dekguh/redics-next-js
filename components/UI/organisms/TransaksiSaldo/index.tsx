@@ -6,27 +6,23 @@ import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
 
-const ListTransaksi : React.FC = () => {
+const ListTransaksi : React.FC<{
+    listData: any;
+}> = ({ listData }) => {
     return(
         <div className='mt-5'>
             <TextTitleSection text='list penarikan' />
 
             <ul className='list-none mt-4'>
-                <li className='mb-3'>
-                    <CardTransaksi
-                        orderId={12345}
-                        statusTransaksi='sedang diproses'
-                        totalPembayaran={400000}
-                    />
-                </li>
-
-                <li className='mb-3'>
-                    <CardTransaksi
-                        orderId={12345}
-                        statusTransaksi='berhasil'
-                        totalPembayaran={400000}
-                    />
-                </li>
+                {listData && listData.map((data : any, i : any) => (
+                    <li className='mb-3'>
+                        <CardTransaksi
+                            orderId={data.id}
+                            statusTransaksi={data.status}
+                            totalPembayaran={data.totalPenarikan - data.totalBiaya}
+                        />
+                    </li>
+                ))}
             </ul>
         </div>
     )
@@ -51,8 +47,7 @@ const TransaksiSaldo : React.FC = () => {
         nomorRekening: '',
         status: 'sedang_diproses'
     })
-
-    console.log(dataPencairan)
+    const [listPencairan, setListPencairan] = useState<any>()
 
     const getSaldo = async () => {
         const res = await getSaldoAccount()
@@ -76,9 +71,17 @@ const TransaksiSaldo : React.FC = () => {
         console.log(res)
     }
 
+    const getListPencairan = async () => {
+        const res = await getListPencairan()
+        setListPencairan(res)
+    }
+
+    console.log(listPencairan)
+
     useEffect(() => {
         getSaldo()
         getRekeningData()
+        getListPencairan()
     }, [])
 
     useEffect(() => {
@@ -179,7 +182,9 @@ const TransaksiSaldo : React.FC = () => {
             />
         </div>
 
-        <ListTransaksi />
+        <ListTransaksi
+            listData={listPencairan}
+        />
     </>
     )
 }

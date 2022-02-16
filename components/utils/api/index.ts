@@ -599,3 +599,16 @@ export async function createPencairanSaldo(data : any) {
         return null
     }
 }
+
+export async function getListPencairanSaldo() {
+    try {
+        const response = await Api.post('/get-list-pencairan-saldo', null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
