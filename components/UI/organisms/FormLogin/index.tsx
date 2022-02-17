@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { ChangeEvent, MouseEvent, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { apiLogin } from '../../../utils/api'
@@ -24,6 +26,7 @@ const connector = connect(null , mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 const FormLogin : React.FC<PropsFromRedux> = ({ actUpdateIsLogin, actUpdateBilling }) => {
+    const Router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [dataLogin, setDataLogin] = useState<TDataLogin>({
         email: '',
@@ -182,6 +185,10 @@ const FormLogin : React.FC<PropsFromRedux> = ({ actUpdateIsLogin, actUpdateBilli
                     type='button'
                     onClick={handleClickSubmit}
                 />
+
+                <div className='mt-4'>
+                    <p>lupa password anda? reset <Link href='/lupa-password'><a className='text-blue-500'>disini</a></Link></p>
+                </div>
             </div>
         </div>
     )
