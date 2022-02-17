@@ -5,6 +5,7 @@ import CardTransaksi from '../../molecules/card/CardTransaksi'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import FormSelect from '../../molecules/FormGroup/FormSelect'
+import BoxAlert from '../BoxAlert'
 
 const ListTransaksi : React.FC<{
     listData: any;
@@ -18,7 +19,7 @@ const ListTransaksi : React.FC<{
                     <li className='mb-3'>
                         <CardTransaksi
                             orderId={data.id}
-                            statusTransaksi={data.status}
+                            statusTransaksi={data.status.replace('_', ' ')}
                             totalPembayaran={data.totalPenarikan - data.totalBiaya}
                         />
                     </li>
@@ -40,6 +41,7 @@ const TransaksiSaldo : React.FC = () => {
         nomorRekening: ''
     })
     const [listPencairan, setListPencairan] = useState<any>()
+    const [message, setMessage] = useState<string>('')
 
     const getSaldo = async () => {
         const res = await getSaldoAccount()
@@ -58,17 +60,18 @@ const TransaksiSaldo : React.FC = () => {
         setisLoadingProses(false)
     }
 
-    const buatPencairanSaldo = async (data : any) => {
-        const res = await createPencairanSaldo(data)
-        console.log(res)
-    }
-
     const getListPencairan = async () => {
         const res = await getListPencairanSaldo()
         setListPencairan(res)
     }
 
-    console.log(listPencairan)
+    const buatPencairanSaldo = async (data : any) => {
+        const res = await createPencairanSaldo(data)
+        if(res.message) return setMessage(res.message)
+        getListPencairan()
+        getSaldo()
+        return setMessage('')
+    }
 
     useEffect(() => {
         getSaldo()
@@ -146,13 +149,18 @@ const TransaksiSaldo : React.FC = () => {
             />
         </div>
 
-        <div className='mt-4'>
+        <div className='mt-4 border-t border-gray-300'>
+            {message && (<BoxAlert
+                classes='mt-3'
+                text={message}
+            />)}
+
             <p className='mt-2'>
                 note: minimal pencairan saldo adalah Rp.200,000 dan dikenakan biaya Rp.7,000 untuk setiap penarikan.
             </p>
 
             <FormButton
-                text={`tarik ${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSaldo ? dataSaldo.totalReady - 7000 : 0)}`}
+                text={`tarik ${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format((dataSaldo && dataSaldo.totalReady) ? dataSaldo.totalReady - 7000 : 0)}`}
                 classes='mt-3'
                 onClick={() => {
                     buatPencairanSaldo({
