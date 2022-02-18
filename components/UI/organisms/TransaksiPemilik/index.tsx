@@ -26,7 +26,7 @@ const TransaksiPemilik : React.FC = () => {
             const sliceData = dataListPesanan.slice(currentPage * perPage, currentPage <= 0 ? perPage : (perPage * currentPage) + perPage)
             setDataPagination(sliceData)
         }
-        if(dataListPesanan.length <= 2) setDataPagination(dataListPesanan)
+        if(dataListPesanan.length <= perPage) setDataPagination(dataListPesanan)
     }, [dataListPesanan, currentPage])
     return (
         <div>
