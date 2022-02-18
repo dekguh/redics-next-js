@@ -175,7 +175,7 @@ export async function apiGetAllIklan() : Promise<void> {
     }
 }
 
-export async function apiGetSingleIklanNoJwt(id : number | string) : Promise<void | {}> {
+export async function apiGetSingleIklanNoJwt(id : number | string) : Promise<void> {
     try {
         const response = await Api.get(`/iklans/${id}`)
         return response.data
@@ -184,7 +184,7 @@ export async function apiGetSingleIklanNoJwt(id : number | string) : Promise<voi
     }
 }
 
-export async function apiGetOwnIklanBilling(id : number | string) : Promise<void | {}> {
+export async function apiGetOwnIklanBilling(id : number | string) : Promise<void> {
     try {
         const response = await Api.get(`/get-iklan-own-billing/${id}`)
         return response.data

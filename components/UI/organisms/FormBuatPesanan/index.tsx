@@ -89,13 +89,13 @@ const FormBuatPesanan : React.FC<{
         setDataPesanan(({
             ...dataPesanan,
             iklan: dataSingleIklan && dataSingleIklan.id, // id
-            userPenyewa: billingPenyewa.user.id, // id
+            userPenyewa: billingPenyewa && billingPenyewa.user.id, // id
             userPemilik: dataSingleIklan && dataSingleIklan.user.id, // id
-            billingPenyewa: billingPenyewa.id, // id
+            billingPenyewa: billingPenyewa && billingPenyewa.id, // id
             billingPemilik: billingPemilik && billingPemilik.id, // id
             hargaPerHari: dataSingleIklan && Number(dataSingleIklan.pricePerDay),
         }))
-    }, [dataSingleIklan, billingPemilik])
+    }, [dataSingleIklan, billingPemilik, billingPenyewa])
 
     useEffect(() => {
         (tanggalMulai && tanggalAkhir) && checkDateIsBooked(
