@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked, checkExpiredPesananByIklanid, createPesananByUser } from '../../../utils/api'
+import { RootState } from '../../../utils/redux/store'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormSelectDate from '../../molecules/FormGroup/FormSelectDate'
@@ -12,9 +14,10 @@ import BoxAlert from '../BoxAlert'
 
 const FormBuatPesanan : React.FC<{
     dataSingleIklan?: any;
-    billingPenyewa?: any;
     pesananIklanId?: any;
-}> = ({ dataSingleIklan, billingPenyewa, pesananIklanId }) => {
+}> = ({ dataSingleIklan, pesananIklanId }) => {
+    const billingPenyewa = useSelector((state : RootState) => state.users.billing)
+
     const Router = useRouter()
     const [billingPemilik, setBillingPemilik] = useState<any>()
     const [listBookedDate, setListBookedDate] = useState<any>()

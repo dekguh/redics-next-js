@@ -10,7 +10,6 @@ import { apiGetSingleIklanNoJwt } from '../../utils/api'
 const BuatPesanan : React.FC = () => {
     const Router = useRouter()
     const pesananIklanId = useSelector((state : RootState) => state.pesanan.pesananIklanId)
-    const billingPenyewa = useSelector((state : RootState) => state.users.billing)
     const [dataSingleIklan, setDataSingleIklan] = useState<any>()
 
     const getSingleDataIklan = async (id : number) => {
@@ -35,7 +34,6 @@ const BuatPesanan : React.FC = () => {
                 <div className='pb-16'>
                     <FormBuatPesanan
                         dataSingleIklan={dataSingleIklan}
-                        billingPenyewa={billingPenyewa}
                         pesananIklanId={pesananIklanId}
                     />
                 </div>
