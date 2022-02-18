@@ -16,7 +16,7 @@ const ListTransaksi : React.FC<{
 
             <ul className='list-none mt-4'>
                 {listData && listData.map((data : any, i : any) => (
-                    <li className='mb-3'>
+                    <li className='mb-3' key={i}>
                         <CardTransaksi
                             orderId={data.id}
                             statusTransaksi={data.status.replace('_', ' ')}
