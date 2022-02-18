@@ -116,6 +116,7 @@ const FormBuatPesanan : React.FC<{
         }
     }, [tanggalMulai, tanggalAkhir])
 
+    console.log(dataPesanan)
     return (
         <div className='p-4'>
             <HeadingButtonBack
