@@ -98,7 +98,14 @@ const FormBuatPesanan : React.FC<{
             billingPemilik: billingPemilik && billingPemilik.id, // id
             hargaPerHari: dataSingleIklan && Number(dataSingleIklan.pricePerDay),
         }))
-    }, [dataSingleIklan, billingPemilik, billingPenyewa])
+    }, [dataSingleIklan, billingPemilik])
+
+    useEffect(() => {
+        setDataPesanan(({
+            ...dataPesanan,
+            userPenyewa: billingPenyewa && billingPenyewa.user, // id
+        }))
+    }, [billingPenyewa])
 
     useEffect(() => {
         (tanggalMulai && tanggalAkhir) && checkDateIsBooked(
@@ -120,6 +127,7 @@ const FormBuatPesanan : React.FC<{
     }, [tanggalMulai, tanggalAkhir])
 
     console.log(dataPesanan)
+    console.log("billing penyewa", billingPenyewa)
     return (
         <div className='p-4'>
             <HeadingButtonBack
@@ -182,7 +190,6 @@ const FormBuatPesanan : React.FC<{
                 dataSingleIklan={dataSingleIklan}
                 onChangeLayanan={(e : ChangeEvent<HTMLSelectElement>) => {
                     const splitValue = e.target.value.split(' ')
-                    console.log(splitValue[splitValue.length-1])
                     setDataPesanan({
                         ...dataPesanan,
                         kurir: e.target.value,
