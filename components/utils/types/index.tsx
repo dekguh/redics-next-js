@@ -334,9 +334,6 @@ export interface ICardOwnerIklan {
 
 export interface IFormChatBox {
     messageId?: string | number | string[];
-    userId?: number;
-    messageWithId: number;
-    billing?: any;
 }
 
 export interface ICardListPesan {

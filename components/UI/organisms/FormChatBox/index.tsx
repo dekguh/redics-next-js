@@ -4,27 +4,41 @@ import CardOwnerIklan from '../../molecules/card/CardOwnerIklan'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import HeadingButtonBack from '../../molecules/heading/HeadingButtonback'
 import { FaPaperPlane } from 'react-icons/fa'
-import { apiCreateTextMessage, apiGetTextAllMessage } from '../../../utils/api'
+import { apiCreateTextMessage, apiGetBillingUser, apiGetMessageDetail, apiGetTextAllMessage } from '../../../utils/api'
 import { socket } from '../../../utils/socket'
 
 /* next to do make list text message from oldest to newest */
-const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId, billing }) => {
-    const [dataTextMessage, setDataTextMessage] = useState<Array<any> | undefined>([])
+const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
+    const [dataTextMessage, setDataTextMessage] = useState<Array<any>>([])
     const [messageReply, setMessageReply] = useState<String>('')
+    const [billing, setBilling] = useState<any>()
     const resetBtnRef : any = useRef(null)
+    const [messageDetail, setMessageDetail] = useState<any>()
+
+    const getBillingUserId = async () => {
+        const response = await apiGetBillingUser(localStorage.getItem('jwt'))
+        setBilling(response)
+    }
 
     const getListTextMessage = async () => {
         const response : any = await apiGetTextAllMessage(messageId, localStorage.getItem('jwt'));
         setDataTextMessage(response)
     }
 
+    const getMessageDetail = async () => {
+        const response = await apiGetMessageDetail(messageId, localStorage.getItem('jwt'))
+        setMessageDetail(response)
+    }
+
     useEffect(() => {
-        getListTextMessage()
+        messageId != 0 && getBillingUserId()
+        messageId != 0 && getMessageDetail()
+        messageId != 0 && getListTextMessage()
     }, [messageId])
 
     const handleSendMessage = () => {
         const createMsg = async () => {
-            const response = await apiCreateTextMessage(messageId, userId, messageReply, localStorage.getItem('jwt'))
+            const response = billing && await apiCreateTextMessage(messageId, billing.user.id, messageReply, localStorage.getItem('jwt'))
             /* socket emit to backend */
             socket.emit('sendNewReply', {
                 messageId: messageId
@@ -50,13 +64,15 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                 classes='mb-2'
                 toPath='/pesan'
             />
-            <CardOwnerIklan
-                userId={messageWithId}
-            />
+            {(messageDetail && messageId != 0) && (<CardOwnerIklan
+                userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? billing.user.id : messageDetail.user2.id}
+            />)}
 
-            <div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
+            {dataTextMessage && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
                 <ul>
-                    {dataTextMessage && dataTextMessage.sort((a, b) => a.id - b.id).map((data, i) => {
+                    {(dataTextMessage.length >= 1 && billing) && dataTextMessage.sort((a, b) => a.id - b.id)
+                    .map((data, i) => {
+                        console.log(data)
                         if(data.user.username == billing.user.username) {
                             return (
                                 <li className='mb-3' key={i}>
@@ -92,7 +108,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId, userId, messageWithId
                         }
                     })}
                 </ul>
-            </div>
+            </div>)}
 
             <form method='post' onLoad={(e) => e.preventDefault()}>
                 <div className='relative'>

@@ -27,11 +27,13 @@ const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = 
 
     const handleClickMessage = (e: MouseEvent) => {
         const createMsg = async () => {
-            const res : any = await apiCreateMessage(localStorage.getItem('jwt'), dataSingleIklan?.user?.id)
+            const res : any = dataSingleIklan && await apiCreateMessage(localStorage.getItem('jwt'), dataSingleIklan.user.id)
             if(res) return Router.push(`/pesan/${res.id}`)
         }
         createMsg()
     }
+
+    console.log("data single iklan: ", dataSingleIklan)
 
     return (
         <div>
