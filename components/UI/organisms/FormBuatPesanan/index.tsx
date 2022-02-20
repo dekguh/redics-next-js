@@ -99,7 +99,6 @@ const FormBuatPesanan : React.FC<{
             ...dataPesanan,
             iklan: dataSingleIklan && dataSingleIklan.id, // id
             userPemilik: dataSingleIklan && dataSingleIklan.user.id, // id
-            billingPenyewa: billingPenyewa && billingPenyewa.id, // id
             billingPemilik: billingPemilik && billingPemilik.id, // id
             hargaPerHari: dataSingleIklan && Number(dataSingleIklan.pricePerDay),
         }))
@@ -109,6 +108,7 @@ const FormBuatPesanan : React.FC<{
         setDataPesanan(({
             ...dataPesanan,
             userPenyewa: billingPenyewa && billingPenyewa.user.id, // id
+            billingPenyewa: billingPenyewa && billingPenyewa.id, // id
         }))
     }, [billingPenyewa])
 
