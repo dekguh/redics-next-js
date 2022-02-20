@@ -10,17 +10,19 @@ const CardOwnerIklan : React.FC<ICardOwnerIklan> = ({ userId, onClick }) => {
 
     useEffect(() => {
         const getBilling = async () => {
-            const response : any = await apiGetOwnIklanBilling(userId)
+            const response : any = userId && await apiGetOwnIklanBilling(userId)
             setDataBilling(response)
             setOwnUsername(response?.username)
         }
         getBilling()
     }, [userId])
 
-    socket.on('sendInfoOnline', async (res) => {
+    userId != undefined && socket.on('sendInfoOnline', async (res) => {
         const response = await apiGetOwnIklanBilling(userId)
         setDataBilling(response)
     })
+
+    console.log("userid: ", userId)
 
     return (
         <div className='border border-gray-200 p-3 rounded-lg flex flex-row flex-nowrap items-center'>
