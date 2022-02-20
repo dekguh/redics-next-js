@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked, checkExpiredPesananByIklanid, createPesananByUser } from '../../../utils/api'
+import { apiGetBillingUser, apigetBookedDateIklan, apiGetOwnIklanBilling, checkDateHadBooked, checkExpiredPesananByIklanid, createPesananByUser } from '../../../utils/api'
 import { RootState } from '../../../utils/redux/store'
 import CardBillingPesanan from '../../molecules/card/CardBillingPesanan'
 import FormButton from '../../molecules/FormGroup/FormButton'
@@ -16,8 +16,7 @@ const FormBuatPesanan : React.FC<{
     dataSingleIklan?: any;
     pesananIklanId?: any;
 }> = ({ dataSingleIklan, pesananIklanId }) => {
-    const billingPenyewa = useSelector((state : RootState) => state.users.billing)
-
+    const [billingPenyewa, setBillingPenyewa] = useState<any>()
     const Router = useRouter()
     const [billingPemilik, setBillingPemilik] = useState<any>()
     const [listBookedDate, setListBookedDate] = useState<any>()
@@ -83,9 +82,16 @@ const FormBuatPesanan : React.FC<{
         createPesanan(dataPesanan)
     }
 
+    const getBillingUserId = async () => {
+        const response = await apiGetBillingUser(localStorage.getItem('jwt'))
+        setBillingPenyewa(response)
+        console.log(response)
+    }
+
     useEffect(() => {
         dataSingleIklan && getOwnIklanBilling(dataSingleIklan.user.id)
         dataSingleIklan && getBookedDate(pesananIklanId)
+        dataSingleIklan && getBillingUserId()
     }, [dataSingleIklan])
 
     useEffect(() => {
