@@ -92,7 +92,6 @@ const FormBuatPesanan : React.FC<{
         setDataPesanan(({
             ...dataPesanan,
             iklan: dataSingleIklan && dataSingleIklan.id, // id
-            userPenyewa: billingPenyewa && billingPenyewa.user.id, // id
             userPemilik: dataSingleIklan && dataSingleIklan.user.id, // id
             billingPenyewa: billingPenyewa && billingPenyewa.id, // id
             billingPemilik: billingPemilik && billingPemilik.id, // id
@@ -103,7 +102,7 @@ const FormBuatPesanan : React.FC<{
     useEffect(() => {
         setDataPesanan(({
             ...dataPesanan,
-            userPenyewa: billingPenyewa && billingPenyewa.user, // id
+            userPenyewa: billingPenyewa && billingPenyewa.user.id, // id
         }))
     }, [billingPenyewa])
 
@@ -126,7 +125,7 @@ const FormBuatPesanan : React.FC<{
         }
     }, [tanggalMulai, tanggalAkhir])
 
-    console.log(dataPesanan)
+    console.log('data pesanan', dataPesanan)
     console.log("billing penyewa", billingPenyewa)
     return (
         <div className='p-4'>
