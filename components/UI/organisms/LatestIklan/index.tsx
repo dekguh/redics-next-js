@@ -11,7 +11,7 @@ const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8, dataIklan }) => {
                 classes='mb-3'
             />
 
-            {dataIklan && dataIklan.filter(data => data.statusIklan == true).slice(0, totalShow)
+            {dataIklan && dataIklan.filter(data => data.statusIklan == true).sort((a, b) => b.id - a.id).slice(0, totalShow)
             .sort((a, b) => b.id - a.id).map(data => (
                 <div className='mb-3' key={data.id}>
                     <CardIklanFullWidth
