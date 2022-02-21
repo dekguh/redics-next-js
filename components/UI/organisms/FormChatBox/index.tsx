@@ -56,8 +56,6 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
         setDataTextMessage(parseRes.data)
     })
 
-    console.log(dataTextMessage)
-
     return (
         <div className='p-4 relative'>
             <HeadingButtonBack
@@ -65,7 +63,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
                 toPath='/pesan'
             />
             {(messageDetail && messageId != 0) && (<CardOwnerIklan
-                userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? billing.user.id : messageDetail.user2.id}
+                userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? messageDetail.user2.id : billing.user.id}
             />)}
 
             {dataTextMessage && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
