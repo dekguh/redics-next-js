@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react'
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { apiUpdateBillingUser, apiUpdatePasswordUser } from '../../../utils/api'
 import { dataListKabupaten, dataListKecamatan, dataListProvinsi } from '../../../utils/data'
@@ -26,7 +26,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billing, updateBillingAct }) => {
     const Router = useRouter()
-    const [dataUpdate, setDataUpdate] = useState<{}>({
+    const [dataUpdate, setDataUpdate] = useState<any>({
         nama: billing?.nama,
         kecamatan: billing?.kecamatan,
         kabupaten: billing?.kabupaten,
@@ -43,6 +43,17 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
     const [validationPassword, setValidationPassword] = useState<any>({ type: '', message: '' })
     const [isLoadingPassword, setIsLoadingPassword] = useState<boolean>(false)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        billing && setDataUpdate({
+            nama: billing?.nama,
+            kecamatan: billing?.kecamatan,
+            kabupaten: billing?.kabupaten,
+            provinsi: billing?.provinsi,
+            alamat: billing?.alamat,
+            phone: billing?.phone
+        })
+    }, [billing])
 
     const handleClickUpdateProfile = (e : MouseEvent<HTMLButtonElement>) : void => {
         setIsLoadingProfile(true)
@@ -112,7 +123,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                             setDataUpdate({ ...dataUpdate, provinsi: e.target.value })
                         }}
                         defaultVal={{ text: 'pilih provinsi' }}
-                        isSelected={billing?.provinsi}
+                        isSelected={dataUpdate?.provinsi}
                     />
 
                     <FormSelect
@@ -126,7 +137,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                             setDataUpdate({ ...dataUpdate, kabupaten: e.target.value })
                         }}
                         defaultVal={{ text: 'pilih kabupaten' }}
-                        isSelected={billing?.kabupaten}
+                        isSelected={dataUpdate?.kabupaten}
                     />
                 </div>
 
@@ -137,7 +148,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                         .map(data => ({ value: data.name.toLowerCase(), text: data.name }))
                     }
                     defaultVal={{ text: 'pilih kecamatan' }}
-                    isSelected={billing?.kecamatan}
+                    isSelected={dataUpdate?.kecamatan}
                     onChange={(e : ChangeEvent<HTMLInputElement>) => setDataUpdate({ ...dataUpdate, kecamatan: e.target.value })}
                 />
 

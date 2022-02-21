@@ -8,7 +8,7 @@ const CardBillingPesanan : React.FC<{
     console.log(billingPemilik)
     return (
         <div className='mt-4'>
-            <TextTitleSection text='billing anda'/>
+            <TextTitleSection text='billing Penyewa'/>
             {billingPenyewa && (<p className='mt-3'>
             {billingPenyewa.nama}, {billingPenyewa.alamat}, {billingPenyewa.kecamatan}, {billingPenyewa.kabupaten}, {billingPenyewa.provinsi}, {billingPenyewa.phone}
             </p>)}

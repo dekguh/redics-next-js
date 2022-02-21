@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 import { IIklanNearby } from '../../../utils/types'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
@@ -24,6 +24,21 @@ const responsive = {
 };
 
 const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8, dataIklan }) => {
+  const [dataFiltered, setDataFiltered] = useState<any>([])
+  console.log('data iklan: ', dataIklan)
+  console.log('billing: ', billing)
+
+  useEffect(() => {
+    if(billing && dataIklan) {
+      const fil = dataIklan.filter(data => {
+        return data.kabupaten.toLowerCase().indexOf(billing.kabupaten.toLowerCase()) > -1 && data.statusIklan == true
+      })
+
+      const slicing = fil.length >= 1 && fil.slice(0, totalShow) || []
+      setDataFiltered(slicing)
+    }
+  }, [billing, dataIklan])
+
     return (
         <div className={classes}>
             <HeadingWithUrl
@@ -31,18 +46,16 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8,
                 classes='mb-3'
             />
 
-            <Carousel
+            {(dataFiltered.length >= 1) && (<Carousel
                 responsive={responsive}
                 showDots={false}
                 arrows={false}
                 ssr={true}
             >
-              {dataIklan
-              ? dataIklan.slice(0, totalShow).filter(data => {
-                return data.kabupaten.toLowerCase().indexOf(billing.kabupaten) > -1
-                && data.provinsi.toLowerCase().indexOf(billing.provinsi) > -1
-                && data.statusIklan == true
-              }).map((data, i) => (
+              {(dataFiltered.length >= 1)
+              && dataFiltered.slice(0, totalShow).filter((data : any) => {
+                return data.kabupaten.toLowerCase().indexOf(billing.kabupaten.toLowerCase()) > -1 && data.statusIklan == true
+              }).map((data : any, i : any) => (
                 <div className='px-2' key={i}>
                   <CardIklanFullImage
                     image={data.thumbnail.url}
@@ -55,12 +68,9 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8,
                     }}
                     id={data.id}
                   />
-              </div>
-              ))
-            : (
-              <div></div>
-            )}
-            </Carousel>
+                </div>
+              ))}
+            </Carousel>)}
         </div>
     )
 }
