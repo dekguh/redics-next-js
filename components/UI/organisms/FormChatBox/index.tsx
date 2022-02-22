@@ -62,13 +62,13 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
                 classes='mb-2'
                 toPath='/pesan'
             />
-            {(messageDetail && messageId != 0) && (<CardOwnerIklan
+            {(messageDetail && messageId != 0 && billing) && (<CardOwnerIklan
                 userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? messageDetail.user2.id : billing.user.id}
             />)}
 
-            {dataTextMessage && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
+            {(dataTextMessage && billing) && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
                 <ul>
-                    {(dataTextMessage.length >= 1 && billing.length >= 1) && dataTextMessage.sort((a, b) => a.id - b.id)
+                    {(dataTextMessage.length >= 1 && billing) && dataTextMessage.sort((a, b) => a.id - b.id)
                     .map((data, i) => {
                         console.log(data)
                         if(data.user.username == billing.user.username) {
