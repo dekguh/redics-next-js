@@ -20,6 +20,7 @@ const ListPesan : React.FC<PropsFromRedux> = ({ billing }) => {
         }
         getDataPesan()
     }, [])
+
     return (
         <div className='p-4 mb-12'>
             <HeadingWithUrl
@@ -28,7 +29,7 @@ const ListPesan : React.FC<PropsFromRedux> = ({ billing }) => {
             />
 
             <ul>
-                {(dataPesan.length >= 1 && billing.length >= 1) && dataPesan.map((data, i) => (
+                {(dataPesan.length >= 1 && billing) && dataPesan.map((data, i) => (
                     <li key={i} className='mb-2'>
                         <CardListPesan
                             name={data.user1.id == billing.user.id ? data.user2.username : data.user1.username}
