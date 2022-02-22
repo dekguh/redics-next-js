@@ -12,7 +12,7 @@ const connector = connect(mapState, {})
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 const ListPesan : React.FC<PropsFromRedux> = ({ billing }) => {
-    const [dataPesan, setDataPesan] = useState<Array<any> | undefined | null>()
+    const [dataPesan, setDataPesan] = useState<Array<any>>([])
     useEffect(() => {
         const getDataPesan = async () => {
             const res : any = await apiGetAllListMessage(localStorage.getItem('jwt'))
@@ -28,7 +28,7 @@ const ListPesan : React.FC<PropsFromRedux> = ({ billing }) => {
             />
 
             <ul>
-                {dataPesan && dataPesan.map((data, i) => (
+                {(dataPesan.length >= 1 && billing.length >= 1) && dataPesan.map((data, i) => (
                     <li key={i} className='mb-2'>
                         <CardListPesan
                             name={data.user1.id == billing.user.id ? data.user2.username : data.user1.username}
