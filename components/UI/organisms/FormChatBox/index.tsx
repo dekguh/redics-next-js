@@ -63,7 +63,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
                 toPath='/pesan'
             />
             {(messageDetail && messageId != 0) && (<CardOwnerIklan
-                userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? messageDetail.user2.id : billing.user.id}
+                userId={(messageDetail.length >= 1 && billing.length >= 1) && messageDetail.user1.id == billing.user.id ? messageDetail.user2.id : billing.user.id}
             />)}
 
             {dataTextMessage && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
@@ -76,7 +76,6 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
                                 <li className='mb-3' key={i}>
                                     <div className='text-right'>
                                         <div>
-                                            <span className='mr-3 text-xs'>{data.created_at.substring(12, 16)}</span>
                                             <span className='text-gray-800'>{data.user.username}</span>
                                         </div>
 
@@ -94,7 +93,6 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
                                     <div className='text-left'>
                                         <div>
                                             <span className='text-gray-800'>{data.user.username}</span>
-                                            <span className='ml-3 text-xs'>{data.created_at.substring(12, 16)}</span>
                                         </div>
 
                                         <p className='mt-1 inline-block bg-gray-200 rounded-lg py-2 px-3 text-gray-500 max-w-3/4'>
