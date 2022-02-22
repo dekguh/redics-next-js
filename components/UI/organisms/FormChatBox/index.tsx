@@ -68,7 +68,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
 
             {dataTextMessage && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
                 <ul>
-                    {(dataTextMessage.length >= 1 && billing) && dataTextMessage.sort((a, b) => a.id - b.id)
+                    {(dataTextMessage.length >= 1 && billing.length >= 1) && dataTextMessage.sort((a, b) => a.id - b.id)
                     .map((data, i) => {
                         console.log(data)
                         if(data.user.username == billing.user.username) {
