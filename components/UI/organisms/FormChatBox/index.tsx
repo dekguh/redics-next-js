@@ -63,7 +63,7 @@ const FormChatBox : React.FC<IFormChatBox> = ({ messageId }) => {
                 toPath='/pesan'
             />
             {(messageDetail && messageId != 0 && billing) && (<CardOwnerIklan
-                userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? messageDetail.user2.id : billing.user.id}
+                userId={(messageDetail && billing) && messageDetail.user1.id == billing.user.id ? messageDetail.user2.id : messageDetail.user1.id}
             />)}
 
             {(dataTextMessage && billing) && (<div className='overflow-y-scroll bg-gray-50 h-65vh my-3 rounded-lg p-4'>
