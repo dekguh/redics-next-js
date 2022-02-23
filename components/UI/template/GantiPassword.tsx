@@ -3,7 +3,10 @@ import FormButton from '../molecules/FormGroup/FormButton'
 import FormPassword from '../molecules/FormGroup/FormPassword'
 import HeadingAuth from '../molecules/heading/HeadingAuth'
 
-const GantiPassword = () => {
+const GantiPassword : React.FC<{
+    query : any;
+}> = ({ query }) => {
+    console.log(query)
   return (
     <div className='p-3'>
         <div className='mb-32'>

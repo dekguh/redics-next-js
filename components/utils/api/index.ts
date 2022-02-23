@@ -612,3 +612,18 @@ export async function getListPencairanSaldo() {
         return null
     }
 }
+
+export async function createResetPasswordToken(email : any) {
+    try {
+        const response = await Api.post('/request-token-reset-password', {
+            email,
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
+
+export async function verifikasiTokenResetPassword(email : any, token : any) {
+    
+}
