@@ -625,5 +625,27 @@ export async function createResetPasswordToken(email : any) {
 }
 
 export async function verifikasiTokenResetPassword(email : any, token : any) {
-    
+    try {
+        const response = await Api.post('/valid-token-reset-password', {
+            email,
+            token
+        })
+        return response.data
+    } catch (err : any) {
+        return null
+    }
+}
+
+export async function updatePasswordByEmail(email : any, newPassword : any) {
+    try {
+        const response = await Api.put('/update-user-password-by-email', {
+            email,
+            newPassword,
+        })
+        return {
+            success: true
+        }
+    } catch (err : any) {
+        return null
+    }
 }
