@@ -8,7 +8,7 @@ import { reduce as pesananReducer } from './pesanan/reduce'
 
 const sagaMiddleware = createSagaMiddleware()
 
-const store = configureStore({
+export const store = configureStore({
     reducer: {
         users: userReducer,
         search: searchReducer,
