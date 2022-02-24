@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, getByPlaceholderText, render, screen } from '@testing-library/react'
 import FormLogin from '../components/UI/organisms/FormLogin'
 import FormRegister from '../components/UI/organisms/FormRegister'
 import LupaPassword from '../components/UI/template/LupaPassword'
@@ -17,6 +17,34 @@ describe('Login', () => {
     })
 
     expect(screen.getByText(/Selamat Datang,/i)).toHaveTextContent('Selamat Datang,')
+  })
+
+  test('input email with invalid format', () => {
+    render(<FormLogin />, {
+      wrapper: Wrapper
+    })
+
+    fireEvent.change(screen.getByPlaceholderText('e-mail'), {
+      target: {
+        value: 'dsdsd@.com'
+      }
+    })
+
+    expect(screen.getByText(/format email tidak valid/i)).toHaveTextContent('format email tidak valid')
+  })
+
+  test('input password minimal 6 character', () => {
+    render(<FormLogin />, {
+      wrapper: Wrapper
+    })
+
+    fireEvent.change(screen.getByPlaceholderText('password'), {
+      target: {
+        value: '123'
+      }
+    })
+
+    expect(screen.getByText(/password minimal 6 karakter/i)).toHaveTextContent('password minimal 6 karakter')
   })
 })
 
