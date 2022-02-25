@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, getByPlaceholderText, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import FormLogin from '../components/UI/organisms/FormLogin'
 import FormRegister from '../components/UI/organisms/FormRegister'
 import LupaPassword from '../components/UI/template/LupaPassword'
@@ -11,6 +11,7 @@ const Wrapper = ({ children }) => (
 );
 
 describe('Login', () => {
+  // form login screen render
   it('renders a login form', () => {
     render(<FormLogin />, {
         wrapper: Wrapper
@@ -19,6 +20,7 @@ describe('Login', () => {
     expect(screen.getByText(/Selamat Datang,/i)).toHaveTextContent('Selamat Datang,')
   })
 
+  // input email invalid
   test('input email with invalid format', () => {
     render(<FormLogin />, {
       wrapper: Wrapper
@@ -33,6 +35,7 @@ describe('Login', () => {
     expect(screen.getByText(/format email tidak valid/i)).toHaveTextContent('format email tidak valid')
   })
 
+  // input password less than 6 char
   test('input password minimal 6 character', () => {
     render(<FormLogin />, {
       wrapper: Wrapper
