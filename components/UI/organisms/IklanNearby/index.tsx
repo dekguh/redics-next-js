@@ -71,6 +71,10 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8,
                 </div>
               ))}
             </Carousel>)}
+
+            {dataFiltered.length <= 0 && (
+              <p className='text-center py-2 text-gray-500'>iklan didaerah anda tidak ditemukan</p>
+            )}
         </div>
     )
 }
