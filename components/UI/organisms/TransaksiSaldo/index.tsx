@@ -114,6 +114,46 @@ const TransaksiSaldo : React.FC = () => {
                     {
                         text: 'Mandiri',
                         value: 'mandiri'
+                    },
+                    {
+                        text: 'BTPN',
+                        value: 'btpn'
+                    },
+                    {
+                        text: 'BNI',
+                        value: 'bni'
+                    },
+                    {
+                        text: 'Danamon',
+                        value: 'danamon'
+                    },
+                    {
+                        text: 'Permata',
+                        value: 'permata'
+                    },
+                    {
+                        text: 'Maybank',
+                        value: 'maybank'
+                    },
+                    {
+                        text: 'Panin Bank',
+                        value: 'panin bank'
+                    },
+                    {
+                        text: 'Cimb Niaga',
+                        value: 'cimb niaga'
+                    },
+                    {
+                        text: 'Bukopin',
+                        value: 'bukopin'
+                    },
+                    {
+                        text: 'Mandiri',
+                        value: 'mandiri'
+                    },
+                    {
+                        text: 'BPD',
+                        value: 'bpd'
                     }
                 ]}
                 isSelected={updateRekening.namaBank}
