@@ -14,10 +14,10 @@ const CardIklanFullImage : React.FC<ICardIklanFullImage> = ({ image, title, pric
             </div>
             <div className='mt-2'>
                 <Link href={`/detail/${id}-${title && title.toLowerCase().replace(/ /g, '-')}`}>
-                    <a className='font-semibold text-gray-800 hover:text-blue-500 duration-300'>{title}</a>
+                    <a className='font-semibold text-gray-800 hover:text-blue-500 duration-300 capitalize'>{title}</a>
                 </Link>
                 <div>
-                    <span className='text-xs'>{Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(pricePerDay * 30)}/bulan</span>
+                    <span className='text-xs'>{Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(pricePerDay)}/hari</span>
                 </div>
             </div>
         </div>

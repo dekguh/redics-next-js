@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export function singleCalculatePrice(
     pricePerHour : number,
     totalDay : number,
@@ -7,6 +5,15 @@ export function singleCalculatePrice(
 ) : string {
         return `${Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(pricePerHour*totalDay)}`
 }
+
+export function toCapitalizeCase(str : string) {
+    var splitStr = str.toLowerCase().split(' ');
+    for (var i = 0; i < splitStr.length; i++) {
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+
+    return splitStr.join(' ');
+ }
 
 export function getKabupatenIdOngkir(kabupaten: string) {
     const listKabupatenBali = [

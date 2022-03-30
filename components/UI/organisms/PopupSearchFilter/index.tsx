@@ -6,6 +6,7 @@ import FormSelect from '../../molecules/FormGroup/FormSelect'
 import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 import { RootState } from '../../../utils/redux/store'
 import { updateSearchKabupatenAction, updateSearchKecamatanAction, updateSearchProvinsiAction } from '../../../utils/redux/search/action'
+import { toCapitalizeCase } from '../../../utils/other'
 
 const mapState = (state : RootState) => ({
     billing: state.users.billing,
@@ -48,7 +49,7 @@ const PopupSearchFilter : React.FC<PropsFromRedux> = ({ billing, searchProvinsi,
                         required={true}
                         classes='mb-2'
                         label='Provinsi'
-                        list={dataListProvinsi.map(data => ({ value: data.name.toLowerCase(), text: data.name }))}
+                        list={dataListProvinsi.map(data => ({ value: data.name.toLowerCase(), text: toCapitalizeCase(data.name) }))}
                         onChange={(e : ChangeEvent<HTMLInputElement>) => {
                             updateSearchProvinsi(e.target.value)
                         }}
@@ -61,7 +62,7 @@ const PopupSearchFilter : React.FC<PropsFromRedux> = ({ billing, searchProvinsi,
                         classes='mb-2'
                         label='Kabupaten'
                         list={dataListKabupaten.filter(data => data.provinsiId.toLowerCase() == searchProvinsi)
-                            .map(data => ({ value: data.name, text: data.name }))
+                            .map(data => ({ value: data.name, text: toCapitalizeCase(data.name) }))
                         }
                         defaultVal={{ text: 'pilih kabupaten' }}
                         onChange={(e : ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +76,7 @@ const PopupSearchFilter : React.FC<PropsFromRedux> = ({ billing, searchProvinsi,
                         label='Kecamatan'
                         classes='mb-2'
                         list={dataListKecamatan.filter(data => data.kabupatenId == searchKabupaten)
-                            .map(data => ({ value: data.name.toLowerCase(), text: data.name }))
+                            .map(data => ({ value: data.name.toLowerCase(), text: toCapitalizeCase(data.name) }))
                         }
                         defaultVal={{ text: 'pilih kecamatan' }}
                         onChange={(e : ChangeEvent<HTMLInputElement>) => updateSearchKecamatan(e.target.value)}

@@ -7,7 +7,7 @@ const LatestIklan : React.FC<ILatestIklan> = ({ totalShow = 8, dataIklan }) => {
     return (
         <div>
             <HeadingWithUrl
-                title='Iklan terbaru'
+                title='Penawaran terbaru'
                 classes='mb-3'
             />
 

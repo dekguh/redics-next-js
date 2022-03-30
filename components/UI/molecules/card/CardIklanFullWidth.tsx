@@ -11,15 +11,15 @@ const CardIklanFullWidth : React.FC<ICardIklanFullWidth> = ({ image, title, pric
 
             <div className='flex-grow flex-shrink pl-3'>
                 <Link href={`/detail/${id}-${title && title.toLowerCase().replace(/ /g, '-')}`}>
-                    <a className='font-semibold text-gray-800 hover:text-blue-500 duration-300'>{title}</a>
+                    <a className='font-semibold text-gray-800 hover:text-blue-500 duration-300 capitalize'>{title}</a>
                 </Link>
                 <ul className='flex flex-row flex-wrap'>
                     <li className='mr-3'>
-                        <span className='text-xs'>{Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(pricePerDay * 30)}/bulan</span>
+                        <span className='text-xs'>{Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(pricePerDay)}/hari</span>
                     </li>
 
                     <li>
-                       <span className='text-xs'>{location?.kabupaten}, {location?.provinsi}</span>
+                       <span className='text-xs capitalize'>{location?.kabupaten}, {location?.provinsi}</span>
                     </li>
                 </ul>
             </div>

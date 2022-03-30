@@ -12,6 +12,7 @@ import HeadingWithUrl from '../../molecules/heading/HeadingWithUrl'
 import BoxAlert from '../BoxAlert'
 import { updateBillingAction, updateIsLoginAction } from '../../../utils/redux/user/action'
 import { useRouter } from 'next/router'
+import { toCapitalizeCase } from '../../../utils/other'
 
 const mapState = (state: RootState) => ({
     billing: state.users.billing
@@ -117,7 +118,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                     <FormSelect
                         classes='flex-grow-0 flex-shrink w-6/12 pr-1'
                         label='Provinsi'
-                        list={dataListProvinsi.map(data => ({ value: data.name.toLowerCase(), text: data.name }))}
+                        list={dataListProvinsi.map(data => ({ value: data.name.toLowerCase(), text: toCapitalizeCase(data.name) }))}
                         onChange={(e : ChangeEvent<HTMLInputElement>) => {
                             setProvinsi(e.target.value)
                             setDataUpdate({ ...dataUpdate, provinsi: e.target.value })
@@ -130,7 +131,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                         classes='flex-grow-0 flex-shrink w-6/12 pl-1'
                         label='Kabupaten'
                         list={dataListKabupaten.filter(data => data.provinsiId.toLowerCase() == provinsi)
-                            .map(data => ({ value: data.name, text: data.name }))
+                            .map(data => ({ value: data.name, text: toCapitalizeCase(data.name) }))
                         }
                         onChange={(e : ChangeEvent<HTMLInputElement>) => {
                             setKabupaten(e.target.value)
@@ -145,7 +146,7 @@ const FormProfile : React.FC<IFormProfile & PropsFromRedux> = ({ classes, billin
                     label='Kecamatan'
                     classes='mb-3'
                     list={dataListKecamatan.filter(data => data.kabupatenId == kabupaten)
-                        .map(data => ({ value: data.name.toLowerCase(), text: data.name }))
+                        .map(data => ({ value: data.name.toLowerCase(), text: toCapitalizeCase(data.name) }))
                     }
                     defaultVal={{ text: 'pilih kecamatan' }}
                     isSelected={dataUpdate?.kecamatan}

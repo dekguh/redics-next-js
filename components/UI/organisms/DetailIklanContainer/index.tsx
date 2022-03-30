@@ -45,11 +45,11 @@ const DetailIklanContainer : React.FC<IDetailIklanContainer & PropsFromRedux> = 
 
                 <ul className='flex flex-row flex-wrap items-center'>
                     <li className='mr-3'>
-                        <span className='text-xs'>{Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSingleIklan?.pricePerDay * 30)}/bulan</span>
+                        <span className='text-xs'>{Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(dataSingleIklan?.pricePerDay)}/hari</span>
                     </li>
 
                     <li className='mr-3'>
-                       <span className='text-xs'>{dataSingleIklan?.kecamatan}, {dataSingleIklan?.kabupaten}, {dataSingleIklan?.provinsi}</span>
+                       <span className='text-xs capitalize'>{dataSingleIklan?.kecamatan}, {dataSingleIklan?.kabupaten}, {dataSingleIklan?.provinsi}</span>
                     </li>
 
                     <li className='text-xs'>

@@ -9,7 +9,7 @@ const CardMyIklan : React.FC<ICardMyIklan> = ({ name, date, status, totalView, t
             <div className='flex flex-row flex-nowrap items-center'>
                 <div className='flex-grow flex-shrink'>
                     <Link href={toPath}>
-                        <a className='font-semibold hover:text-blue-500 duration-300'>{name}</a>
+                        <a className='font-semibold hover:text-blue-500 duration-300 capitalize'>{name}</a>
                     </Link>
 
                     <ul className='flex flex-row flex-wrap mt-1'>

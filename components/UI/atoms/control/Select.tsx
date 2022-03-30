@@ -9,9 +9,9 @@ const Select : React.FC<ISelect> = ({ list, classes, onChange, required = false,
             required={required}
             value={isSelected}
         >
-            {defaultVal && <option>{defaultVal.text}</option>}
+            {defaultVal && <option className='capitalize'>{defaultVal.text}</option>}
             {list.length >= 1 && list.map((data, i) => (
-                <option key={i} value={data.value}>{data.text}</option>
+                <option key={i} value={data.value} className='capitalize'>{data.text}</option>
             ))}
         </select>
     )

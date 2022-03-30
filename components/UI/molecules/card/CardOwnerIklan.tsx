@@ -22,8 +22,6 @@ const CardOwnerIklan : React.FC<ICardOwnerIklan> = ({ userId, onClick }) => {
         setDataBilling(response)
     })
 
-    console.log("userid: ", userId)
-
     return (
         <div className='border border-gray-200 p-3 rounded-lg flex flex-row flex-nowrap items-center'>
             <div className='flex-grow flex-shrink'>

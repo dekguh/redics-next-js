@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { apiCreateIklan } from '../../../utils/api'
 import { dataListKabupaten, dataListKecamatan, dataListProvinsi } from '../../../utils/data'
+import { toCapitalizeCase } from '../../../utils/other'
 import { RootState } from '../../../utils/redux/store'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
@@ -130,7 +131,7 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
                             required={true}
                             classes='flex-grow-0 flex-shrink w-6/12 pr-1'
                             label='Provinsi'
-                            list={dataListProvinsi.map(data => ({ value: data.name.toLowerCase(), text: data.name }))}
+                            list={dataListProvinsi.map(data => ({ value: data.name.toLowerCase(), text: toCapitalizeCase(data.name) }))}
                             onChange={(e : ChangeEvent<HTMLInputElement>) => {
                                 setProvinsi(e.target.value)
                                 setDataCreate({ ...dataCreate, provinsi: e.target.value })
@@ -144,7 +145,7 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
                             classes='flex-grow-0 flex-shrink w-6/12 pl-1'
                             label='Kabupaten'
                             list={dataListKabupaten.filter(data => data.provinsiId.toLowerCase() == provinsi)
-                                .map(data => ({ value: data.name, text: data.name }))
+                                .map(data => ({ value: data.name, text: toCapitalizeCase(data.name) }))
                             }
                             defaultVal={{ text: 'pilih kabupaten' }}
                             onChange={(e : ChangeEvent<HTMLInputElement>) => {
@@ -160,7 +161,7 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
                         label='Kecamatan'
                         classes='mb-3'
                         list={dataListKecamatan.filter(data => data.kabupatenId == kabupaten)
-                            .map(data => ({ value: data.name.toLowerCase(), text: data.name }))
+                            .map(data => ({ value: data.name.toLowerCase(), text: toCapitalizeCase(data.name) }))
                         }
                         defaultVal={{ text: 'pilih kecamatan' }}
                         onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, kecamatan: e.target.value })}
@@ -191,7 +192,7 @@ const FormCreateIklan : React.FC<PropsFromRedux> = ({ billing, actGetListMyIklan
 
                     <FormTextarea
                         required={true}
-                        label='Deskipsi'
+                        label='Deskripsi'
                         placeholder='deskripsi iklan'
                         classes='mb-3'
                         onChange={(e : ChangeEvent<HTMLInputElement>) => setDataCreate({ ...dataCreate, deskripsi: e.target.value })}

@@ -30,7 +30,7 @@ const HeaderSearch : React.FC<IHeaderSearch & PropsFromRedux> = ({ isRedirect, b
         {billing && (
         <div className='mb-2 flex flex-row flex-nowrap items-center'>
             <span className='mr-1 text-blue-500'><i><MdLocationOn /></i></span>
-            <span>{billing?.kecamatan}, {billing?.kabupaten}, {billing?.provinsi}</span>
+            <span className='capitalize'>{billing?.kecamatan}, {billing?.kabupaten}, {billing?.provinsi}</span>
         </div>)}
 
         <div className='relative'>

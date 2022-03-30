@@ -42,7 +42,7 @@ const IklanNearby : React.FC<IIklanNearby> = ({ classes, billing, totalShow = 8,
     return (
         <div className={classes}>
             <HeadingWithUrl
-                title='Didekat Anda'
+                title='Di Dekat Anda'
                 classes='mb-3'
             />
 
