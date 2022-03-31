@@ -6,6 +6,7 @@ import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
 import BoxAlert from '../BoxAlert'
+import LaporkanTransaksi from '../LaporkanTransaksi'
 
 const MenungguPembayaranPemilik : React.FC<{
     onClickBatalkan?: MouseEventHandler;
@@ -285,6 +286,10 @@ const CardDetailPemilik : React.FC<{
                     />
                 </div>
             </>)}
+
+            <div className='border-t border-gray-300 my-5'></div>
+
+            <LaporkanTransaksi />
         </div>
     )
 }

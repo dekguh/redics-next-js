@@ -8,6 +8,7 @@ import FormSelect from '../../molecules/FormGroup/FormSelect'
 import ListTotalPembayaranPesanan from '../../molecules/list/ListTotalPembayaranPesanan'
 import CustomCountdown from '../../molecules/other/CustomCountdown'
 import BoxAlert from '../BoxAlert'
+import LaporkanTransaksi from '../LaporkanTransaksi'
 
 const MenungguPembayaranPenyewa : React.FC<{
     onClickBayar?: MouseEventHandler;
@@ -417,6 +418,10 @@ const CardDetailPenyewa : React.FC<{
                     />
                 </div>
             </>)}
+
+            <div className='border-t border-gray-300 my-5'></div>
+
+            <LaporkanTransaksi />
         </div>
     )
 }
