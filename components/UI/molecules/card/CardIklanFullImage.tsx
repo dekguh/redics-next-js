@@ -10,7 +10,7 @@ const CardIklanFullImage : React.FC<ICardIklanFullImage> = ({ image, title, pric
                 className='bg-no-repeat bg-center bg-cover h-24 w-full rounded-lg'
                 style={{ backgroundImage: `url('${image}')` }}
             >
-                <TextBackground classes='absolute top-3 left-3' text={location?.kecamatan}/>
+                <TextBackground classes='absolute top-3 left-3 capitalize' text={location?.kecamatan}/>
             </div>
             <div className='mt-2'>
                 <Link href={`/detail/${id}-${title && title.toLowerCase().replace(/ /g, '-')}`}>

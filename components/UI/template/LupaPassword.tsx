@@ -29,7 +29,7 @@ const LupaPassword : React.FC = () => {
             <div>
                 <div className='mb-5'>
                     <h1 className='text-xl font-bold'>Reset password,</h1>
-                    <h2 className='text-lg text-blue-500'>disini</h2>
+                    <h2 className='text-lg text-blue-500'>di sini</h2>
                 </div>
 
                 {message.length >= 1 && (<BoxAlert
