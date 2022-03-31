@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler } from 'react'
+import React, { ChangeEventHandler, MouseEventHandler, useState } from 'react'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import FormTextarea from '../../molecules/FormGroup/FormTextarea'
@@ -21,6 +21,9 @@ const FormLaporan : React.FC<{
             <div className='my-3'></div>
 
             <FormButton text='kirim' onClick={onClickKirim}/>
+
+            <div className='my-2'></div>
+
             <FormButton text='kembali' onClick={onClickKembali}/>
           </div>
         </div>
@@ -28,14 +31,18 @@ const FormLaporan : React.FC<{
 }
 
 const LaporkanTransaksi = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   return (
   <>
-    <FormLaporan />
+    {isOpen && (<FormLaporan
+      onClickKembali={() => setIsOpen(false)}
+    />)}
 
     <div className='relative'>
         <p className='text-gray-500'>
-          mengalami masalah saat transaksi? anda dapat membuat laporan kepada kami <a href="#" className='text-blue-500'>disini</a>
-        </p> 
+          mengalami masalah saat transaksi? anda dapat membuat laporan kepada kami <a href="#" className='text-blue-500' onClick={() => setIsOpen(true)}>disini</a>
+        </p>
     </div>
   </>
   )
