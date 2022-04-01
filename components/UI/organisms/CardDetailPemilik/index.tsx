@@ -289,7 +289,13 @@ const CardDetailPemilik : React.FC<{
 
             <div className='border-t border-gray-300 my-5'></div>
 
-            <LaporkanTransaksi />
+            <LaporkanTransaksi
+                emailPelapor={dataPesanan && dataPesanan.userPemilik.email}
+                emailTerlapor={dataPesanan && dataPesanan.userPenyewa.email}
+                usernamePelapor={dataPesanan && dataPesanan.userPemilik.username}
+                usernameTerlapor={dataPesanan && dataPesanan.userPenyewa.username}
+                transaksiId={dataPesanan && dataPesanan.id}
+            />
         </div>
     )
 }

@@ -1,7 +1,9 @@
-import React, { ChangeEventHandler, MouseEventHandler, useState } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useState } from 'react'
+import { createLaporanPesanan } from '../../../utils/api'
 import FormButton from '../../molecules/FormGroup/FormButton'
 import FormInput from '../../molecules/FormGroup/FormInput'
 import FormTextarea from '../../molecules/FormGroup/FormTextarea'
+import BoxAlert from '../BoxAlert'
 
 const FormLaporan : React.FC<{
   onChangeJudul?: ChangeEventHandler;
@@ -30,19 +32,68 @@ const FormLaporan : React.FC<{
     )
 }
 
-const LaporkanTransaksi = () => {
+const LaporkanTransaksi : React.FC<{
+  emailPelapor?: string;
+  emailTerlapor?: string;
+  usernamePelapor?: string;
+  usernameTerlapor?: string;
+  transaksiId?: number | string;
+}> = ({
+  emailPelapor,
+  emailTerlapor,
+  usernamePelapor,
+  usernameTerlapor,
+  transaksiId
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [dataLaporan, setDataLaporan] = useState({
+    judul: '',
+    permasalahan: ''
+  })
+
+  const [message, setMessage] = useState('')
+
+  const handleCreateLaporan = () => {
+    const create = async () => {
+      const response = await createLaporanPesanan({
+        emailPelapor,
+        emailTerlapor,
+        usernamePelapor,
+        usernameTerlapor,
+        transaksiId,
+        judul: `[${transaksiId}] ${dataLaporan.judul}`,
+        permasalahan: `
+          pesanan ID: ${transaksiId}<br />
+          email Pelapor: ${emailPelapor}<br />
+          email Terlapor: ${emailTerlapor}<br />
+          permasalahan: ${dataLaporan.permasalahan}
+        `
+      })
+
+      setMessage(response && response.message)
+      setIsOpen(false)
+    }
+
+    create()
+  }
 
   return (
   <>
     {isOpen && (<FormLaporan
       onClickKembali={() => setIsOpen(false)}
+      onChangeJudul={(e : ChangeEvent<HTMLInputElement>) => setDataLaporan({ ...dataLaporan, judul: e.target.value })}
+      onChangePermasalahan={(e : ChangeEvent<HTMLInputElement>) => setDataLaporan({ ...dataLaporan, permasalahan: e.target.value })}
+      onClickKirim={handleCreateLaporan}
     />)}
 
     <div className='relative'>
-        <p className='text-gray-500'>
-          mengalami masalah saat transaksi? anda dapat membuat laporan kepada kami <a href="#" className='text-blue-500' onClick={() => setIsOpen(true)}>disini</a>
-        </p>
+      {message.length >= 1 && (
+        <BoxAlert type='information' text={message} classes='mb-4'/>
+      )}
+
+      <p className='text-gray-500'>
+        mengalami masalah saat transaksi? anda dapat membuat laporan kepada kami <a href="#" className='text-blue-500' onClick={() => setIsOpen(true)}>disini</a>
+      </p>
     </div>
   </>
   )

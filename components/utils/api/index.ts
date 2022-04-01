@@ -649,3 +649,12 @@ export async function updatePasswordByEmail(email : any, newPassword : any) {
         return null
     }
 }
+
+export async function createLaporanPesanan(data?: {[key: string] : any}) {
+    const response = await Api.post('/create-laporan-pesanan', data, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+    })
+    return response.data
+}
