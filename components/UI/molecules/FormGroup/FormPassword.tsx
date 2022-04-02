@@ -9,7 +9,7 @@ const FormPassword : React.FC<IFormPassword> = ({ classes, label, defaultValue, 
 
     return (
         <div className={`relative ${classes}`}>
-            {label && (<LabelForm text={label} classes='mb-1' />)}
+            {label && (<LabelForm text={label} classes='mb-1 capitalize' />)}
             <div className='relative'>
                 <Input
                     defaultValue={defaultValue}
